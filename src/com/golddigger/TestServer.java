@@ -41,16 +41,11 @@ public class TestServer {
 		}
 	}
 	
-	public TestServer(Map map, List<Service> services){
-		this();
-		AppContext.add(new TestGameTemplate(map, services));
-	}
-	
 	public static void main(String[] args){
 		new TestServer();
 
-		AppContext.add(new BlankGameTemplate(1));
-		AppContext.add(new BlankGameTemplate(2));
+		AppContext.add(new BlankGameTemplate());
+		AppContext.add(new BlankGameTemplate());
 		
 		Player[] players = loadPlayers();
 		for (Player player : players){

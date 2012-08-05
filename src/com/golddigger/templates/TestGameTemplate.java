@@ -8,7 +8,7 @@ import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.model.Map;
 
-public class TestGameTemplate implements GameTemplate {
+public class TestGameTemplate extends GameTemplate {
 	private Map map;
 	private List<Service> services;
 	
@@ -19,7 +19,7 @@ public class TestGameTemplate implements GameTemplate {
 	
 	@Override
 	public Game build() {
-		Game game = new Game(1);
+		Game game = new Game(getID());
 		game.setMap(map);
 		for (Service service : services){
 			game.add(service);

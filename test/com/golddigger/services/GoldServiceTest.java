@@ -19,6 +19,7 @@ import com.golddigger.core.Service;
 import com.golddigger.model.Map;
 import com.golddigger.model.Player;
 import com.golddigger.services.MoveService.Direction;
+import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.MapMaker;
 import com.meterware.httpunit.WebConversation;
 
@@ -38,7 +39,8 @@ public class GoldServiceTest {
 		services.add(new DropService());
 		services.add(new ScoreService());
 		services.add(new CarryingService());
-		server = new TestServer(map, services);
+		server = new TestServer();
+		AppContext.add(new TestGameTemplate(map, services));
 		AppContext.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}

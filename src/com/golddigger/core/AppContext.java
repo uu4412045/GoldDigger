@@ -32,7 +32,8 @@ public class AppContext {
 	}
 	
 	public static void add(GameTemplate template){
-		System.out.println("Adding new "+template.getClass().getSimpleName());
+		System.out.println("Adding template["+templates.size()+"]: "+template.getClass().getSimpleName());
+		template.setID(templates.size());
 		AppContext.templates.add(template);
 	}
 	

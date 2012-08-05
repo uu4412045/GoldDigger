@@ -23,6 +23,9 @@ public class TestingClient {
 	public String score(){
 		return doGET("/score");
 	}
+	public String next(){
+		return doGET("/next");
+	}
 	public String grab(){
 		return doGET("/grab");
 	}

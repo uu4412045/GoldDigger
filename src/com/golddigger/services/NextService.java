@@ -6,6 +6,8 @@ import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
+import com.golddigger.model.Point2D;
+import com.golddigger.model.Unit;
 
 public class NextService extends Service {
 	public static final String ACTION_TEXT = "next";
@@ -20,13 +22,38 @@ public class NextService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		String name = parseURL(url, URL_PLAYER);
-		Game game = AppContext.getGameByPlayer(name);
-		if (game.getMap().hasGoldLeft()) {
-			out.println("FAILED: Gold Still Available");
-		} else {
-			Player player = AppContext.getPlayer(name);
-			AppContext.progress(player);
+		System.out.println("Executing Next Service");
+
+		System.out.println("  => Getting Player");
+		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
+		if (player == null){
+			out.println("FAILED");
+			return true;
+		}
+
+		System.out.println("  => Getting Game");
+		Game game = AppContext.getGame(player);
+		if (game == null){
+			out.println("FAILED");
+			return true;
+		}
+
+		System.out.println("  => Getting Unit");
+		Unit unit = game.getUnit(player);
+		if (unit == null){
+			out.println("FAILED");
+			return true;
+		}
+
+		synchronized (game){
+			if (unit.getGold() != 0){
+				out.println("FAILED");
+			} else if (game.getMap().hasGoldLeft()) {
+				out.println("FAILED");
+			} else {
+				AppContext.progress(player);
+				out.println("OK");
+			}
 		}
 		return true;
 	}

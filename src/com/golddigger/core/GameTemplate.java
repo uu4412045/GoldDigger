@@ -2,6 +2,9 @@ package com.golddigger.core;
 
 import com.golddigger.model.Game;
 
-public interface GameTemplate {
-	public Game build();
+public abstract class GameTemplate {
+	private int gameID = -1;
+	public void setID(int id){this.gameID = id;}
+	public int getID(){return this.gameID;}
+	public abstract Game build();
 }

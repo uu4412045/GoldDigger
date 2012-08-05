@@ -10,17 +10,12 @@ import com.golddigger.services.MoveService;
 import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
 
-public class BlankGameTemplate implements GameTemplate {
-	private int gameID = -1;
+public class BlankGameTemplate extends GameTemplate {
 	private Map map = new BlankMap(10, 10);
-	
-	public BlankGameTemplate(int id){
-		this.gameID = id;
-	}
 	
 	@Override
 	public Game build(){
-		Game game = new Game(gameID);
+		Game game = new Game(getID());
 		game.setMap(map);
 		
 		addPlugins(game);
