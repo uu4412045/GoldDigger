@@ -67,5 +67,12 @@ public class AppContext {
 	private static boolean exists(Player player){
 		return AppContext.getPlayer(player.getName()) != null;
 	}
+	
+	public static void clear(){
+		games = new ArrayList<Game>();
+		templates = new ArrayList<GameTemplate>();
+		players = new ArrayList<Player>();
+
+	}
 }
 		

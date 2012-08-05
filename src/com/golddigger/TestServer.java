@@ -36,6 +36,7 @@ public class TestServer {
 	public void stop(){
 		try {
 			server.stop();
+			AppContext.clear();
 		} catch (Exception e){
 			throw new RuntimeException(e);
 		}
