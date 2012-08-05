@@ -27,35 +27,35 @@ public class MoveService extends Service {
 		System.out.println("Executing Move Service");
 		String direction = parseURL(url, URL_EXTRA1);
 		if (direction == null){
-			out.println("FAILED: No Direction Given");
+			out.println("FAILED");
 			return true;
 		} 
 
 		System.out.println("  => Parsing Direction");
 		Point2D offset = parseDirection(direction);
 		if (offset == null){
-			out.println("FAILED: Invalid Direction Given");
+			out.println("FAILED");
 			return true;
 		}
 
 		System.out.println("  => Getting Player");
 		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
-			out.println("FAILED: Invalid Player Given");
+			out.println("FAILED");
 			return true;
 		}
 
 		System.out.println("  => Getting Game");
 		Game game = AppContext.getGame(player);
 		if (game == null){
-			out.println("FAILED: Player is currently not in a game");
+			out.println("FAILEDe");
 			return true;
 		}
 		
 		System.out.println("  => Getting Unit");
 		Unit unit = game.getUnit(player);
 		if (unit == null){
-			out.println("FAILED: no unit found for this player");
+			out.println("FAILED");
 			return true;
 		}
 		
@@ -66,12 +66,12 @@ public class MoveService extends Service {
 			Tile tile = game.getMap().get(x, y);
 			if (tile == null) {
 				System.out.println("  ==> Tile is off the map");
-				out.println("FAILED: destination is off the map");
+				out.println("FAILED");
 				return true;
 			}
 			else if (!tile.isTreadable()){
 				System.out.println("  ==> Nope it isnt");
-				out.println("FAILED: Can not move onto destination tile");
+				out.println("FAILED");
 				return true;
 			} else {
 				System.out.println("  ==> Yes it is");
@@ -93,6 +93,24 @@ public class MoveService extends Service {
 		if (direction.equalsIgnoreCase("east"))  return new Point2D(0,1);
 		if (direction.equalsIgnoreCase("west"))  return new Point2D(0,-1);
 		return null;
+	}
+	
+	public static String createURL(String player, Direction d){
+		return "/golddigger/digger/"+player+"/move/"+d.toString();
+	}
+	public enum Direction{
+		NORTH,SOUTH,EAST,WEST;
+		
+		@Override
+		public String toString(){
+			switch(this){
+			case NORTH: return "north";
+			case SOUTH: return "south";
+			case EAST: return "east";
+			case WEST: return "west";
+			default: return null;
+			}
+		}
 	}
 	
 }

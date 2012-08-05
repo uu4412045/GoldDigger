@@ -17,6 +17,11 @@ public class ViewService extends Service {
 	public ViewService() {
 		super(BASE_PRIORITY);
 	}
+	
+	public static String createURL(String player){
+		return "/golddigger/digger/"+player+"/view";
+	}
+	
 
 	@Override
 	public boolean runnable(String url) {
@@ -53,25 +58,43 @@ public class ViewService extends Service {
 
 		for (Tile[] row : area){
 			for (Tile tile : row){
-				if (tile == null) out.append('X');
-				else if (tile instanceof GoldTile){
-					GoldTile goldTile = (GoldTile) tile;
-					if (goldTile.getGold() == 0) out.append('.');
-					else out.append(goldTile.getGold()+"");
-				}
-				else if (tile instanceof BaseTile) out.append('b');
-				else out.append('?');
+				out.append(convert(tile));
 			}
 			out.append('\n');
 		}
 
 		return true;
 	}
-
+	
 	@Override
 	public boolean caresAboutConsumption() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
+	}
+	
+	/**
+	 * Used to convert each tile to their respective character.
+	 * @param t The tile to be converted
+	 * @return A character representation of that tile
+	 */
+	private static char convert(Tile t){
+		if (t == null) return 'X';
+		if (t instanceof WallTile) return 'w';
+		if (t instanceof BaseTile) return 'b';
+		if (t instanceof GoldTile){
+			switch (((GoldTile) t).getGold()){
+			case 1: return '1';
+			case 2: return '2';
+			case 3: return '3';
+			case 4: return '4';
+			case 5: return '5';
+			case 6: return '6';
+			case 7: return '7';
+			case 8: return '8';
+			case 9: return '9';
+			default: return '.';
+			}
+		}
+		return '?';
 	}
 
 }

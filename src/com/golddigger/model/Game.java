@@ -69,7 +69,7 @@ public class Game {
 					if (map.get(x, y) instanceof BaseTile) return new Point2D(x,y);
 				}
 			}
-			return new Point2D(0,0);
+			return new Point2D(1,1);
 		}
 
 		public Map getMap(){

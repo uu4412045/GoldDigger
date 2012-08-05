@@ -24,7 +24,7 @@ public class TestGameTemplate implements GameTemplate {
 		for (Service service : services){
 			game.add(service);
 		}
-		return null;
+		return game;
 	}
 
 }
