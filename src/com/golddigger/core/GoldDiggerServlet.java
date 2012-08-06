@@ -1,6 +1,7 @@
 package com.golddigger.core;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +13,7 @@ import com.golddigger.model.Player;
 
 public class GoldDiggerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1219399141770957347L;
-	private static String contextID;
+	private String contextID;
 	
 	public GoldDiggerServlet(String contextID){
 		super();
@@ -22,7 +23,6 @@ public class GoldDiggerServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String url = req.getRequestURI();
-		
 		String name = Service.parseURL(url, Service.URL_PLAYER);
 		Player player = AppContext.getContext(contextID).getPlayer(name);
 		if (player == null) {
@@ -38,6 +38,10 @@ public class GoldDiggerServlet extends HttpServlet {
 			return;
 		}
 		
+		process(url, resp.getWriter(), player, game);
+	}
+	
+	public void process(String url, PrintWriter out, Player player, Game game){
 		/*
 		 * This block decides what services are run, as well as stopping
 		 * people running parallel requests.
@@ -49,7 +53,7 @@ public class GoldDiggerServlet extends HttpServlet {
 				if (service.caresAboutConsumption() && consumed){
 					break; //skip this service
 				} else if (service.runnable(url)){
-					consumed = service.execute(url, resp.getWriter());
+					consumed = service.execute(url, out);
 				}
 			}
 		}

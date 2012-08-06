@@ -15,4 +15,9 @@ public class Point2D {
 				return false;
 			}
 		}
+		
+		@Override
+		public String toString(){
+			return "("+x+","+y+")";
+		}
 	}
