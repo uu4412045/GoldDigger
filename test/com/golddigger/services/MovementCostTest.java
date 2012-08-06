@@ -73,32 +73,23 @@ public class MovementCostTest {
 	
 	@Test
 	public void testMovementCosts(){
-		// Testing the actual default values
-		assertEquals(100, DEFAULT_TILE_COSTS[BASE_TILE]);
-		assertEquals(200, DEFAULT_TILE_COSTS[CITY_TILE]);
-		assertEquals(500, DEFAULT_TILE_COSTS[DEEP_WATER_TILE]);
-		assertEquals(150, DEFAULT_TILE_COSTS[SHALLOW_WATER_TILE]);
-		assertEquals(100, DEFAULT_TILE_COSTS[GOLD_TILE]);
-		assertEquals(300, DEFAULT_TILE_COSTS[FOREST_TILE]);
-		assertEquals(25,  DEFAULT_TILE_COSTS[ROAD_TILE]);
-		assertEquals(500, DEFAULT_TILE_COSTS[MOUNTAIN_TILE]);
-		assertEquals(100, DEFAULT_TILE_COSTS[TELEPORT_TILE]);
-		assertEquals(175, DEFAULT_TILE_COSTS[HILL_TILE]);
 
 		// Testing with the default values
 		// Viewing first as there seems to be a 200ms performance
 		// hit for the first command of the game;
 		client.view();
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[BASE_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[CITY_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[DEEP_WATER_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[SHALLOW_WATER_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[HILL_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[FOREST_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[ROAD_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[MOUNTAIN_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[TELEPORT_TILE]);
-		moveAndTime(Direction.EAST, DEFAULT_TILE_COSTS[GOLD_TILE]);
+		moveAndTime(Direction.EAST, BaseTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, CityTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, DeepWaterTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, ShallowWaterTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, HillTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, ForestTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, RoadTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, MountainTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, TeleportTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, GoldTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, GoldTile.DEFAULT_MOVEMENT_COST);
+		moveAndTime(Direction.EAST, GoldTile.DEFAULT_MOVEMENT_COST);
 
 		// Testing custom movement costs
 		AppContext.progress(AppContext.getPlayer("test"));
@@ -120,6 +111,6 @@ public class MovementCostTest {
 	private void moveAndTime(Direction d, long time){
 		long start = System.currentTimeMillis();
 		client.move(d);
-		assertEquals(time, System.currentTimeMillis() - start, 30);
+		assertEquals(time, System.currentTimeMillis() - start, 20);
 	}
 }

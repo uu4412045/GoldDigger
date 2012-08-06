@@ -20,20 +20,6 @@ public class MoveService extends Service {
 	 */
 	private HashMap<String, Integer> customCosts;
 	
-	/**
-	 * offsets int the DEFAULT_COSTS array for this tile
-	 */
-	public static final int BASE_TILE = 0, CITY_TILE = 1, DEEP_WATER_TILE = 2,
-		FOREST_TILE = 3, GOLD_TILE = 4, HILL_TILE = 5, MOUNTAIN_TILE = 6,
-		ROAD_TILE = 7, SHALLOW_WATER_TILE = 8, TELEPORT_TILE = 9;
-	/**
-	 * Contains all the default movement costs for each tile type
-	 */
-	public static final int[] DEFAULT_TILE_COSTS = 
-		{100,200,500,300,100,175, 500, 25,150, 100};
-	
-	private static final int DEFAULT_MOVEMENT_COST = 100;
-	
 	public MoveService(Map<String, Integer> costs){
 		this();
 		customCosts.putAll(costs);
@@ -99,36 +85,15 @@ public class MoveService extends Service {
 		}
 		
 		try {
-			long cost = getCost(tile);
+			Integer cost = customCosts.get(tile.toString());
+			if (cost == null) {
+				cost = tile.getDefaultMovementCost();
+			}
 			Thread.sleep(cost);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return true;
-	}
-
-	/**
-	 * Used to determine the costs of moving to a particular tile type
-	 * @param tile The tile that you want the cost for
-	 * @return The time penalty in milliseconds
-	 */
-	private int getCost(Tile tile) {
-		String key = tile.getClass().getSimpleName();
-		if (tile instanceof GoldTile) {
-			key += "_"+((GoldTile) tile).getGold();
-		}
-		if (customCosts.containsKey(key)) return customCosts.get(key);
-		if (tile instanceof BaseTile) return DEFAULT_TILE_COSTS[BASE_TILE];
-		if (tile instanceof CityTile) return DEFAULT_TILE_COSTS[CITY_TILE];
-		if (tile instanceof DeepWaterTile) return DEFAULT_TILE_COSTS[DEEP_WATER_TILE];
-		if (tile instanceof ForestTile) return DEFAULT_TILE_COSTS[FOREST_TILE];
-		if (tile instanceof GoldTile) return DEFAULT_TILE_COSTS[GOLD_TILE];
-		if (tile instanceof HillTile) return DEFAULT_TILE_COSTS[HILL_TILE];
-		if (tile instanceof ShallowWaterTile) return DEFAULT_TILE_COSTS[SHALLOW_WATER_TILE];
-		if (tile instanceof MountainTile) return DEFAULT_TILE_COSTS[MOUNTAIN_TILE];
-		if (tile instanceof RoadTile) return DEFAULT_TILE_COSTS[ROAD_TILE];
-		if (tile instanceof TeleportTile) return DEFAULT_TILE_COSTS[TELEPORT_TILE];
-		return DEFAULT_MOVEMENT_COST;
 	}
 
 	@Override
