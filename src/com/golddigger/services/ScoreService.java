@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
 import com.golddigger.model.Player;
-import com.golddigger.model.Unit;
 /**
  * This service will return the players current score.
  * 

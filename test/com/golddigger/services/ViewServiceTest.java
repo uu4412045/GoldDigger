@@ -2,9 +2,6 @@ package com.golddigger.services;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,37 +9,26 @@ import org.junit.Test;
 import com.golddigger.TestServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
-import com.golddigger.model.Map;
 import com.golddigger.model.Player;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
-import com.golddigger.utils.MapMaker;
+import com.golddigger.utils.generators.BaseServiceGenerator;
 
 public class ViewServiceTest {
 	TestServer server;
 	TestingClient client;
-	private static final String STRING_MAP_1 = "wwwwww\nw.123w\nw45b6w\nw789ww\nwwwww";
-	private static final String STRING_MAP_2 = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
+	private static final String MAP_1 = "wwwwww\nw.123w\nw45b6w\nw789ww\nwwwww";
+	private static final String MAP_2 = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
 
 	@Before()
 	public void setup(){
-		// Testing the actual View
-		Map map_1 = MapMaker.parse(STRING_MAP_1);
-		List<Service> services_1 = new ArrayList<Service>();
-		services_1.add(new MoveService());
-		services_1.add(new ViewService());
-		// Testing Line Of Sight
-		Map map_2 = MapMaker.parse(STRING_MAP_2);
-		List<Service> services_2 = new ArrayList<Service>();
-		services_2.add(new MoveService());
-		services_2.add(new ViewService(2));
-		
+		BaseServiceGenerator gen = new BaseServiceGenerator();
+		gen.setLOS(2);
 		server = new TestServer();
 		client = new TestingClient("test", BASE_URL);
-		AppContext.add(new TestGameTemplate(map_1, services_1));
-		AppContext.add(new TestGameTemplate(map_2, services_2));
+		AppContext.add(new TestGameTemplate(MAP_1));
+		AppContext.add(new TestGameTemplate(MAP_2, gen));
 		AppContext.add(new Player("test", "secret"));
 	}
 

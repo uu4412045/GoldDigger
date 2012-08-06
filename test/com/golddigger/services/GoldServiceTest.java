@@ -2,45 +2,27 @@ package com.golddigger.services;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import com.golddigger.TestServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
-import com.golddigger.model.Map;
 import com.golddigger.model.Player;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
-import com.golddigger.utils.MapMaker;
-import com.meterware.httpunit.WebConversation;
 
 public class GoldServiceTest {
 	TestServer server;
 	TestingClient client;
-	private static final String STRING_MAP = "wwwww\nw.2.w\nw.b.w\nw.9.ww\nwwwww";
+	private static final String MAP = "wwwww\nw.2.w\nw.b.w\nw.9.ww\nwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
 
 	@Before()
 	public void setup(){
-		Map map = MapMaker.parse(STRING_MAP);
-		List<Service> services = new ArrayList<Service>();
-		services.add(new MoveService());
-		services.add(new ViewService());
-		services.add(new GrabService());
-		services.add(new DropService());
-		services.add(new ScoreService());
-		services.add(new CarryingService());
 		server = new TestServer();
-		AppContext.add(new TestGameTemplate(map, services));
+		AppContext.add(new TestGameTemplate(MAP));
 		AppContext.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}

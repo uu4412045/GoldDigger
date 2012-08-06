@@ -79,7 +79,7 @@ public class ViewService extends Service {
 	 * @param t The tile to be converted
 	 * @return A character representation of that tile
 	 */
-	private static char convert(Tile t){
+	public static char convert(Tile t){
 		if (t == null) return 'X';
 		if (t instanceof WallTile) return 'w';
 		if (t instanceof BaseTile) return 'b';

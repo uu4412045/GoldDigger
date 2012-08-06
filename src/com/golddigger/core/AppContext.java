@@ -79,9 +79,19 @@ public class AppContext {
 	public static void add(Player player){
 		if (exists(player)) throw new RuntimeException("The Player ("+player.getName()+") is already playing");
 		AppContext.players.add(player);
+		//Check Multiplayer
+		for(Game game : games){
+			if (game.hasUnownedBase()) {
+				game.add(player);
+				System.out.println("addPlayer: added to a multiplayer game");
+				return;
+			}
+		}
+		//create new game
 		Game first = templates.get(0).build();
 		add(first);
 		first.add(player);
+		System.out.println("addPlayer: added to a singleplayer game");
 	}
 	
 	/**
@@ -106,7 +116,17 @@ public class AppContext {
 	public static void progress(Player player){
 		Game old = getGame(player);
 		int id = old.getTemplateID();
-		games.remove(old);
+		if (old.remove(player) == 0) games.remove(old);
+
+		// find any multiplayer games.
+		for (Game game : games){
+			if (game.getTemplateID() == id+1){
+				if (game.hasUnownedBase()){
+					if (game.add(player)) return;
+				}
+			}
+		}
+		// create a new game
 		Game next = templates.get(id+1).build();
 		add(next);
 		next.add(player);

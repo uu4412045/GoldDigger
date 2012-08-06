@@ -62,7 +62,7 @@ public class Map {
 	 * @return all the tiles on the entire map.
 	 * @see Tile
 	 */
-	protected Tile[][] getTiles(){
+	public Tile[][] getTiles(){
 		return this.tiles;
 	}
 	
@@ -120,5 +120,16 @@ public class Map {
 			}
 		}
 		return false;
+	}
+
+	public Point2D getPostion(Tile tile) {
+		for (int x = 0; x <= getMaxX(); x++){
+			for (int y = 0; y <= getMaxY(); y++){
+				if (get(x, y) == tile){
+					return new Point2D(x, y);
+				}
+			}
+		}
+		return null;
 	}
 }

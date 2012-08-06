@@ -2,9 +2,6 @@ package com.golddigger.services;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,29 +9,20 @@ import org.junit.Test;
 import com.golddigger.TestServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
-import com.golddigger.model.Map;
 import com.golddigger.model.Player;
-import com.golddigger.services.MoveService;
-import com.golddigger.services.ViewService;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
-import com.golddigger.utils.MapMaker;
 
 public class MoveServiceTest {
 	TestServer server;
 	TestingClient client;
-	private static final String STRING_MAP_1 = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
+	private static final String MAP = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
 
 	@Before()
 	public void setup(){
-		Map map1 = MapMaker.parse(STRING_MAP_1);
-		List<Service> services1 = new ArrayList<Service>();
-		services1.add(new MoveService());
-		services1.add(new ViewService());
 		server = new TestServer();
-		AppContext.add(new TestGameTemplate(map1, services1));
+		AppContext.add(new TestGameTemplate(MAP));
 		AppContext.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}

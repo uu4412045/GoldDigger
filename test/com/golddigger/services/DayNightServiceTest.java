@@ -2,9 +2,6 @@ package com.golddigger.services;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,29 +10,31 @@ import com.golddigger.TestServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
-import com.golddigger.model.Map;
+import com.golddigger.core.ServiceGenerator;
 import com.golddigger.model.Player;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
-import com.golddigger.utils.MapMaker;
 
 public class DayNightServiceTest {
 	TestServer server;
 	TestingClient client;
 	ViewService vService;
-	private static final String STRING_MAP_1 = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
+	private static final String MAP = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
 
 	@Before()
 	public void setup(){
 		server = new TestServer();
-		Map map = MapMaker.parse(STRING_MAP_1);
-		List<Service> services = new ArrayList<Service>();
-		vService = new ViewService(4);
-		services.add(new MoveService());
-		services.add(new DayNightService(3, 50));
-		services.add(vService);
-		AppContext.add(new TestGameTemplate(map, services));
+		ServiceGenerator gen = new ServiceGenerator(){
+			@Override
+			public Service[] generate() {
+				return new Service[]{
+						new ViewService(4),
+						new MoveService(),
+						new DayNightService(3,50)};
+			}
+		};
+		AppContext.add(new TestGameTemplate(MAP, gen));
 		AppContext.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
@@ -47,6 +46,9 @@ public class DayNightServiceTest {
 	
 	@Test
 	public void testLineOfSightChanges() {
+		for (Service service : AppContext.getGame(AppContext.getPlayer("test")).getServices()){
+			if (service instanceof ViewService) vService = (ViewService) service;
+		}
 		assertEquals(4, vService.getLineOfSight());
 		client.move(Direction.NORTH);
 		client.move(Direction.NORTH);

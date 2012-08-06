@@ -20,12 +20,14 @@ public class GoldDiggerServlet extends HttpServlet {
 		String name = Service.parseURL(url, Service.URL_PLAYER);
 		Player player = AppContext.getPlayer(name);
 		if (player == null) {
+			System.err.println("Url with invalid player recieved: "+url);
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
 		
 		Game game = AppContext.getGame(player);
 		if (game == null) {
+			System.err.println("This player does not have a game: "+url);
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}

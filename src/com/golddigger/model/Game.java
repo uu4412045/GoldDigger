@@ -121,40 +121,59 @@ public class Game {
 		 * @param player The player to add.
 		 * @see Player
 		 */
-		public void add(Player player){
-			Point2D start = getBasePosition();
-			if (start == null) add(player, 1,1);
-			else add(player, start.x, start.y);
+		public boolean add(Player player){
+			if (AppContext.getGame(player) != null){
+				throw new RuntimeException("Trying to add a player that already exists in another game");
+			}
+			synchronized(this){
+				BaseTile base = getUnownedBase();
+				if (base == null) {
+					System.err.println("Game: tried to add "+player.getName()+ " but there were no free bases");
+					return false;
+				}
+				else add(player, base);
+				this.players.add(player);
+			}
+			return true;
 		}
 		
 		/**
 		 * Add a {@link Player} to the game. checks to make sure the player isn't already in the game.
 		 * Places their first unit at the given location
 		 * @param player The player to add.
-		 * @param startX The x coordinate of their unit's starting location
-		 * @param startY The y coordinate of their unit's starting location
+		 * @param base The base to assign to the player
 		 * @see Player
 		 */
-		public void add(Player player, int startX, int startY){
-			if (AppContext.getGame(player) != null){
-				throw new RuntimeException("Trying to add a player that already exists in another game");
-			}
-			this.players.add(player);
-			Unit digger = new Unit(player, startX, startY);
-			units.add(digger);
+		private void add(Player player, BaseTile base){
+			base.setOwner(player);
+			Unit unit = new Unit(player, map.getPostion(base));
+			units.add(unit);
 		}
 		
 		/**
-		 * Returns the location of the first base
-		 * @return <b>null</b> if there is no bases.
+		 * Returns the first unowned base
+		 * @return <b>null</b> if there is no unowned bases.
 		 */
-		private Point2D getBasePosition() {
-			for (int x = 0; x <= map.getMaxX(); x++){
-				for (int y = 0; y <= map.getMaxY(); y++){
-					if (map.get(x, y) instanceof BaseTile) return new Point2D(x,y);
-				}
+		protected BaseTile getUnownedBase() {
+			for (BaseTile base : getBases()){
+				if (base.getOwner() == null) return base;
+				else System.out.println("Base owned by"+base.getOwner());
 			}
 			return null;
+		}
+		
+		public boolean hasUnownedBase(){
+			return getUnownedBase() != null;
+		}
+		
+		protected BaseTile[] getBases(){
+			ArrayList<BaseTile> bases = new ArrayList<BaseTile>();
+			for (Tile[] row : map.getTiles()){
+				for (Tile t : row){
+					if (t instanceof BaseTile) bases.add((BaseTile) t);
+				}
+			}
+			return bases.toArray(new BaseTile[]{});
 		}
 
 		public Map getMap(){
@@ -176,5 +195,19 @@ public class Game {
 				if (unit.isOwnedBy(player)) return unit;
 			}
 			return null;
+		}
+
+		public int remove(Player player) {
+			this.players.remove(player);
+			return players.size();
+		}
+
+		public boolean isUnitAt(int x, int y) {
+			for (Unit unit : units){
+				if (unit.getX() == x && unit.getY() == y){
+					return true;
+				}
+			}
+			return false;
 		}
 	}

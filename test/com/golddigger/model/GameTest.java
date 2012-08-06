@@ -7,20 +7,58 @@ import java.io.PrintWriter;
 import org.junit.Test;
 
 import com.golddigger.core.Service;
+import com.golddigger.model.tiles.BaseTile;
+import com.golddigger.utils.MapMaker;
+import com.golddigger.utils.MapPrinter;
 
 public class GameTest {
 
 	@Test
 	public void test() {
 		Game game = new Game(0);
-		game.setMap(new BlankMap(3,3));
+		Map map = new BlankMap(3,3);
+		game.setMap(map);
 		Player player = new Player("test", "secret");
+		assertTrue(game.hasUnownedBase());
 		game.add(player);
 		assertTrue(game.hasPlayer(player));
 		Unit unit = game.getUnit(player);
 		assertNotNull("Unit should not be null", unit);
 		assertEquals(new Point2D(1,1),unit.getPosition());
+	}
+	
+	@Test
+	public void testBaseFunctions(){
+		Game game = new Game(0);
+		Map map = new BlankMap(3,3);
+		game.setMap(map);
+		BaseTile[] bases = game.getBases();
+		assertEquals(1, bases.length);
+		assertTrue(bases[0].getOwner() == null);
+		assertTrue(game.hasUnownedBase());
+	}
+	
+	@Test
+	public void testMultiplayer(){
+		String string_map = "wwwww\nwb.bw\nwwwww";
+		Game game = new Game(0);
+		Map map = MapMaker.parse(string_map);
+		System.out.println(MapPrinter.print(map));
+		game.setMap(map);
+		Player player1 = new Player("player1","secret");
+		Player player2 = new Player("player2","secret");
 		
+		assertEquals(2, game.getBases().length);
+		assertTrue(game.hasUnownedBase());
+		
+		game.add(player1);
+		assertTrue(game.hasUnownedBase());
+		assertTrue(game.hasPlayer(player1));
+		
+		game.add(player2);
+		assertFalse(game.hasUnownedBase());
+		assertTrue(game.hasPlayer(player1));
+		assertTrue(game.hasPlayer(player2));
 	}
 	
 	@Test

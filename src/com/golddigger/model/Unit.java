@@ -19,6 +19,10 @@ public class Unit {
 		this.y = y;
 	}
 	
+	public Unit(Player owner, Point2D pos){
+		this(owner, pos.x, pos.y);
+	}
+	
 	/**
 	 * Set the position of this digger.
 	 * @param x The x coordinate

@@ -1,9 +1,7 @@
 package com.golddigger.services;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,35 +10,23 @@ import org.junit.Test;
 import com.golddigger.TestServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
-import com.golddigger.model.Map;
 import com.golddigger.model.Player;
 import com.golddigger.model.tiles.*;
-import com.golddigger.services.MoveService;
-import com.golddigger.services.ViewService;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
-import com.golddigger.utils.MapMaker;
-
-import static com.golddigger.services.MoveService.*;
+import com.golddigger.utils.generators.BaseServiceGenerator;
 
 
 public class MovementCostTest {
 	TestServer server;
 	TestingClient client;
-	private static final String STRING_MAP_1 = "wwwwwwwwwwwwww\nwbbcdshfrmt.19w\nwwwwwwwwwwwww";
+	private static final String MAP = "wwwwwwwwwwwwww\nwbbcdshfrmt.19w\nwwwwwwwwwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
 
 	@Before()
 	public void setup(){
 		server = new TestServer();
-		// adding GameTemplate with default costs
-		Map map = MapMaker.parse(STRING_MAP_1);
-		List<Service> services1 = new ArrayList<Service>();
-		services1.add(new MoveService());
-		services1.add(new ViewService());
-		services1.add(new NextService());
-		AppContext.add(new TestGameTemplate(map, services1));
+		AppContext.add(new TestGameTemplate(MAP));
 		
 		// Adding GameTemplate with custom costs
 		HashMap<String, Integer> costs = new HashMap<String, Integer>();
@@ -56,11 +42,9 @@ public class MovementCostTest {
 		costs.put(GoldTile.class.getSimpleName()+"_0",50);
 		costs.put(GoldTile.class.getSimpleName()+"_1",150);
 		costs.put(GoldTile.class.getSimpleName()+"_9",50);
-		List<Service> services2 = new ArrayList<Service>();
-		services2.add(new MoveService(costs));
-		services2.add(new ViewService());
-		services2.add(new NextService());
-		AppContext.add(new TestGameTemplate(map, services2));
+		BaseServiceGenerator gen = new BaseServiceGenerator();
+		gen.setCosts(costs);
+		AppContext.add(new TestGameTemplate(MAP, gen));
 		
 		AppContext.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);

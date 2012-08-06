@@ -11,7 +11,6 @@ import com.golddigger.model.Player;
 import com.golddigger.model.Point2D;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
-import com.golddigger.model.tiles.*;
 /**
  * This service will move the {@link Player}'s {@link Unit} in a particular direction. <br />
  * Each tile has a movement cost which will delay the servers response to simulate different terrain.<br />
@@ -86,8 +85,10 @@ public class MoveService extends Service {
 			if (tile == null) { // (x,y) is out of the map's boundary
 				out.println("FAILED");
 				return true;
-			}
-			else if (!tile.isTreadable()){
+			} else if (!tile.isTreadable()){
+				out.println("FAILED");
+				return true;
+			} else if (game.isUnitAt(x,y)) {
 				out.println("FAILED");
 				return true;
 			} else {

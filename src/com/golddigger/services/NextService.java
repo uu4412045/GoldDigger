@@ -6,8 +6,6 @@ import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-import com.golddigger.model.Point2D;
-import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 /**
  * This service will progress the player on to the next map.
