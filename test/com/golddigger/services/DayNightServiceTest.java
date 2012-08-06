@@ -3,7 +3,6 @@ package com.golddigger.services;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
@@ -16,16 +15,6 @@ import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
 import com.golddigger.model.Map;
 import com.golddigger.model.Player;
-import com.golddigger.model.tiles.BaseTile;
-import com.golddigger.model.tiles.CityTile;
-import com.golddigger.model.tiles.DeepWaterTile;
-import com.golddigger.model.tiles.ForestTile;
-import com.golddigger.model.tiles.GoldTile;
-import com.golddigger.model.tiles.HillTile;
-import com.golddigger.model.tiles.MountainTile;
-import com.golddigger.model.tiles.RoadTile;
-import com.golddigger.model.tiles.ShallowWaterTile;
-import com.golddigger.model.tiles.TeleportTile;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.MapMaker;
@@ -57,7 +46,7 @@ public class DayNightServiceTest {
 	}
 	
 	@Test
-	public void test() {
+	public void testLineOfSightChanges() {
 		assertEquals(4, vService.getLineOfSight());
 		client.move(Direction.NORTH);
 		client.move(Direction.NORTH);
