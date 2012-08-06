@@ -3,9 +3,15 @@ package com.golddigger.services;
 import java.io.PrintWriter;
 
 import com.golddigger.core.Service;
-
+import com.golddigger.model.Player;
+import com.golddigger.model.Unit;
+import com.golddigger.model.tiles.GoldTile;
+/**
+ * This service logs all the incoming request URLs to a file which can be used to run a time-delayed server.
+ * @author Brett Wandel
+ */
 public class LogService extends Service {
-	private static final String DEFAULT_PATH = "./logs/";
+//	private static final String DEFAULT_PATH = "./logs/";
 	private String gameID;
 	private PrintWriter out;
 	

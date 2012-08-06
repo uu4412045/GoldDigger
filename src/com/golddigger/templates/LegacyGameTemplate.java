@@ -11,10 +11,7 @@ public class LegacyGameTemplate extends GameTemplate {
 	private Map map;
 	private List<Service> services;
 	
-	public LegacyGameTemplate(String result) {
-		this.map = map;
-		this.services = services;
-	}
+	public LegacyGameTemplate(String result) {}
 	
 	@Override
 	public Game build() {

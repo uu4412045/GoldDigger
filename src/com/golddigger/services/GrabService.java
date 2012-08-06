@@ -9,7 +9,20 @@ import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.GoldTile;
-
+/**
+ * This service will grab as much gold as it can from the {@link Unit}'s location. <br \>
+ * Will return: <br \>
+ * <ul>
+ * 	<li>"FAILED" if the unit can't hold any more gold</li>
+ *  <li>"FAILED" if the tile has no gold<li>
+ *  <li>"FAILED" if the tile is not a {@link GoldTile}
+ *  <li>The amount of gold picked up.
+ * </ul>
+ * @author Brett Wandel
+ * @see Player
+ * @see Unit
+ * @see GoldTile
+ */
 public class GrabService extends Service {
 	public static final String ACTION_TEXT = "grab";
 	public static final int MAX_UNIT_GOLD = 3;
@@ -25,33 +38,27 @@ public class GrabService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		System.out.println("Executing Grab Service");
-		
-		System.out.println("  => Getting Player");
 		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
-			out.println("FAILED: Invalid Player Given");
+			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		System.out.println("  => Getting Game");
 		Game game = AppContext.getGame(player);
 		if (game == null){
-			out.println("FAILED: Player is currently not in a game");
-			return true;
-		}
-		
-		System.out.println("  => Getting Unit");
-		Unit unit = game.getUnit(player);
-		if (unit == null){
-			out.println("FAILED: no unit found for this player");
+			out.println("ERROR: Player is currently not in a game");
 			return true;
 		}
 
-		System.out.println("  => Getting Tile");
+		Unit unit = game.getUnit(player);
+		if (unit == null){
+			out.println("ERROR: no unit found for this player");
+			return true;
+		}
+
 		Tile tile = game.getMap().get(unit.getX(), unit.getY());
 		if (tile == null){
-			out.println("FAILED: unit is out of bounds");
+			out.println("ERROR: unit is out of bounds");
 			return true;
 		}
 
@@ -64,7 +71,7 @@ public class GrabService extends Service {
 			if (tile instanceof GoldTile){
 				GoldTile goldTile = (GoldTile) tile;
 				if (goldTile.getGold() == 0){
-					out.println("FAILED: no gold on this tile");
+					out.println("FAILED");
 				} else {
 
 					int qty = MAX_UNIT_GOLD - unit.getGold();
@@ -77,15 +84,9 @@ public class GrabService extends Service {
 					out.println(""+qty);
 				}
 			} else {
-				out.println("FAILED: no gold on this tile");
+				out.println("FAILED");
 			}
 		}
 		return true;
 	}
-
-	@Override
-	public boolean caresAboutConsumption() {
-		return true;
-	}
-
 }

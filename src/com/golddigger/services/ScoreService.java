@@ -5,7 +5,12 @@ import java.io.PrintWriter;
 import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
 import com.golddigger.model.Player;
-
+import com.golddigger.model.Unit;
+/**
+ * This service will return the players current score.
+ * 
+ * @author Brett Wandel
+ */
 public class ScoreService extends Service {
 	public static final String ACTION_TEXT = "score";
 	public ScoreService() {
@@ -19,22 +24,13 @@ public class ScoreService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		System.out.println("Executing Score Service");
-
-		System.out.println("  => Getting Player");
 		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
-			out.println("FAILED: Invalid Player Given");
+			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
 		out.println(""+player.getScore());
 		return true;
 	}
-
-	@Override
-	public boolean caresAboutConsumption() {
-		return true;
-	}
-
 }

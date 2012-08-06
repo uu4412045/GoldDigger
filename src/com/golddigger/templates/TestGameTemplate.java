@@ -3,7 +3,6 @@ package com.golddigger.templates;
 import java.util.List;
 
 import com.golddigger.core.GameTemplate;
-import com.golddigger.core.Plugin;
 import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.model.Map;

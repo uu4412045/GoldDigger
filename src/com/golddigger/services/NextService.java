@@ -7,8 +7,19 @@ import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 import com.golddigger.model.Point2D;
+import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
-
+/**
+ * This service will progress the player on to the next map.
+ * Will return: <br />
+ * <ul>
+ * 	<li>"FAILED" if there is still gold on the map</li>
+ * 	<li>"FAILED" if the player's unit is still carrying gold</li>
+ * </ul>
+ * @author Brett Wandel
+ * @see Player
+ * @see Unit
+ */
 public class NextService extends Service {
 	public static final String ACTION_TEXT = "next";
 	public NextService() {
@@ -22,26 +33,21 @@ public class NextService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		System.out.println("Executing Next Service");
-
-		System.out.println("  => Getting Player");
 		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
-			out.println("FAILED");
+			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		System.out.println("  => Getting Game");
 		Game game = AppContext.getGame(player);
 		if (game == null){
-			out.println("FAILED");
+			out.println("ERROR: Player is currently not in a game");
 			return true;
 		}
 
-		System.out.println("  => Getting Unit");
 		Unit unit = game.getUnit(player);
 		if (unit == null){
-			out.println("FAILED");
+			out.println("ERROR: no unit found for this player");
 			return true;
 		}
 
@@ -55,11 +61,6 @@ public class NextService extends Service {
 				out.println("OK");
 			}
 		}
-		return true;
-	}
-
-	@Override
-	public boolean caresAboutConsumption() {
 		return true;
 	}
 

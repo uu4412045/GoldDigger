@@ -9,13 +9,19 @@ import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.*;
-
+/**
+ * This service will return the view of the player's unit.
+ * @author Brett Wandel
+ * @see Player
+ * @see Unit
+ */
 public class ViewService extends Service {
 	public static final String ACTION_TEXT = "view";
+	public static final int DEFAULT_LINE_OF_SIGHT = 1;
 	private int lineOfSight = 1;
 
 	public ViewService(){
-		this(1);
+		this(DEFAULT_LINE_OF_SIGHT);
 	}
 	
 	public ViewService(int lineOfSight) {
@@ -23,11 +29,10 @@ public class ViewService extends Service {
 		this.lineOfSight = lineOfSight;
 	}
 	
-	public static String createURL(String player){
-		return "/golddigger/digger/"+player+"/view";
+	public void setLineOfSight(int lineOfSight){
+		this.lineOfSight = lineOfSight;
 	}
 	
-
 	@Override
 	public boolean runnable(String url) {
 		return parseURL(url, URL_ACTION).equalsIgnoreCase(ACTION_TEXT);
@@ -35,30 +40,24 @@ public class ViewService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		System.out.println("Executing View Service");
-
-		System.out.println("  => Getting Player");
 		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
-			out.println("FAILED: Invalid Player Given");
+			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		System.out.println("  => Getting Game");
 		Game game = AppContext.getGame(player);
 		if (game == null){
-			out.println("FAILED: Player is currently not in a game");
-			return true;
-		}
-		
-		System.out.println("  => Getting Unit");
-		Unit unit = game.getUnit(player);
-		if (unit == null){
-			out.println("FAILED: no unit found for this player");
+			out.println("ERROR: Player is currently not in a game");
 			return true;
 		}
 
-		System.out.println("  ==> Getting Area");
+		Unit unit = game.getUnit(player);
+		if (unit == null){
+			out.println("ERROR: no unit found for this player");
+			return true;
+		}
+
 		Tile[][] area = game.getMap().getArea(unit.getX(), unit.getY(), lineOfSight);
 
 		for (Tile[] row : area){
@@ -68,11 +67,6 @@ public class ViewService extends Service {
 			out.append('\n');
 		}
 
-		return true;
-	}
-	
-	@Override
-	public boolean caresAboutConsumption() {
 		return true;
 	}
 	

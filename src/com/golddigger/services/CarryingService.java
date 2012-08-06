@@ -8,12 +8,17 @@ import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 import com.golddigger.model.Unit;
 
+/**
+ * This service returns the amount of gold being carried by a {@link Player}'s {@link Unit}.
+ * @author Brett Wandel
+ * @see Unit
+ * @see Player
+ */
 public class CarryingService extends Service {
 	public static final String ACTION_TEXT = "carrying";
 
 	public CarryingService() {
 		super(BASE_PRIORITY);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -23,35 +28,25 @@ public class CarryingService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		System.out.println("Executing Carrying Service");
-
-		System.out.println("  => Getting Player");
 		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
-			out.println("FAILED: Invalid Player Given");
+			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		System.out.println("  => Getting Game");
 		Game game = AppContext.getGame(player);
 		if (game == null){
-			out.println("FAILED: Player is currently not in a game");
+			out.println("ERROR: Player is currently not in a game");
 			return true;
 		}
 		
-		System.out.println("  => Getting Unit");
 		Unit unit = game.getUnit(player);
 		if (unit == null){
-			out.println("FAILED: no unit found for this player");
+			out.println("ERROR: no unit found for this player");
 			return true;
 		}
 		
 		out.println(""+unit.getGold());
-		return true;
-	}
-
-	@Override
-	public boolean caresAboutConsumption() {
 		return true;
 	}
 	

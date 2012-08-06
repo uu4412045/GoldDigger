@@ -12,7 +12,19 @@ import com.golddigger.model.Point2D;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.*;
-
+/**
+ * This service will move the {@link Player}'s {@link Unit} in a particular direction. <br />
+ * Each tile has a movement cost which will delay the servers response to simulate different terrain.<br />
+ * Will return: <br />
+ * <ul>
+ * 	<li>"FAILED" if the direction is invalid</li>
+ *  <li>"FAILED" if the {@link Tile} is not "treadable"</li>
+ *  <li>"FAILED" if the position is out of the maps boundaries.</li>
+ * </ul>
+ * @author Brett Wandel
+ * @see Player
+ * @see Unit
+ */
 public class MoveService extends Service {
 	public static final String ACTION_TEXT = "move";
 	/**
@@ -51,19 +63,19 @@ public class MoveService extends Service {
 
 		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
-			out.println("FAILED");
+			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
 		Game game = AppContext.getGame(player);
 		if (game == null){
-			out.println("FAILEDe");
+			out.println("ERROR: Player is currently not in a game");
 			return true;
 		}
-		
+
 		Unit unit = game.getUnit(player);
 		if (unit == null){
-			out.println("FAILED");
+			out.println("ERROR: no unit found for this player");
 			return true;
 		}
 		
@@ -93,11 +105,6 @@ public class MoveService extends Service {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return true;
-	}
-
-	@Override
-	public boolean caresAboutConsumption() {
 		return true;
 	}
 	

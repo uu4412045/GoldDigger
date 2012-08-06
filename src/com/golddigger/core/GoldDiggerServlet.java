@@ -30,15 +30,18 @@ public class GoldDiggerServlet extends HttpServlet {
 			return;
 		}
 		
-		synchronized (player) { //should stop the same player executing concurrently
+		/*
+		 * This block decides what services are run, as well as stopping
+		 * people running parallel requests.
+		 */
+		synchronized (player) {
 			Service[] services = game.getServices();
 			boolean consumed = false;
 			for (Service service : services){
 				if (service.caresAboutConsumption() && consumed){
-					break;
+					break; //skip this service
 				} else if (service.runnable(url)){
 					consumed = service.execute(url, resp.getWriter());
-				} else {
 				}
 			}
 		}

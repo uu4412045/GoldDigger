@@ -11,6 +11,18 @@ import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.model.tiles.GoldTile;
 
+/**
+ * This service will drop as much gold as it can from the {@link Player}'s {@link Unit}. <br \>
+ * Will return: <br \>
+ * <ul>
+ * 	<li>"FAILED" if the unit has no gold</li>
+ *  <li>"FAILED" if the Tile can not hold any more gold</li>
+ *  <li>The amount of gold dropped.</li>
+ * </ul>
+ * @author Brett Wandel
+ * @see Player
+ * @see Unit
+ */
 public class DropService extends Service {
 	public static final String ACTION_TEXT = "drop";
 
@@ -25,51 +37,42 @@ public class DropService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		System.out.println("Executing Drop Service");
-
-		System.out.println("  => Getting Player");
 		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
-			out.println("FAILED: Invalid Player Given");
+			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		System.out.println("  => Getting Game");
 		Game game = AppContext.getGame(player);
 		if (game == null){
-			out.println("FAILED: Player is currently not in a game");
+			out.println("ERROR: Player is currently not in a game");
 			return true;
 		}
 
-		System.out.println("  => Getting Unit");
 		Unit unit = game.getUnit(player);
 		if (unit == null){
-			out.println("FAILED: no unit found for this player");
+			out.println("ERROR: no unit found for this player");
 			return true;
 		}
 
-		System.out.println("  => Making sure the unit has gold to drop");
 		if (unit.getGold() == 0){
-			System.out.println("  <= Unit has no gold");
+			System.out.println("FAILED");
 			out.println("0");
 			return true;
 		}
 
-		System.out.println("  => Getting Unit");
 		Tile tile = game.getMap().get(unit.getX(), unit.getY());
 		if (tile == null){
-			out.println("FAILED: Unit is out of bounds");
+			out.println("ERROR: Unit is out of bounds");
 			return true;
 		}
 
 		synchronized (game){
 			if (tile instanceof BaseTile){
-				System.out.println("  => Base tile, adding gold to score");
 				player.setScore(player.getScore() + unit.getGold());
 				out.println(unit.getGold());
 				unit.setGold(0);
 			} else if (tile instanceof GoldTile) {
-				System.out.println("  => Normal Gold Tile, dropping to the ground");
 				GoldTile goldTile = (GoldTile) tile;
 				int qty = unit.getGold();
 				if (qty + goldTile.getGold() > 9) {
@@ -79,15 +82,9 @@ public class DropService extends Service {
 				unit.setGold(unit.getGold() - qty);
 				out.println(""+qty);
 			} else {
-				out.println("FAILED: cant drop here");
+				out.println("FAILED");
 			}
 		}
 		return true;
 	}
-
-	@Override
-	public boolean caresAboutConsumption() {
-		return true;
-	}
-
 }

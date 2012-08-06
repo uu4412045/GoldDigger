@@ -8,7 +8,6 @@ import org.mortbay.jetty.servlet.ServletHolder;
 import com.golddigger.core.AppContext;
 import com.golddigger.core.GameTemplate;
 import com.golddigger.core.GoldDiggerServlet;
-import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 import com.golddigger.utils.CompetitionTemplateGenerator;
 import com.golddigger.utils.TemplateGenerator;
@@ -23,7 +22,6 @@ public class CompetitionServer {
             server = new Server(PORT);
             Context root = new Context(server, "/", Context.SESSIONS);
             root.addServlet(new ServletHolder(new GoldDiggerServlet()), "/" + CONTEXT + "/*");
-//            root.setResourceBase(new File("./target/site").getAbsolutePath());
             root.addServlet(DefaultServlet.class.getName(), "/");
             server.start();
         } catch (Exception e) {
