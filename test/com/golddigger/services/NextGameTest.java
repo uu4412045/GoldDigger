@@ -23,9 +23,9 @@ public class NextGameTest {
 	@Before()
 	public void setup(){
 		server = new TestServer();
-		AppContext.add(new TestGameTemplate(MAP_1));
-		AppContext.add(new TestGameTemplate(MAP_2));
-		AppContext.add(new Player("test", "secret"));
+		server.getContext().add(new TestGameTemplate(MAP_1));
+		server.getContext().add(new TestGameTemplate(MAP_2));
+		server.getContext().add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
 

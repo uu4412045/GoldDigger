@@ -16,8 +16,8 @@ public class LogService extends Service {
 	private PrintWriter out;
 	
 	
-	public LogService(String gameID) {
-		super(BASE_PRIORITY);
+	public LogService(String contextID, String gameID) {
+		super(BASE_PRIORITY, contextID);
 		this.gameID = gameID;
 		this.out = new PrintWriter(System.out, true);
 		

@@ -27,15 +27,15 @@ public class DayNightServiceTest {
 		server = new TestServer();
 		ServiceGenerator gen = new ServiceGenerator(){
 			@Override
-			public Service[] generate() {
+			public Service[] generate(String contextID) {
 				return new Service[]{
-						new ViewService(4),
-						new MoveService(),
-						new DayNightService(3,50)};
+						new ViewService(contextID, 4),
+						new MoveService(contextID),
+						new DayNightService(contextID, 3,50)};
 			}
 		};
-		AppContext.add(new TestGameTemplate(MAP, gen));
-		AppContext.add(new Player("test", "secret"));
+		server.getContext().add(new TestGameTemplate(MAP, gen));
+		server.getContext().add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
 	
@@ -46,7 +46,7 @@ public class DayNightServiceTest {
 	
 	@Test
 	public void testLineOfSightChanges() {
-		for (Service service : AppContext.getGame(AppContext.getPlayer("test")).getServices()){
+		for (Service service : server.getContext().getGame(server.getContext().getPlayer("test")).getServices()){
 			if (service instanceof ViewService) vService = (ViewService) service;
 		}
 		assertEquals(4, vService.getLineOfSight());

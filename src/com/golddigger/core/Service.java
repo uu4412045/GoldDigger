@@ -25,14 +25,16 @@ public abstract class Service implements Comparable<Service>{
 							URL_EXTRA2 = 6,
 							URL_EXTRA3 = 7;
 	
+	public final String contextID;
 	private int priority = BASE_PRIORITY;
 	/**
 	 * Used to allow a service to run before other services that would normally run
 	 * @return The priority level, higher runs before lower
 	 */
 	public int getPriority(){ return this.priority;}
-	public Service(int priority){
+	public Service(int priority, String contextID){
 		this.priority = priority;
+		this.contextID = contextID;
 	}
 	
 	/**

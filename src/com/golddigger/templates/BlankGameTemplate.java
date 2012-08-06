@@ -16,23 +16,23 @@ public class BlankGameTemplate extends GameTemplate {
 	private Map map = new BlankMap(10, 10);
 	
 	@Override
-	public Game build(){
-		Game game = new Game(getID());
+	public Game build(String contextID){
+		Game game = new Game(getID(), contextID);
 		game.setMap(map);
 		
-		addPlugins(game);
+		addPlugins(game, contextID);
 		return game;
 	}
 	
 	// Adding Default Plugins
-	public void addPlugins(Game game){
+	public void addPlugins(Game game, String contextID){
 //		game.add(new LogService(gameID+""));
-		game.add(new ViewService());
-		game.add(new NextService());
-		game.add(new MoveService());
-		game.add(new GrabService());
-		game.add(new DropService());
-		game.add(new ScoreService());
-		game.add(new CarryingService());
+		game.add(new ViewService(contextID));
+		game.add(new NextService(contextID));
+		game.add(new MoveService(contextID));
+		game.add(new GrabService(contextID));
+		game.add(new DropService(contextID));
+		game.add(new ScoreService(contextID));
+		game.add(new CarryingService(contextID));
 	}
 }

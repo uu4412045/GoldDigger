@@ -26,7 +26,7 @@ public class MovementCostTest {
 	@Before()
 	public void setup(){
 		server = new TestServer();
-		AppContext.add(new TestGameTemplate(MAP));
+		server.getContext().add(new TestGameTemplate(MAP));
 		
 		// Adding GameTemplate with custom costs
 		HashMap<String, Integer> costs = new HashMap<String, Integer>();
@@ -44,9 +44,9 @@ public class MovementCostTest {
 		costs.put(GoldTile.class.getSimpleName()+"_9",50);
 		BaseServiceGenerator gen = new BaseServiceGenerator();
 		gen.setCosts(costs);
-		AppContext.add(new TestGameTemplate(MAP, gen));
+		server.getContext().add(new TestGameTemplate(MAP, gen));
 		
-		AppContext.add(new Player("test", "secret"));
+		server.getContext().add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
 	
@@ -76,7 +76,7 @@ public class MovementCostTest {
 		moveAndTime(Direction.EAST, GoldTile.DEFAULT_MOVEMENT_COST);
 
 		// Testing custom movement costs
-		AppContext.progress(AppContext.getPlayer("test"));
+		server.getContext().progress(server.getContext().getPlayer("test"));
 		moveAndTime(Direction.EAST, 50);
 		moveAndTime(Direction.EAST, 50);
 		moveAndTime(Direction.EAST, 50);

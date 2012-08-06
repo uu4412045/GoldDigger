@@ -21,8 +21,8 @@ public class DayNightService extends Service {
 	 * @param cycleTime The number of turns between each day/night switch
 	 * @param scale The amount to scale line of sight by, in percentage.
 	 */
-	public DayNightService(int cycleTime, int scale) {
-		super(BASE_PRIORITY+10);
+	public DayNightService(String contextID, int cycleTime, int scale) {
+		super(BASE_PRIORITY+10, contextID);
 		this.cycleTime = cycleTime;
 		this.scale = scale;
 	}
@@ -34,7 +34,7 @@ public class DayNightService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		Service[] services = AppContext.getGame(AppContext.getPlayer(parseURL(url, URL_PLAYER))).getServices();
+		Service[] services = AppContext.getContext(contextID).getGame(AppContext.getContext(contextID).getPlayer(parseURL(url, URL_PLAYER))).getServices();
 		ViewService vService = null;
 		for (Service service : services){
 			if (service instanceof ViewService) vService = (ViewService) service;

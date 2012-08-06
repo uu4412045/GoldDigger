@@ -31,13 +31,13 @@ public class MoveService extends Service {
 	 */
 	private HashMap<String, Integer> customCosts;
 	
-	public MoveService(Map<String, Integer> costs){
-		this();
+	public MoveService(String contextID, Map<String, Integer> costs){
+		this(contextID);
 		customCosts.putAll(costs);
 	}
 	
-	public MoveService() {
-		super(BASE_PRIORITY);
+	public MoveService(String contextID) {
+		super(BASE_PRIORITY, contextID);
 		customCosts = new HashMap<String, Integer>();
 	}
 
@@ -60,13 +60,13 @@ public class MoveService extends Service {
 			return true;
 		}
 
-		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
+		Player player = AppContext.getContext(contextID).getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
 			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		Game game = AppContext.getGame(player);
+		Game game = AppContext.getContext(contextID).getGame(player);
 		if (game == null){
 			out.println("ERROR: Player is currently not in a game");
 			return true;

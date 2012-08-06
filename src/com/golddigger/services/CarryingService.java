@@ -17,8 +17,8 @@ import com.golddigger.model.Unit;
 public class CarryingService extends Service {
 	public static final String ACTION_TEXT = "carrying";
 
-	public CarryingService() {
-		super(BASE_PRIORITY);
+	public CarryingService(String contextID) {
+		super(BASE_PRIORITY, contextID);
 	}
 
 	@Override
@@ -28,13 +28,13 @@ public class CarryingService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
+		Player player = AppContext.getContext(contextID).getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
 			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		Game game = AppContext.getGame(player);
+		Game game = AppContext.getContext(contextID).getGame(player);
 		if (game == null){
 			out.println("ERROR: Player is currently not in a game");
 			return true;

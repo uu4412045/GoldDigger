@@ -20,8 +20,8 @@ import com.golddigger.model.Unit;
  */
 public class NextService extends Service {
 	public static final String ACTION_TEXT = "next";
-	public NextService() {
-		super(BASE_PRIORITY);
+	public NextService(String contextID) {
+		super(BASE_PRIORITY, contextID);
 	}
 
 	@Override
@@ -31,13 +31,13 @@ public class NextService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		Player player = AppContext.getPlayer(parseURL(url, URL_PLAYER));
+		Player player = AppContext.getContext(contextID).getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
 			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		Game game = AppContext.getGame(player);
+		Game game = AppContext.getContext(contextID).getGame(player);
 		if (game == null){
 			out.println("ERROR: Player is currently not in a game");
 			return true;
@@ -55,7 +55,7 @@ public class NextService extends Service {
 			} else if (game.getMap().hasGoldLeft()) {
 				out.println("FAILED");
 			} else {
-				AppContext.progress(player);
+				AppContext.getContext(contextID).progress(player);
 				out.println("OK");
 			}
 		}

@@ -22,8 +22,8 @@ public class GoldServiceTest {
 	@Before()
 	public void setup(){
 		server = new TestServer();
-		AppContext.add(new TestGameTemplate(MAP));
-		AppContext.add(new Player("test", "secret"));
+		server.getContext().add(new TestGameTemplate(MAP));
+		server.getContext().add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
 

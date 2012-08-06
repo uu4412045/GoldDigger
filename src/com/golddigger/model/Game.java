@@ -21,6 +21,7 @@ import com.golddigger.model.tiles.BaseTile;
  * @see Service
  */
 public class Game {
+	private String contextID;
 	/**
 	 * All the services that this game uses.
 	 * @see Service
@@ -56,7 +57,8 @@ public class Game {
 		 */
 		private int templateID;
 		
-		public Game(int templateID){
+		public Game(int templateID, String contextID){
+			this.contextID = contextID;
 			this.templateID = templateID;
 			services = new ArrayList<Service>();
 			players = new ArrayList<Player>();
@@ -122,7 +124,7 @@ public class Game {
 		 * @see Player
 		 */
 		public boolean add(Player player){
-			if (AppContext.getGame(player) != null){
+			if (AppContext.getContext(contextID).getGame(player) != null){
 				throw new RuntimeException("Trying to add a player that already exists in another game");
 			}
 			synchronized(this){

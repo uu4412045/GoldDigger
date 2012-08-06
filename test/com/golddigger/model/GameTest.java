@@ -4,18 +4,37 @@ import static org.junit.Assert.*;
 
 import java.io.PrintWriter;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.utils.MapMaker;
-import com.golddigger.utils.MapPrinter;
 
 public class GameTest {
-
+	private static final String contextID = "gameTest";
+	@BeforeClass
+	public static void before(){
+		new AppContext(contextID);
+	}
+	
+	@After
+	public void after(){
+		AppContext.getContext(contextID).clear();
+	}
+	
+	@AfterClass
+	public static void cleanup(){
+		AppContext.remove(contextID);
+	}
+	
 	@Test
 	public void test() {
-		Game game = new Game(0);
+		new AppContext(contextID);
+		Game game = new Game(0, contextID);
 		Map map = new BlankMap(3,3);
 		game.setMap(map);
 		Player player = new Player("test", "secret");
@@ -29,7 +48,8 @@ public class GameTest {
 	
 	@Test
 	public void testBaseFunctions(){
-		Game game = new Game(0);
+		new AppContext(contextID);
+		Game game = new Game(0, contextID);
 		Map map = new BlankMap(3,3);
 		game.setMap(map);
 		BaseTile[] bases = game.getBases();
@@ -41,9 +61,8 @@ public class GameTest {
 	@Test
 	public void testMultiplayer(){
 		String string_map = "wwwww\nwb.bw\nwwwww";
-		Game game = new Game(0);
+		Game game = new Game(0, contextID);
 		Map map = MapMaker.parse(string_map);
-		System.out.println(MapPrinter.print(map));
 		game.setMap(map);
 		Player player1 = new Player("player1","secret");
 		Player player2 = new Player("player2","secret");
@@ -63,7 +82,8 @@ public class GameTest {
 	
 	@Test
 	public void testServiceOrder(){
-		Game game = new Game(0);
+		new AppContext(contextID);
+		Game game = new Game(0, contextID);
 		Service s1 = newStub(Service.BASE_PRIORITY);
 		Service s2 = newStub(10);
 		Service s3 = newStub(5);
@@ -77,7 +97,7 @@ public class GameTest {
 	}
 	
 	private Service newStub(int priority){
-		return new Service(priority){
+		return new Service(priority, null){
 
 			@Override
 			public boolean runnable(String url) {

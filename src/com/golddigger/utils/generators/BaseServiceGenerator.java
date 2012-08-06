@@ -19,19 +19,19 @@ public class BaseServiceGenerator implements ServiceGenerator {
 	private int los = 1;
 	private Map<String, Integer> costs = new HashMap<String, Integer>();
 	@Override
-	public Service[] generate() {
+	public Service[] generate(String contextId) {
 		List<Service> services = new ArrayList<Service>();
-		services.add(new ViewService(los));
+		services.add(new ViewService(contextId,los));
 		if (costs == null){
-			services.add(new MoveService());
+			services.add(new MoveService(contextId));
 		}else {
-			services.add(new MoveService(new HashMap<String, Integer>(costs)));
+			services.add(new MoveService(contextId, new HashMap<String, Integer>(costs)));
 		}
-		services.add(new NextService());
-		services.add(new GrabService());
-		services.add(new DropService());
-		services.add(new ScoreService());
-		services.add(new CarryingService());
+		services.add(new NextService(contextId));
+		services.add(new GrabService(contextId));
+		services.add(new DropService(contextId));
+		services.add(new ScoreService(contextId));
+		services.add(new CarryingService(contextId));
 		return services.toArray(new Service[]{});
 	}
 	

@@ -27,9 +27,9 @@ public class ViewServiceTest {
 		gen.setLOS(2);
 		server = new TestServer();
 		client = new TestingClient("test", BASE_URL);
-		AppContext.add(new TestGameTemplate(MAP_1));
-		AppContext.add(new TestGameTemplate(MAP_2, gen));
-		AppContext.add(new Player("test", "secret"));
+		server.getContext().add(new TestGameTemplate(MAP_1));
+		server.getContext().add(new TestGameTemplate(MAP_2, gen));
+		server.getContext().add(new Player("test", "secret"));
 	}
 
 	@After()
@@ -42,7 +42,7 @@ public class ViewServiceTest {
 		assertEquals("123\n5b6\n89w",client.view().trim());
 		assertEquals("OK",client.move(Direction.WEST).trim());
 		assertEquals(".12\n45b\n789",client.view().trim());
-		AppContext.progress(AppContext.getPlayer("test"));
+		server.getContext().progress(server.getContext().getPlayer("test"));
 		
 		//Testing Line Of Sight
 		assertEquals("wwwww\nw...w\nw.b.w\nw...w\nwwwww",client.view().trim());

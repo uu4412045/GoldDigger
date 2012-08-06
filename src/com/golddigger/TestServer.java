@@ -14,12 +14,16 @@ public class TestServer {
 	private final static int PORT = 8066;
 	private final static String CONTEXT = "golddigger";
 	private Server server;
+	private String contextID; 
+	private AppContext context;
 	
 	public TestServer(){
 		try {
+			contextID = "localhost:"+PORT;
+			context = new AppContext(contextID);
             server = new Server(PORT);
             Context root = new Context(server, "/", Context.SESSIONS);
-            root.addServlet(new ServletHolder(new GoldDiggerServlet()), "/" + CONTEXT + "/*");
+            root.addServlet(new ServletHolder(new GoldDiggerServlet(contextID)), "/" + CONTEXT + "/*");
 //            root.setResourceBase(new File("./target/site").getAbsolutePath());
             root.addServlet(DefaultServlet.class.getName(), "/");
             server.start();
@@ -31,25 +35,29 @@ public class TestServer {
 	public void stop(){
 		try {
 			server.stop();
-			AppContext.clear();
+			getContext().clear();
 		} catch (Exception e){
 			throw new RuntimeException(e);
 		}
 	}
 	
 	public static void main(String[] args){
-		new TestServer();
+		TestServer server = new TestServer();
 
-		AppContext.add(new BlankGameTemplate());
-		AppContext.add(new BlankGameTemplate());
+		server.getContext().add(new BlankGameTemplate());
+		server.getContext().add(new BlankGameTemplate());
 		
 		Player[] players = loadPlayers();
 		for (Player player : players){
-			AppContext.add(player);
+			server.getContext().add(player);
 		}
 	}
 	
 	private static Player[] loadPlayers(){
 		return new Player[]{new Player("brett","secret")};
+	}
+	
+	public AppContext getContext(){
+		return AppContext.getContext(contextID);
 	}
 }

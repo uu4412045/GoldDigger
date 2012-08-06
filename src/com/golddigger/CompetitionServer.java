@@ -16,12 +16,16 @@ public class CompetitionServer {
 	private final static int PORT = 8066;
 	private final static String CONTEXT = "golddigger";
 	private Server server;
+	private String contextID;
+	private AppContext context;
 	
-	public CompetitionServer(){
+	public CompetitionServer(int port){
 		try {
-            server = new Server(PORT);
+            server = new Server(port);
+            contextID = "localhost:"+port;
+            context = new AppContext(contextID);
             Context root = new Context(server, "/", Context.SESSIONS);
-            root.addServlet(new ServletHolder(new GoldDiggerServlet()), "/" + CONTEXT + "/*");
+            root.addServlet(new ServletHolder(new GoldDiggerServlet(CONTEXT)), "/" + CONTEXT + "/*");
             root.addServlet(DefaultServlet.class.getName(), "/");
             server.start();
         } catch (Exception e) {
@@ -30,21 +34,25 @@ public class CompetitionServer {
 	}
 	
 	public static void main(String[] args){
-		new CompetitionServer();
+		CompetitionServer server = new CompetitionServer(PORT);
 		TemplateGenerator gen = new CompetitionTemplateGenerator();
 		
 		GameTemplate template;
 		while ((template = gen.next()) != null){
-			AppContext.add(template);
+			server.getContext().add(template);
 		}
 		
 		Player[] players = loadPlayers();
 		for (Player player : players){
-			AppContext.add(player);
+			server.getContext().add(player);
 		}
 	}
 	
 	private static Player[] loadPlayers(){
 		return new Player[]{new Player("brett","secret")};
+	}
+	
+	public AppContext getContext(){
+		return context;
 	}
 }

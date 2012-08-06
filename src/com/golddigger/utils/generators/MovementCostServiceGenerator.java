@@ -22,15 +22,15 @@ public class MovementCostServiceGenerator implements ServiceGenerator{
 	}
 
 	@Override
-	public Service[] generate() {
+	public Service[] generate(String contextID) {
 		List<Service> services = new ArrayList<Service>();
-		services.add(new ViewService());
-		services.add(new MoveService(costs));
-		services.add(new NextService());
-		services.add(new GrabService());
-		services.add(new DropService());
-		services.add(new ScoreService());
-		services.add(new CarryingService());
+		services.add(new ViewService(contextID));
+		services.add(new MoveService(contextID, costs));
+		services.add(new NextService(contextID));
+		services.add(new GrabService(contextID));
+		services.add(new DropService(contextID));
+		services.add(new ScoreService(contextID));
+		services.add(new CarryingService(contextID));
 		return services.toArray(new Service[]{});
 	}
 }

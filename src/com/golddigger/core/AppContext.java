@@ -1,6 +1,7 @@
 package com.golddigger.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.golddigger.model.Game;
@@ -17,23 +18,39 @@ import com.golddigger.model.Player;
  * but I haven't found the time just yet.
  */
 public class AppContext {
+	
+	/**
+	 * Stores the context for each server.
+	 */
+	private static HashMap<String, AppContext> contexts = new HashMap<String, AppContext>();
+	
 	/**
 	 * All the "games" currently running in the server
 	 * @see Game
 	 */
-	public static List<Game> games = new ArrayList<Game>();
+	private List<Game> games = new ArrayList<Game>();
 	
 	/**
 	 * A queue of all the templates to be played.
 	 * @see GameTemplate
 	 */
-	public static List<GameTemplate> templates = new ArrayList<GameTemplate>();
+	private List<GameTemplate> templates = new ArrayList<GameTemplate>();
 	
 	/**
 	 * All the people that are currently playing.
 	 * @see Player
 	 */
-	public static List<Player> players = new ArrayList<Player>();
+	private List<Player> players = new ArrayList<Player>();
+
+	private String contextID;
+	public AppContext(String contextID){
+		this.contextID = contextID;
+		contexts.put(contextID, this);
+	}
+	
+	public static AppContext getContext(String id){
+		return contexts.get(id);
+	}
 	
 	/** Gets the Game that the player is currently in.
 	 * @param player The player
@@ -41,7 +58,7 @@ public class AppContext {
 	 * @see Game
 	 * @see Player
 	 */
-	public static Game getGame(Player player){
+	public Game getGame(Player player){
 		for (Game game:games){
 			if (game.hasPlayer(player)){
 				return game;
@@ -55,8 +72,8 @@ public class AppContext {
 	 * @param game The game to add.
 	 * @see Game
 	 */
-	private static void add(Game game) {
-		AppContext.games.add(game);
+	private void add(Game game) {
+		games.add(game);
 	}
 	
 	/**
@@ -65,9 +82,9 @@ public class AppContext {
 	 * @param template The template to be added.
 	 * @see GameTemplate
 	 */
-	public static void add(GameTemplate template){
+	public void add(GameTemplate template){
 		template.setID(templates.size());
-		AppContext.templates.add(template);
+		templates.add(template);
 	}
 	
 	/**
@@ -76,9 +93,9 @@ public class AppContext {
 	 * @See GameTemplate
 	 * @see Player
 	 */
-	public static void add(Player player){
+	public void add(Player player){
 		if (exists(player)) throw new RuntimeException("The Player ("+player.getName()+") is already playing");
-		AppContext.players.add(player);
+		players.add(player);
 		//Check Multiplayer
 		for(Game game : games){
 			if (game.hasUnownedBase()) {
@@ -88,7 +105,7 @@ public class AppContext {
 			}
 		}
 		//create new game
-		Game first = templates.get(0).build();
+		Game first = templates.get(0).build(contextID);
 		add(first);
 		first.add(player);
 		System.out.println("addPlayer: added to a singleplayer game");
@@ -99,7 +116,7 @@ public class AppContext {
 	 * @param name The name of the player
 	 * @return <b>null</b> if there is no player in the server with this name;
 	 */
-	public static Player getPlayer(String name){
+	public Player getPlayer(String name){
 		for (Player player : players){
 			if (player.getName().equalsIgnoreCase(name)){
 				return player;
@@ -113,7 +130,7 @@ public class AppContext {
 	 * @param player The player to move on
 	 * @see Player
 	 */
-	public static void progress(Player player){
+	public void progress(Player player){
 		Game old = getGame(player);
 		int id = old.getTemplateID();
 		if (old.remove(player) == 0) games.remove(old);
@@ -127,7 +144,7 @@ public class AppContext {
 			}
 		}
 		// create a new game
-		Game next = templates.get(id+1).build();
+		Game next = templates.get(id+1).build(contextID);
 		add(next);
 		next.add(player);
 	}
@@ -137,18 +154,22 @@ public class AppContext {
 	 * @param player The player to check for
 	 * @return <b>true</b> if they do, <b>false</b> if they dont
 	 */
-	private static boolean exists(Player player){
-		return AppContext.getPlayer(player.getName()) != null;
+	private boolean exists(Player player){
+		return getPlayer(player.getName()) != null;
 	}
 	
 	/**
 	 * <b>WARNING:</b> Clears the server of all games, templates and players.<br />
 	 * Should only be used when resetting or stopping the server.
 	 */
-	public static void clear(){
+	public void clear(){
 		games = new ArrayList<Game>();
 		templates = new ArrayList<GameTemplate>();
 		players = new ArrayList<Player>();
+	}
+
+	public static void remove(String contextID) {
+		contexts.remove(contextID);
 	}
 }
 		

@@ -12,20 +12,26 @@ import com.golddigger.model.Player;
 
 public class GoldDiggerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1219399141770957347L;
-
+	private static String contextID;
+	
+	public GoldDiggerServlet(String contextID){
+		super();
+		this.contextID = contextID;
+	}
+	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String url = req.getRequestURI();
 		
 		String name = Service.parseURL(url, Service.URL_PLAYER);
-		Player player = AppContext.getPlayer(name);
+		Player player = AppContext.getContext(contextID).getPlayer(name);
 		if (player == null) {
 			System.err.println("Url with invalid player recieved: "+url);
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
 		
-		Game game = AppContext.getGame(player);
+		Game game = AppContext.getContext(contextID).getGame(player);
 		if (game == null) {
 			System.err.println("This player does not have a game: "+url);
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
