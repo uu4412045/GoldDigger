@@ -56,7 +56,7 @@ public class GrabService extends Service {
 		}
 
 		if (unit.getGold() == MAX_UNIT_GOLD){
-			out.println("FAILED: unit can't carry anymore");
+			out.println("FAILED");
 			return true;
 		}
 
