@@ -34,8 +34,7 @@ public class ScoreService extends Service {
 
 	@Override
 	public boolean caresAboutConsumption() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

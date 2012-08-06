@@ -59,6 +59,7 @@ public class GoldServiceTest {
 		client.move(Direction.SOUTH);
 		client.move(Direction.SOUTH);
 		assertEquals("Should only pick up 1 gold", "1", client.grab().trim());
+		assertEquals("Should not be able to carry any more gold", "FAILED", client.grab().trim());
 		assertEquals("Should now be carrying 3 gold","3", client.carrying().trim());
 		assertEquals("Should be 8 gold on the ground",".b.\n.8.\nwww", client.view().trim());
 		assertEquals("Should only drop one gold", "1", client.drop().trim());

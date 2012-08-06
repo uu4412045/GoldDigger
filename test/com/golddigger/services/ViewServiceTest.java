@@ -2,15 +2,12 @@ package com.golddigger.services;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import com.golddigger.TestServer;
 import com.golddigger.client.TestingClient;
@@ -21,7 +18,6 @@ import com.golddigger.model.Player;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.MapMaker;
-import com.meterware.httpunit.WebConversation;
 
 public class ViewServiceTest {
 	TestServer server;
@@ -32,19 +28,22 @@ public class ViewServiceTest {
 
 	@Before()
 	public void setup(){
+		// Testing the actual View
 		Map map_1 = MapMaker.parse(STRING_MAP_1);
 		List<Service> services_1 = new ArrayList<Service>();
 		services_1.add(new MoveService());
 		services_1.add(new ViewService());
+		// Testing Line Of Sight
 		Map map_2 = MapMaker.parse(STRING_MAP_2);
 		List<Service> services_2 = new ArrayList<Service>();
 		services_2.add(new MoveService());
 		services_2.add(new ViewService(2));
+		
 		server = new TestServer();
+		client = new TestingClient("test", BASE_URL);
 		AppContext.add(new TestGameTemplate(map_1, services_1));
 		AppContext.add(new TestGameTemplate(map_2, services_2));
 		AppContext.add(new Player("test", "secret"));
-		client = new TestingClient("test", BASE_URL);
 	}
 
 	@After()

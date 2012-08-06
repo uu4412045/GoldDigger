@@ -4,10 +4,12 @@ import com.golddigger.core.GameTemplate;
 import com.golddigger.model.BlankMap;
 import com.golddigger.model.Game;
 import com.golddigger.model.Map;
+import com.golddigger.services.CarryingService;
 import com.golddigger.services.DropService;
 import com.golddigger.services.GrabService;
 import com.golddigger.services.MoveService;
 import com.golddigger.services.NextService;
+import com.golddigger.services.ScoreService;
 import com.golddigger.services.ViewService;
 
 public class BlankGameTemplate extends GameTemplate {
@@ -30,5 +32,7 @@ public class BlankGameTemplate extends GameTemplate {
 		game.add(new MoveService());
 		game.add(new GrabService());
 		game.add(new DropService());
+		game.add(new ScoreService());
+		game.add(new CarryingService());
 	}
 }

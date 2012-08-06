@@ -52,7 +52,6 @@ public class CarryingService extends Service {
 
 	@Override
 	public boolean caresAboutConsumption() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	
