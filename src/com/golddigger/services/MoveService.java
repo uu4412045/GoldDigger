@@ -15,8 +15,24 @@ import com.golddigger.model.tiles.*;
 
 public class MoveService extends Service {
 	public static final String ACTION_TEXT = "move";
+	/**
+	 * Holds all the custom movement costs for this service.
+	 */
 	private HashMap<String, Integer> customCosts;
 	
+	/**
+	 * offsets int the DEFAULT_COSTS array for this tile
+	 */
+	public static final int BASE_TILE = 0, CITY_TILE = 1, DEEP_WATER_TILE = 2,
+		FOREST_TILE = 3, GOLD_TILE = 4, HILL_TILE = 5, MOUNTAIN_TILE = 6,
+		ROAD_TILE = 7, SHALLOW_WATER_TILE = 8, TELEPORT_TILE = 9;
+	/**
+	 * Contains all the default movement costs for each tile type
+	 */
+	public static final int[] DEFAULT_TILE_COSTS = 
+		{100,200,500,300,100,175, 500, 25,150, 100};
+	
+	private static final int DEFAULT_MOVEMENT_COST = 100;
 	
 	public MoveService(Map<String, Integer> costs){
 		this();
@@ -66,10 +82,10 @@ public class MoveService extends Service {
 		}
 		
 		Tile tile;
-		synchronized (game){
+		synchronized (game){ //stop other units in the same game moving at the same time.
 			int x = unit.getX()+offset.x, y = unit.getY() + offset.y;
 			tile = game.getMap().get(x, y);
-			if (tile == null) {
+			if (tile == null) { // (x,y) is out of the map's boundary
 				out.println("FAILED");
 				return true;
 			}
@@ -91,20 +107,28 @@ public class MoveService extends Service {
 		return true;
 	}
 
+	/**
+	 * Used to determine the costs of moving to a particular tile type
+	 * @param tile The tile that you want the cost for
+	 * @return The time penalty in milliseconds
+	 */
 	private int getCost(Tile tile) {
 		String key = tile.getClass().getSimpleName();
+		if (tile instanceof GoldTile) {
+			key += "_"+((GoldTile) tile).getGold();
+		}
 		if (customCosts.containsKey(key)) return customCosts.get(key);
-		if (tile instanceof BaseTile) return 100;
-		if (tile instanceof CityTile) return 200;
-		if (tile instanceof DeepWaterTile) return 500;
-		if (tile instanceof ForestTile) return 300;
-		if (tile instanceof GoldTile) return 100;
-		if (tile instanceof HillTile) return 175;
-		if (tile instanceof ShallowWaterTile) return 150;
-		if (tile instanceof MountainTile) return 500;
-		if (tile instanceof RoadTile) return 25;
-		if (tile instanceof TeleportTile) return 100;
-		return 100;
+		if (tile instanceof BaseTile) return DEFAULT_TILE_COSTS[BASE_TILE];
+		if (tile instanceof CityTile) return DEFAULT_TILE_COSTS[CITY_TILE];
+		if (tile instanceof DeepWaterTile) return DEFAULT_TILE_COSTS[DEEP_WATER_TILE];
+		if (tile instanceof ForestTile) return DEFAULT_TILE_COSTS[FOREST_TILE];
+		if (tile instanceof GoldTile) return DEFAULT_TILE_COSTS[GOLD_TILE];
+		if (tile instanceof HillTile) return DEFAULT_TILE_COSTS[HILL_TILE];
+		if (tile instanceof ShallowWaterTile) return DEFAULT_TILE_COSTS[SHALLOW_WATER_TILE];
+		if (tile instanceof MountainTile) return DEFAULT_TILE_COSTS[MOUNTAIN_TILE];
+		if (tile instanceof RoadTile) return DEFAULT_TILE_COSTS[ROAD_TILE];
+		if (tile instanceof TeleportTile) return DEFAULT_TILE_COSTS[TELEPORT_TILE];
+		return DEFAULT_MOVEMENT_COST;
 	}
 
 	@Override
@@ -112,6 +136,11 @@ public class MoveService extends Service {
 		return true;
 	}
 	
+	/**
+	 * Used to create an offset in a particular direction.
+	 * @param direction The string representation
+	 * @return The Point2D offset to be ADDED to the current location.
+	 */
 	private Point2D parseDirection(String direction){
 		if (direction.equalsIgnoreCase("north")) return new Point2D(-1,0);
 		if (direction.equalsIgnoreCase("south")) return new Point2D(1,0);
@@ -120,9 +149,16 @@ public class MoveService extends Service {
 		return null;
 	}
 	
+	/**
+	 * Used to define the string representations of each direction.
+	 * @author Brett Wandel
+	 */
 	public enum Direction{
 		NORTH,SOUTH,EAST,WEST;
 		
+		/**
+		 * Returns the string representation of a particular direction.
+		 */
 		@Override
 		public String toString(){
 			switch(this){
