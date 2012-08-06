@@ -12,10 +12,15 @@ import com.golddigger.model.tiles.*;
 
 public class ViewService extends Service {
 	public static final String ACTION_TEXT = "view";
-	public static final int LINE_OF_SIGHT = 1;
+	private int lineOfSight = 1;
 
-	public ViewService() {
+	public ViewService(){
+		this(1);
+	}
+	
+	public ViewService(int lineOfSight) {
 		super(BASE_PRIORITY);
+		this.lineOfSight = lineOfSight;
 	}
 	
 	public static String createURL(String player){
@@ -54,7 +59,7 @@ public class ViewService extends Service {
 		}
 
 		System.out.println("  ==> Getting Area");
-		Tile[][] area = game.getMap().getArea(unit.getX(), unit.getY(), LINE_OF_SIGHT);
+		Tile[][] area = game.getMap().getArea(unit.getX(), unit.getY(), lineOfSight);
 
 		for (Tile[] row : area){
 			for (Tile tile : row){
