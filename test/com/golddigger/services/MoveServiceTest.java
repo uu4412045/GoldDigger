@@ -2,15 +2,12 @@ package com.golddigger.services;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import com.golddigger.TestServer;
 import com.golddigger.client.TestingClient;
@@ -23,22 +20,21 @@ import com.golddigger.services.ViewService;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.MapMaker;
-import com.meterware.httpunit.WebConversation;
 
 public class MoveServiceTest {
 	TestServer server;
 	TestingClient client;
-	private static final String STRING_MAP = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
+	private static final String STRING_MAP_1 = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
 
 	@Before()
 	public void setup(){
-		Map map = MapMaker.parse(STRING_MAP);
-		List<Service> services = new ArrayList<Service>();
-		services.add(new MoveService());
-		services.add(new ViewService());
+		Map map1 = MapMaker.parse(STRING_MAP_1);
+		List<Service> services1 = new ArrayList<Service>();
+		services1.add(new MoveService());
+		services1.add(new ViewService());
 		server = new TestServer();
-		AppContext.add(new TestGameTemplate(map, services));
+		AppContext.add(new TestGameTemplate(map1, services1));
 		AppContext.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
@@ -55,7 +51,7 @@ public class MoveServiceTest {
 		moveAndAssert(Direction.SOUTH, "..w\nb.w\n..w\n");
 		moveAndAssert(Direction.WEST, "...\n.b.\n...\n");
 		
-		//shouldnt move outside north bounds
+		//Should't move outside north bounds
 		moveAndAssert(Direction.NORTH, "www\n...\n.b.\n");
 		moveAndAssert(Direction.NORTH, "www\n...\n.b.\n", false);
 		
@@ -74,7 +70,6 @@ public class MoveServiceTest {
 		moveAndAssert(Direction.WEST, "w..\nw.b\nw..\n");
 		moveAndAssert(Direction.WEST, "w..\nw.b\nw..\n",false);
 	}
-
 	
 	private void moveAndAssert(Direction d, String expected){moveAndAssert(d, expected, true);}
 	private void moveAndAssert(Direction d, String expected, boolean success) {

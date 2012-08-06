@@ -18,7 +18,7 @@ public class Map {
 		if(inBounds(x,y)) tiles[x][y] = tile;
 	}
 	
-	private boolean inBounds(int x, int y){
+	protected boolean inBounds(int x, int y){
 		return x > -1 && y > -1 && x < tiles.length && y < tiles[0].length;
 	}
 	

@@ -85,6 +85,13 @@ public class ViewService extends Service {
 		if (t == null) return 'X';
 		if (t instanceof WallTile) return 'w';
 		if (t instanceof BaseTile) return 'b';
+		if (t instanceof CityTile) return 'c';
+		if (t instanceof DeepWaterTile) return 'd';
+		if (t instanceof ShallowWaterTile) return 's';
+		if (t instanceof ForestTile) return 'f';
+		if (t instanceof HillTile) return 'h';
+		if (t instanceof RoadTile) return 'r';
+		if (t instanceof TeleportTile) return 't';
 		if (t instanceof GoldTile){
 			switch (((GoldTile) t).getGold()){
 			case 1: return '1';
