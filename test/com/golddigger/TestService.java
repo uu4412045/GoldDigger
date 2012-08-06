@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static com.golddigger.core.Service.*;
 
-public class TestPlugin {
+public class TestService {
 
 	@Test
 	public void testURLParsing() {

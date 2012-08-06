@@ -121,8 +121,8 @@ public class Game {
 		 */
 		public void add(Player player){
 			Point2D start = getBasePosition();
-			if (start == null) start = new Point2D(1,1);
-			add(player, start.x, start.y);
+			if (start == null) add(player, 1,1);
+			else add(player, start.x, start.y);
 		}
 		
 		/**
@@ -169,7 +169,7 @@ public class Game {
 		 * @return <b>null</b> if there is no unit or player in this game.
 		 */
 		public Unit getUnit(Player player){
-			if (player == null || players.contains(player)) return null;
+			if (player == null || !players.contains(player)) return null;
 			for (Unit unit : units){
 				if (unit.isOwnedBy(player)) return unit;
 			}
