@@ -1,6 +1,7 @@
 package com.golddigger.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.golddigger.core.AppContext;
@@ -78,6 +79,7 @@ public class Game {
 		 */
 		public void add(Service service){
 			this.services.add(service);
+			Collections.sort(services);
 		}
 		
 		/**

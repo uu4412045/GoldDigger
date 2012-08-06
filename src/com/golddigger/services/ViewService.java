@@ -33,6 +33,10 @@ public class ViewService extends Service {
 		this.lineOfSight = lineOfSight;
 	}
 	
+	public int getLineOfSight(){
+		return this.lineOfSight;
+	}
+	
 	@Override
 	public boolean runnable(String url) {
 		return parseURL(url, URL_ACTION).equalsIgnoreCase(ACTION_TEXT);

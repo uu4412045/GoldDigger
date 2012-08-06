@@ -12,8 +12,9 @@ import java.io.PrintWriter;
  *  
  * @author Brett Wandel
  */
-public abstract class Service {
+public abstract class Service implements Comparable<Service>{
 	public static final int BASE_PRIORITY = -1;
+	
 	/**
 	 * The offset for specific components of a URL
 	 */
@@ -72,5 +73,10 @@ public abstract class Service {
 		String[] x = url.split("/"); 
 		if (x.length < component+1) return null;
 		else return x[component];
+	}
+	
+	@Override
+	public int compareTo(Service s){
+		return s.getPriority() - priority;
 	}
 }

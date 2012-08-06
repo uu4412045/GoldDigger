@@ -53,11 +53,13 @@ public class GoldServiceTest {
 	@Test
 	public void testCollectingGold() {
 		client.move(Direction.NORTH);
+		// Test grabbing gold
 		assertEquals("Should pickup all the gold","2",client.grab().trim());
 		assertEquals("Should now be carrying 2 gold","2", client.carrying().trim());
 		assertEquals("Should not be any gold on the ground","www\n...\n.b.", client.view().trim());
 		client.move(Direction.SOUTH);
 		client.move(Direction.SOUTH);
+		// Test grab limit
 		assertEquals("Should only pick up 1 gold", "1", client.grab().trim());
 		assertEquals("Should not be able to carry any more gold", "FAILED", client.grab().trim());
 		assertEquals("Should now be carrying 3 gold","3", client.carrying().trim());
