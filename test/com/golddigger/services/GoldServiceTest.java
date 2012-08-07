@@ -6,10 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.golddigger.TestServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.core.AppContext;
 import com.golddigger.model.Player;
+import com.golddigger.server.TestServer;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 

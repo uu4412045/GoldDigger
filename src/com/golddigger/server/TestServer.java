@@ -1,4 +1,4 @@
-package com.golddigger;
+package com.golddigger.server;
 
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.Context;
@@ -6,26 +6,25 @@ import org.mortbay.jetty.servlet.DefaultServlet;
 import org.mortbay.jetty.servlet.ServletHolder;
 
 import com.golddigger.core.AppContext;
-import com.golddigger.core.GameTemplate;
 import com.golddigger.core.GoldDiggerServlet;
 import com.golddigger.model.Player;
-import com.golddigger.utils.CompetitionTemplateGenerator;
-import com.golddigger.utils.TemplateGenerator;
+import com.golddigger.templates.BlankGameTemplate;
 
-public class CompetitionServer {
+public class TestServer {
 	private final static int PORT = 8066;
 	private final static String CONTEXT = "golddigger";
 	private Server server;
-	private String contextID;
+	private String contextID; 
 	private AppContext context;
 	
-	public CompetitionServer(int port){
+	public TestServer(){
 		try {
-            server = new Server(port);
-            contextID = "localhost:"+port;
-            context = new AppContext(contextID);
+			contextID = "localhost:"+PORT;
+			context = new AppContext(contextID);
+            server = new Server(PORT);
             Context root = new Context(server, "/", Context.SESSIONS);
-            root.addServlet(new ServletHolder(new GoldDiggerServlet(CONTEXT)), "/" + CONTEXT + "/*");
+            root.addServlet(new ServletHolder(new GoldDiggerServlet(contextID)), "/" + CONTEXT + "/*");
+//            root.setResourceBase(new File("./target/site").getAbsolutePath());
             root.addServlet(DefaultServlet.class.getName(), "/");
             server.start();
         } catch (Exception e) {
@@ -33,14 +32,20 @@ public class CompetitionServer {
         }
 	}
 	
-	public static void main(String[] args){
-		CompetitionServer server = new CompetitionServer(PORT);
-		TemplateGenerator gen = new CompetitionTemplateGenerator();
-		
-		GameTemplate template;
-		while ((template = gen.next()) != null){
-			server.getContext().add(template);
+	public void stop(){
+		try {
+			server.stop();
+			getContext().clear();
+		} catch (Exception e){
+			throw new RuntimeException(e);
 		}
+	}
+	
+	public static void main(String[] args){
+		TestServer server = new TestServer();
+
+		server.getContext().add(new BlankGameTemplate());
+		server.getContext().add(new BlankGameTemplate());
 		
 		Player[] players = loadPlayers();
 		for (Player player : players){
@@ -53,6 +58,10 @@ public class CompetitionServer {
 	}
 	
 	public AppContext getContext(){
-		return context;
+		return AppContext.getContext(contextID);
+	}
+	
+	public String getContextID(){
+		return contextID;
 	}
 }

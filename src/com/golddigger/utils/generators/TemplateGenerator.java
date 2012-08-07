@@ -1,4 +1,4 @@
-package com.golddigger.utils;
+package com.golddigger.utils.generators;
 
 import com.golddigger.core.GameTemplate;
 

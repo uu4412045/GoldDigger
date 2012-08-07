@@ -1,4 +1,4 @@
-package com.golddigger.utils;
+package com.golddigger.utils.generators;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +7,7 @@ import java.io.FilenameFilter;
 import java.util.List;
 
 import com.golddigger.core.GameTemplate;
+import com.golddigger.utils.JSONTemplateParser;
 
 public class CompetitionTemplateGenerator implements TemplateGenerator {
 	public static final String DEFAULT_FIELD_DIR = "../fields/";

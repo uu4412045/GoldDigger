@@ -100,7 +100,6 @@ public class AppContext {
 		for(Game game : games){
 			if (game.hasUnownedBase()) {
 				game.add(player);
-				System.out.println("addPlayer: added to a multiplayer game");
 				return;
 			}
 		}
@@ -108,7 +107,6 @@ public class AppContext {
 		Game first = templates.get(0).build(contextID);
 		add(first);
 		first.add(player);
-		System.out.println("addPlayer: added to a singleplayer game");
 	}
 	
 	/**
