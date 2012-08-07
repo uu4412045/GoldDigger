@@ -5,10 +5,10 @@ import java.util.Arrays;
 
 import com.golddigger.core.GameTemplate;
 import com.golddigger.core.Service;
-import com.golddigger.core.ServiceGenerator;
 import com.golddigger.model.Game;
 import com.golddigger.utils.MapMaker;
 import com.golddigger.utils.generators.BaseServiceGenerator;
+import com.golddigger.utils.generators.ServiceGenerator;
 
 public class TestGameTemplate extends GameTemplate {
 	private String map;
@@ -25,7 +25,7 @@ public class TestGameTemplate extends GameTemplate {
 	public Game build(String contextID) {
 		Game game = new Game(getID(), contextID);
 		game.setMap(MapMaker.parse(map));
-		for (Service service : new ArrayList<Service>(Arrays.asList(gen.generate(contextID)))){
+		for (Service service : new ArrayList<Service>(Arrays.asList(gen.generate()))){
 			game.add(service);
 		}
 		return game;

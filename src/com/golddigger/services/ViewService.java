@@ -20,12 +20,12 @@ public class ViewService extends Service {
 	public static final int DEFAULT_LINE_OF_SIGHT = 1;
 	private int lineOfSight = 1;
 
-	public ViewService(String contextID){
-		this(contextID, DEFAULT_LINE_OF_SIGHT);
+	public ViewService(){
+		this(DEFAULT_LINE_OF_SIGHT);
 	}
 	
-	public ViewService(String contextID, int lineOfSight) {
-		super(BASE_PRIORITY, contextID);
+	public ViewService(int lineOfSight) {
+		super(BASE_PRIORITY);
 		this.lineOfSight = lineOfSight;
 	}
 	
@@ -44,13 +44,14 @@ public class ViewService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		Player player = AppContext.getContext(contextID).getPlayer(parseURL(url, URL_PLAYER));
+		AppContext context = getContextFromURL(url);
+		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
 			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		Game game = AppContext.getContext(contextID).getGame(player);
+		Game game = context.getGame(player);
 		if (game == null){
 			out.println("ERROR: Player is currently not in a game");
 			return true;

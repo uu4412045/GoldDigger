@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
+import com.golddigger.model.Player;
 
 /**
  * This service will imitate the a day/night effect by reducing the line of sight at night time. <br \>
@@ -21,8 +22,8 @@ public class DayNightService extends Service {
 	 * @param cycleTime The number of turns between each day/night switch
 	 * @param scale The amount to scale line of sight by, in percentage.
 	 */
-	public DayNightService(String contextID, int cycleTime, int scale) {
-		super(BASE_PRIORITY+10, contextID);
+	public DayNightService(int cycleTime, int scale) {
+		super(BASE_PRIORITY+10);
 		this.cycleTime = cycleTime;
 		this.scale = scale;
 	}
@@ -34,7 +35,9 @@ public class DayNightService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		Service[] services = AppContext.getContext(contextID).getGame(AppContext.getContext(contextID).getPlayer(parseURL(url, URL_PLAYER))).getServices();
+		AppContext context = Service.getContextFromURL(url);
+		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
+		Service[] services = context.getGame(player).getServices();
 		ViewService vService = null;
 		for (Service service : services){
 			if (service instanceof ViewService) vService = (ViewService) service;

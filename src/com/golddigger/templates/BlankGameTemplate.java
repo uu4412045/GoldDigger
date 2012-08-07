@@ -20,19 +20,17 @@ public class BlankGameTemplate extends GameTemplate {
 		Game game = new Game(getID(), contextID);
 		game.setMap(map);
 		
-		addPlugins(game, contextID);
+		addServices(game);
 		return game;
 	}
 	
-	// Adding Default Plugins
-	public void addPlugins(Game game, String contextID){
-//		game.add(new LogService(gameID+""));
-		game.add(new ViewService(contextID));
-		game.add(new NextService(contextID));
-		game.add(new MoveService(contextID));
-		game.add(new GrabService(contextID));
-		game.add(new DropService(contextID));
-		game.add(new ScoreService(contextID));
-		game.add(new CarryingService(contextID));
+	public void addServices(Game game){
+		game.add(new ViewService());
+		game.add(new NextService());
+		game.add(new MoveService());
+		game.add(new GrabService());
+		game.add(new DropService());
+		game.add(new ScoreService());
+		game.add(new CarryingService());
 	}
 }

@@ -26,19 +26,19 @@ import com.golddigger.model.Unit;
  */
 public class MoveService extends Service {
 	public static final String ACTION_TEXT = "move";
+	
 	/**
 	 * Holds all the custom movement costs for this service.
 	 */
 	private HashMap<String, Integer> customCosts;
 	
-	public MoveService(String contextID, Map<String, Integer> costs){
-		this(contextID);
-		customCosts.putAll(costs);
-	}
-	
-	public MoveService(String contextID) {
-		super(BASE_PRIORITY, contextID);
+	public MoveService() {
+		super(BASE_PRIORITY);
 		customCosts = new HashMap<String, Integer>();
+	}
+	public MoveService(Map<String, Integer> costs){
+		this();
+		customCosts.putAll(costs);
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class MoveService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
+		AppContext context = Service.getContextFromURL(url);
 		String direction = parseURL(url, URL_EXTRA1);
 		if (direction == null){
 			out.println("FAILED");
@@ -60,13 +61,13 @@ public class MoveService extends Service {
 			return true;
 		}
 
-		Player player = AppContext.getContext(contextID).getPlayer(parseURL(url, URL_PLAYER));
+		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
 			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		Game game = AppContext.getContext(contextID).getGame(player);
+		Game game = context.getGame(player);
 		if (game == null){
 			out.println("ERROR: Player is currently not in a game");
 			return true;

@@ -18,23 +18,23 @@ public abstract class Service implements Comparable<Service>{
 	/**
 	 * The offset for specific components of a URL
 	 */
-	public static final int URL_TARGET = 2,
+	public static final int URL_HOST = 0,
+							URL_CONTEXT= 1,
+							URL_TARGET = 2,
 							URL_PLAYER = 3,
 							URL_ACTION = 4,
 							URL_EXTRA1 = 5,
 							URL_EXTRA2 = 6,
 							URL_EXTRA3 = 7;
 	
-	public final String contextID;
 	private int priority = BASE_PRIORITY;
 	/**
 	 * Used to allow a service to run before other services that would normally run
 	 * @return The priority level, higher runs before lower
 	 */
 	public int getPriority(){ return this.priority;}
-	public Service(int priority, String contextID){
+	public Service(int priority){
 		this.priority = priority;
-		this.contextID = contextID;
 	}
 	
 	/**
@@ -75,6 +75,14 @@ public abstract class Service implements Comparable<Service>{
 		String[] x = url.split("/"); 
 		if (x.length < component+1) return null;
 		else return x[component];
+	}
+	
+	public static String getContextIDFromURL(String url){
+		return parseURL(url, URL_HOST)+"/"+parseURL(url, URL_CONTEXT);
+	}
+	
+	public static AppContext getContextFromURL(String url){
+		return AppContext.getContext(getContextIDFromURL(url));
 	}
 	
 	@Override

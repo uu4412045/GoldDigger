@@ -12,8 +12,8 @@ import com.golddigger.model.Player;
  */
 public class ScoreService extends Service {
 	public static final String ACTION_TEXT = "score";
-	public ScoreService(String contextID) {
-		super(BASE_PRIORITY, contextID);
+	public ScoreService() {
+		super(BASE_PRIORITY);
 	}
 
 	@Override
@@ -23,7 +23,8 @@ public class ScoreService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		Player player = AppContext.getContext(contextID).getPlayer(parseURL(url, URL_PLAYER));
+		AppContext context = Service.getContextFromURL(url);
+		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
 			out.println("ERROR: Invalid Player Given");
 			return true;

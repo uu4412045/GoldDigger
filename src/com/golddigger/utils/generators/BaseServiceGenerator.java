@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.golddigger.core.Service;
-import com.golddigger.core.ServiceGenerator;
 import com.golddigger.services.CarryingService;
 import com.golddigger.services.DropService;
 import com.golddigger.services.GrabService;
@@ -18,20 +17,21 @@ import com.golddigger.services.ViewService;
 public class BaseServiceGenerator implements ServiceGenerator {
 	private int los = 1;
 	private Map<String, Integer> costs = new HashMap<String, Integer>();
+	
 	@Override
-	public Service[] generate(String contextId) {
+	public Service[] generate() {
 		List<Service> services = new ArrayList<Service>();
-		services.add(new ViewService(contextId,los));
+		services.add(new ViewService(los));
 		if (costs == null){
-			services.add(new MoveService(contextId));
+			services.add(new MoveService());
 		}else {
-			services.add(new MoveService(contextId, new HashMap<String, Integer>(costs)));
+			services.add(new MoveService( new HashMap<String, Integer>(costs)));
 		}
-		services.add(new NextService(contextId));
-		services.add(new GrabService(contextId));
-		services.add(new DropService(contextId));
-		services.add(new ScoreService(contextId));
-		services.add(new CarryingService(contextId));
+		services.add(new NextService());
+		services.add(new GrabService());
+		services.add(new DropService());
+		services.add(new ScoreService());
+		services.add(new CarryingService());
 		return services.toArray(new Service[]{});
 	}
 	

@@ -12,18 +12,18 @@ import com.golddigger.templates.BlankGameTemplate;
 
 public class TestServer {
 	private final static int PORT = 8066;
-	private final static String CONTEXT = "golddigger";
+	private final static String SERVLET_CONTEXT = "golddigger";
 	private Server server;
-	private String contextID; 
-	private AppContext context;
+	private String contextID;
 	
 	public TestServer(){
 		try {
-			contextID = "localhost:"+PORT;
-			context = new AppContext(contextID);
+			contextID = "localhost:"+PORT+"/"+SERVLET_CONTEXT;
+			System.out.println(contextID);
+			new AppContext(contextID);
             server = new Server(PORT);
             Context root = new Context(server, "/", Context.SESSIONS);
-            root.addServlet(new ServletHolder(new GoldDiggerServlet(contextID)), "/" + CONTEXT + "/*");
+            root.addServlet(new ServletHolder(new GoldDiggerServlet(contextID)), "/" + SERVLET_CONTEXT + "/*");
 //            root.setResourceBase(new File("./target/site").getAbsolutePath());
             root.addServlet(DefaultServlet.class.getName(), "/");
             server.start();

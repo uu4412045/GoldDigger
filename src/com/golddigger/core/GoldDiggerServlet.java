@@ -22,7 +22,8 @@ public class GoldDiggerServlet extends HttpServlet {
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String url = req.getRequestURI();
+		String url = req.getRequestURL().toString();
+		url = url.substring(url.indexOf("//")+2); // remove the "http://" from the url
 		String name = Service.parseURL(url, Service.URL_PLAYER);
 		Player player = AppContext.getContext(contextID).getPlayer(name);
 		if (player == null) {

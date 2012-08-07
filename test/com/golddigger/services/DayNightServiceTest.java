@@ -7,13 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.golddigger.client.TestingClient;
-import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
-import com.golddigger.core.ServiceGenerator;
 import com.golddigger.model.Player;
 import com.golddigger.server.TestServer;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
+import com.golddigger.utils.generators.ServiceGenerator;
 
 public class DayNightServiceTest {
 	TestServer server;
@@ -27,11 +26,11 @@ public class DayNightServiceTest {
 		server = new TestServer();
 		ServiceGenerator gen = new ServiceGenerator(){
 			@Override
-			public Service[] generate(String contextID) {
+			public Service[] generate() {
 				return new Service[]{
-						new ViewService(contextID, 4),
-						new MoveService(contextID),
-						new DayNightService(contextID, 3,50)};
+						new ViewService(4),
+						new MoveService(),
+						new DayNightService(3,50)};
 			}
 		};
 		server.getContext().add(new TestGameTemplate(MAP, gen));

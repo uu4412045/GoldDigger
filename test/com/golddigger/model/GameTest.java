@@ -97,7 +97,7 @@ public class GameTest {
 	}
 	
 	private Service newStub(int priority){
-		return new Service(priority, null){
+		return new Service(priority){
 
 			@Override
 			public boolean runnable(String url) {
