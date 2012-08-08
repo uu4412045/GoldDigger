@@ -4,13 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 
+import com.golddigger.server.GoldDiggerServer;
 import com.golddigger.utils.tools.ContinuousFileReader;
 
 public class FileDelayedServer extends DelayedServer {
 	File log;
 	BufferedReader reader;
-	public FileDelayedServer(String contextId, long delay, File log) {
-		super(contextId, delay);
+	public FileDelayedServer(GoldDiggerServer server, long delay, File log) {
+		super(server, delay);
 		try {
 			reader = new ContinuousFileReader(log);
 		} catch (IOException e) {
@@ -18,8 +19,8 @@ public class FileDelayedServer extends DelayedServer {
 		}
 	}
 	
-	public FileDelayedServer(String contextID, long delay, String path){
-		this(contextID, delay, new File(path));
+	public FileDelayedServer(GoldDiggerServer server, long delay, String path){
+		this(server, delay, new File(path));
 	}
 	
 	@Override

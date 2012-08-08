@@ -1,13 +1,15 @@
 package com.golddigger.server.delayed;
 
+import com.golddigger.server.GoldDiggerServer;
+
 /**
  * A simple {@link DelayedServer} that allows your to pass commands directy to it.
  * @author Brett
  *
  */
 public class DirectInputDelayedServer extends DelayedServer {
-	public DirectInputDelayedServer(String contextId, long delay) {
-		super(contextId, delay);
+	public DirectInputDelayedServer(GoldDiggerServer server, long delay) {
+		super(server, delay);
 	}
 
 	private volatile String log = "";

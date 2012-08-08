@@ -6,11 +6,10 @@ import org.mortbay.jetty.servlet.DefaultServlet;
 import org.mortbay.jetty.servlet.ServletHolder;
 
 import com.golddigger.core.AppContext;
-import com.golddigger.core.GoldDiggerServlet;
 import com.golddigger.model.Player;
 import com.golddigger.templates.BlankGameTemplate;
 
-public class TestServer {
+public class TestServer  extends GoldDiggerServer {
 	private final static int PORT = 8066;
 	private final static String SERVLET_CONTEXT = "golddigger";
 	private Server server;
@@ -19,11 +18,10 @@ public class TestServer {
 	public TestServer(){
 		try {
 			contextID = "localhost:"+PORT+"/"+SERVLET_CONTEXT;
-			System.out.println(contextID);
 			new AppContext(contextID);
             server = new Server(PORT);
             Context root = new Context(server, "/", Context.SESSIONS);
-            root.addServlet(new ServletHolder(new GoldDiggerServlet(contextID)), "/" + SERVLET_CONTEXT + "/*");
+            root.addServlet(new ServletHolder(new GoldDiggerServlet(this)), "/" + SERVLET_CONTEXT + "/*");
 //            root.setResourceBase(new File("./target/site").getAbsolutePath());
             root.addServlet(DefaultServlet.class.getName(), "/");
             server.start();

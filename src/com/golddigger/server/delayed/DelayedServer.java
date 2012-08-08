@@ -2,23 +2,17 @@ package com.golddigger.server.delayed;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.AppContext;
-import com.golddigger.core.GoldDiggerServlet;
-import com.golddigger.core.Service;
-import com.golddigger.model.Game;
-import com.golddigger.model.Player;
+import com.golddigger.server.GoldDiggerServer;
 import com.golddigger.utils.NullWriter;
 
 public abstract class DelayedServer extends Thread  {
-	private String contextID;
-	private GoldDiggerServlet servlet;
+	private GoldDiggerServer server;
 	private long delay;
-	private AppContext context;
+	private PrintWriter	devNull = new PrintWriter(NullWriter.INSTANCE);
 
-	public DelayedServer(String contextId, long delay) {
-		context = new AppContext(contextID);
-		this.servlet = new GoldDiggerServlet(contextID);
+	public DelayedServer(GoldDiggerServer server, long delay) {
 		this.delay = delay;
+		this.server = server;
 	}
 
 	protected abstract String next();
@@ -35,7 +29,7 @@ public abstract class DelayedServer extends Thread  {
 					while (time+delay > (current = System.currentTimeMillis())){
 						Thread.sleep((time + delay) - current+100);
 					}
-					process(parts[1]);
+					server.process(parts[1], devNull);
 				} else {
 					sleep(1000);
 				}
@@ -43,17 +37,6 @@ public abstract class DelayedServer extends Thread  {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void process(String url){
-		String name = Service.parseURL(url, Service.URL_PLAYER);
-		Player player = AppContext.getContext(contextID).getPlayer(name);
-		Game game = AppContext.getContext(contextID).getGame(player);
-		servlet.process(url, new PrintWriter(NullWriter.INSTANCE), player, game);
-	}
-
-	public AppContext getContext(){
-		return this.context;
 	}
 	
 	/**
