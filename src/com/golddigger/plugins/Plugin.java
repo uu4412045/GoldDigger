@@ -1,4 +1,4 @@
-package com.golddigger.core;
+package com.golddigger.plugins;
 /**
  * Unused as of yet.
  * @author Brett Wandel

@@ -1,8 +1,8 @@
-package com.golddigger.server.delayed;
+package com.golddigger.core;
 
 import java.io.PrintWriter;
 
-import com.golddigger.server.GoldDiggerServer;
+import com.golddigger.core.GoldDiggerServer;
 import com.golddigger.utils.NullWriter;
 
 public abstract class DelayedServer extends Thread  {

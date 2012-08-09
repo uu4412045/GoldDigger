@@ -1,6 +1,7 @@
-package com.golddigger.server.delayed;
+package com.golddigger.core.impl;
 
-import com.golddigger.server.GoldDiggerServer;
+import com.golddigger.core.DelayedServer;
+import com.golddigger.core.GoldDiggerServer;
 
 /**
  * A simple {@link DelayedServer} that allows your to pass commands directy to it.

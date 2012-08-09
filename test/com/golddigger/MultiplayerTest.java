@@ -7,9 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.golddigger.client.TestingClient;
-import com.golddigger.core.AppContext;
 import com.golddigger.model.Player;
-import com.golddigger.server.TestServer;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 
@@ -17,14 +15,14 @@ public class MultiplayerTest {
 	private static final String MAP_1 = "www\nwbw\nwww";
 	private static final String MAP_2 = "wwwww\nwb1bw\nwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
-	private TestServer server;
+	private GenericServer server;
 	private TestingClient player1;
 	private TestingClient player2;
 	
 
 	@Before()
 	public void setup(){
-		server = new TestServer();
+		server = new GenericServer();
 		server.getContext().add(new TestGameTemplate(MAP_1));
 		server.getContext().add(new TestGameTemplate(MAP_2));
 		server.getContext().add(new TestGameTemplate(MAP_1));

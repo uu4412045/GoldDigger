@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.golddigger.core.AppContext;
-import com.golddigger.core.Plugin;
 import com.golddigger.core.Service;
+import com.golddigger.plugins.Plugin;
 import com.golddigger.model.tiles.BaseTile;
 
 /**

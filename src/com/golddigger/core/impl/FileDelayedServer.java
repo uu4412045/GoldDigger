@@ -1,10 +1,11 @@
-package com.golddigger.server.delayed;
+package com.golddigger.core.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 
-import com.golddigger.server.GoldDiggerServer;
+import com.golddigger.core.DelayedServer;
+import com.golddigger.core.GoldDiggerServer;
 import com.golddigger.utils.tools.ContinuousFileReader;
 
 public class FileDelayedServer extends DelayedServer {

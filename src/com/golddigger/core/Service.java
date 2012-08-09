@@ -2,6 +2,8 @@ package com.golddigger.core;
 
 import java.io.PrintWriter;
 
+import com.golddigger.core.AppContext;
+
 /**
  * The Base Specification of all services
  * 

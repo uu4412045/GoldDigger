@@ -6,16 +6,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.golddigger.GenericServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.core.Service;
 import com.golddigger.model.Player;
-import com.golddigger.server.TestServer;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.generators.ServiceGenerator;
 
 public class DayNightServiceTest {
-	TestServer server;
+	GenericServer server;
 	TestingClient client;
 	ViewService vService;
 	private static final String MAP = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
@@ -23,7 +23,7 @@ public class DayNightServiceTest {
 
 	@Before()
 	public void setup(){
-		server = new TestServer();
+		server = new GenericServer();
 		ServiceGenerator gen = new ServiceGenerator(){
 			@Override
 			public Service[] generate() {

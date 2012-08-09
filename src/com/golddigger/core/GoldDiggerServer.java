@@ -1,4 +1,4 @@
-package com.golddigger.server;
+package com.golddigger.core;
 
 import java.io.PrintWriter;
 
