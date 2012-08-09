@@ -2,9 +2,7 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
-import com.golddigger.model.Game;
+import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
@@ -15,7 +13,7 @@ import com.golddigger.model.tiles.*;
  * @see Player
  * @see Unit
  */
-public class ViewService extends Service {
+public class ViewService extends GameService {
 	public static final String ACTION_TEXT = "view";
 	public static final int DEFAULT_LINE_OF_SIGHT = 1;
 	private int lineOfSight = 1;
@@ -44,19 +42,7 @@ public class ViewService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		AppContext context = getContextFromURL(url);
-		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
-		if (player == null){
-			out.println("ERROR: Invalid Player Given");
-			return true;
-		}
-
-		Game game = context.getGame(player);
-		if (game == null){
-			out.println("ERROR: Player is currently not in a game");
-			return true;
-		}
-
+		Player player = game.getPlayer(parseURL(url,URL_PLAYER));
 		Unit unit = game.getUnit(player);
 		if (unit == null){
 			out.println("ERROR: no unit found for this player");

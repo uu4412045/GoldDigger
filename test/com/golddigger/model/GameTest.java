@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.golddigger.core.AppContext;
+import com.golddigger.core.GameService;
 import com.golddigger.core.Service;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.utils.MapMaker;
@@ -84,9 +85,9 @@ public class GameTest {
 	public void testServiceOrder(){
 		new AppContext(contextID);
 		Game game = new Game(0, contextID);
-		Service s1 = newStub(Service.BASE_PRIORITY);
-		Service s2 = newStub(10);
-		Service s3 = newStub(5);
+		GameService s1 = newStub(Service.BASE_PRIORITY);
+		GameService s2 = newStub(10);
+		GameService s3 = newStub(5);
 		game.add(s1);
 		game.add(s2);
 		game.add(s3);
@@ -96,8 +97,8 @@ public class GameTest {
 		assertEquals(s1, game.getServices()[2]);
 	}
 	
-	private Service newStub(int priority){
-		return new Service(priority){
+	private GameService newStub(int priority){
+		return new GameService(priority){
 
 			@Override
 			public boolean runnable(String url) {

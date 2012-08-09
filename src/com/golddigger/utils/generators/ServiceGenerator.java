@@ -1,7 +1,7 @@
 package com.golddigger.utils.generators;
 
-import com.golddigger.core.Service;
+import com.golddigger.core.GameService;
 
 public interface ServiceGenerator {
-	public Service[] generate();
+	public GameService[] generate();
 }

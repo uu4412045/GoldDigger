@@ -2,16 +2,15 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.AppContext;
+import com.golddigger.core.GameService;
 import com.golddigger.core.Service;
-import com.golddigger.model.Player;
 
 /**
  * This service will imitate the a day/night effect by reducing the line of sight at night time. <br \>
  * It will scale the line of sight every "x" number of valid move commands issued.
  * @author Brett Wandel
  */
-public class DayNightService extends Service {
+public class DayNightService extends GameService {
 	private static final String ACTION_TEXT = "move";
 	private static final int DEFAULT_NUMBER_OF_TURNS = 10;
 	private int cycleTime = DEFAULT_NUMBER_OF_TURNS;
@@ -35,9 +34,7 @@ public class DayNightService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		AppContext context = Service.getContextFromURL(url);
-		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
-		Service[] services = context.getGame(player).getServices();
+		GameService[] services = game.getServices();
 		ViewService vService = null;
 		for (Service service : services){
 			if (service instanceof ViewService) vService = (ViewService) service;

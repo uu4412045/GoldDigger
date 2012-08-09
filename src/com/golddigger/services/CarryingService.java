@@ -2,9 +2,7 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
-import com.golddigger.model.Game;
+import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.Unit;
 
@@ -14,7 +12,7 @@ import com.golddigger.model.Unit;
  * @see Unit
  * @see Player
  */
-public class CarryingService extends Service {
+public class CarryingService extends GameService {
 	public static final String ACTION_TEXT = "carrying";
 
 	public CarryingService() {
@@ -28,18 +26,7 @@ public class CarryingService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		AppContext context = getContextFromURL(url);
-		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
-		if (player == null){
-			out.println("ERROR: Invalid Player Given");
-			return true;
-		}
-
-		Game game = context.getGame(player);
-		if (game == null){
-			out.println("ERROR: Player is currently not in a game");
-			return true;
-		}
+		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
 		
 		Unit unit = game.getUnit(player);
 		if (unit == null){

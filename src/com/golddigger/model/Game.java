@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
+import com.golddigger.core.GameService;
 import com.golddigger.plugins.Plugin;
 import com.golddigger.model.tiles.BaseTile;
 
@@ -26,7 +26,7 @@ public class Game {
 	 * All the services that this game uses.
 	 * @see Service
 	 */
-		private List<Service> services;
+		private List<GameService> services;
 		
 		/**
 		 * All the plugins that this game uses.
@@ -60,7 +60,7 @@ public class Game {
 		public Game(int templateID, String contextID){
 			this.contextID = contextID;
 			this.templateID = templateID;
-			services = new ArrayList<Service>();
+			services = new ArrayList<GameService>();
 			players = new ArrayList<Player>();
 			plugins = new ArrayList<Plugin>();
 			units = new ArrayList<Unit>();
@@ -79,7 +79,8 @@ public class Game {
 		 * @param service The service to be added
 		 * @see Service
 		 */
-		public void add(Service service){
+		public void add(GameService service){
+			service.setGame(this);
 			this.services.add(service);
 			Collections.sort(services);
 		}
@@ -88,8 +89,8 @@ public class Game {
 		 * @return the services used by this game.
 		 * @see Service
 		 */
-		public Service[] getServices(){
-			return this.services.toArray(new Service[]{});
+		public GameService[] getServices(){
+			return this.services.toArray(new GameService[]{});
 		}
 		
 		/**
@@ -211,5 +212,14 @@ public class Game {
 				}
 			}
 			return false;
+		}
+		
+		public Player getPlayer(String name){
+			for (Player player : players){
+				if (player.getName().equalsIgnoreCase(name)){
+					return player;
+				}
+			}
+			return null;
 		}
 	}

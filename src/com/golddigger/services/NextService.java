@@ -3,8 +3,8 @@ package com.golddigger.services;
 import java.io.PrintWriter;
 
 import com.golddigger.core.AppContext;
+import com.golddigger.core.GameService;
 import com.golddigger.core.Service;
-import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 import com.golddigger.model.Unit;
 /**
@@ -18,7 +18,7 @@ import com.golddigger.model.Unit;
  * @see Player
  * @see Unit
  */
-public class NextService extends Service {
+public class NextService extends GameService {
 	public static final String ACTION_TEXT = "next";
 	public NextService() {
 		super(BASE_PRIORITY);
@@ -32,15 +32,9 @@ public class NextService extends Service {
 	@Override
 	public boolean execute(String url, PrintWriter out) {
 		AppContext context = Service.getContextFromURL(url);
-		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
+		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
 			out.println("ERROR: Invalid Player Given");
-			return true;
-		}
-
-		Game game = context.getGame(player);
-		if (game == null){
-			out.println("ERROR: Player is currently not in a game");
 			return true;
 		}
 

@@ -1,10 +1,8 @@
 package com.golddigger.templates;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
+import com.golddigger.core.GameService;
 import com.golddigger.core.GameTemplate;
-import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.utils.MapMaker;
 import com.golddigger.utils.generators.BaseServiceGenerator;
@@ -25,7 +23,7 @@ public class TestGameTemplate extends GameTemplate {
 	public Game build(String contextID) {
 		Game game = new Game(getID(), contextID);
 		game.setMap(MapMaker.parse(map));
-		for (Service service : new ArrayList<Service>(Arrays.asList(gen.generate()))){
+		for (GameService service : gen.generate()){
 			game.add(service);
 		}
 		return game;

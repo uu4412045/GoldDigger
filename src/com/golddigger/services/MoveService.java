@@ -4,9 +4,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
-import com.golddigger.model.Game;
+import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.Point2D;
 import com.golddigger.model.Tile;
@@ -24,7 +22,7 @@ import com.golddigger.model.Unit;
  * @see Player
  * @see Unit
  */
-public class MoveService extends Service {
+public class MoveService extends GameService {
 	public static final String ACTION_TEXT = "move";
 	
 	/**
@@ -48,7 +46,6 @@ public class MoveService extends Service {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		AppContext context = Service.getContextFromURL(url);
 		String direction = parseURL(url, URL_EXTRA1);
 		if (direction == null){
 			out.println("FAILED");
@@ -61,17 +58,7 @@ public class MoveService extends Service {
 			return true;
 		}
 
-		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
-		if (player == null){
-			out.println("ERROR: Invalid Player Given");
-			return true;
-		}
-
-		Game game = context.getGame(player);
-		if (game == null){
-			out.println("ERROR: Player is currently not in a game");
-			return true;
-		}
+		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
 
 		Unit unit = game.getUnit(player);
 		if (unit == null){

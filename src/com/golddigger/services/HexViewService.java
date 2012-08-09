@@ -2,14 +2,12 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.AppContext;
-import com.golddigger.core.Service;
-import com.golddigger.model.Game;
+import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 
-public class HexViewService extends Service{
+public class HexViewService extends GameService {
 	public static final String ACTION_TEXT = "view";
 	public static final int DEFAULT_LINE_OF_SIGHT = 1;
 	private static final int UP=0,UP_RIGHT=1, DOWN_RIGHT=2, DOWN=3, DOWN_LEFT=4, UP_LEFT = 5;
@@ -31,19 +29,8 @@ public class HexViewService extends Service{
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		AppContext context = getContextFromURL(url);
-		Player player = context.getPlayer(parseURL(url, URL_PLAYER));
-		if (player == null){
-			out.println("ERROR: Invalid Player Given");
-			return true;
-		}
-
-		Game game = context.getGame(player);
-		if (game == null){
-			out.println("ERROR: Player is currently not in a game");
-			return true;
-		}
-
+		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
+		
 		Unit unit = game.getUnit(player);
 		if (unit == null){
 			out.println("ERROR: no unit found for this player");
