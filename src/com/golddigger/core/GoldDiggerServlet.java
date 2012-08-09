@@ -1,4 +1,4 @@
-package com.golddigger.core.impl;
+package com.golddigger.core;
 
 import java.io.IOException;
 
@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.golddigger.core.DelayedServer;
-import com.golddigger.core.GoldDiggerServer;
 
 public class GoldDiggerServlet extends HttpServlet{
 	private static final long serialVersionUID = 1219399141770957347L;

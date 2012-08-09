@@ -2,6 +2,8 @@ package com.golddigger.services;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +11,7 @@ import org.junit.Test;
 import com.golddigger.GenericServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.core.GameService;
+import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
@@ -45,9 +48,13 @@ public class DayNightServiceTest {
 	
 	@Test
 	public void testLineOfSightChanges() {
-		for (GameService service : server.getContext().getGame(server.getContext().getPlayer("test")).getServices()){
-			if (service instanceof ViewService) vService = (ViewService) service;
-		}
+		Player player = server.getContext().getPlayer("test");
+		Game game = server.getContext().getGame(player);
+		List<ViewService> services = game.getServices(ViewService.class);
+		assertEquals(1, services.size());
+		vService = services.get(0);
+		assertNotNull(vService);
+		
 		assertEquals(4, vService.getLineOfSight());
 		client.move(Direction.NORTH);
 		client.move(Direction.NORTH);
@@ -58,5 +65,4 @@ public class DayNightServiceTest {
 		client.move(Direction.NORTH);
 		assertEquals(4, vService.getLineOfSight());
 	}
-
 }

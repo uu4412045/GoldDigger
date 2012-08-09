@@ -7,6 +7,7 @@ import java.util.List;
 import com.golddigger.core.AppContext;
 import com.golddigger.core.GameService;
 import com.golddigger.plugins.Plugin;
+import com.golddigger.utils.Container;
 import com.golddigger.model.tiles.BaseTile;
 
 /**
@@ -26,13 +27,13 @@ public class Game {
 	 * All the services that this game uses.
 	 * @see Service
 	 */
-		private List<GameService> services;
+		private Container<GameService> services;
 		
 		/**
 		 * All the plugins that this game uses.
 		 * @See Plugin
 		 */
-		private List<Plugin> plugins;
+		private Container<Plugin> plugins;
 		
 		/**
 		 * All the players in this game
@@ -60,9 +61,9 @@ public class Game {
 		public Game(int templateID, String contextID){
 			this.contextID = contextID;
 			this.templateID = templateID;
-			services = new ArrayList<GameService>();
+			services = new Container<GameService>();
 			players = new ArrayList<Player>();
-			plugins = new ArrayList<Plugin>();
+			plugins = new Container<Plugin>();
 			units = new ArrayList<Unit>();
 		}
 
@@ -108,6 +109,14 @@ public class Game {
 		 */
 		public Plugin[] getPlugins(){
 			return this.plugins.toArray(new Plugin[]{});
+		}
+		
+		public <T extends Plugin> List<T> getPlugins(Class<T> classOfPlugin){
+			return plugins.filter(classOfPlugin);
+		}
+		
+		public <T extends GameService> List<T> getServices(Class<T> classOfService){
+			return services.filter(classOfService);
 		}
 		
 		/**

@@ -1,6 +1,7 @@
 package com.golddigger.services;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import com.golddigger.core.GameService;
 import com.golddigger.core.Service;
@@ -34,16 +35,12 @@ public class DayNightService extends GameService {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		GameService[] services = game.getServices();
-		ViewService vService = null;
-		for (Service service : services){
-			if (service instanceof ViewService) vService = (ViewService) service;
-		}
-		
-		if (vService == null){
-			System.err.println("ERROR: No Movement Service Found, Yet DayNight Service is Active");
+		List<ViewService> vServices = game.getServices(ViewService.class);
+		if (vServices.size() < 1){
+			System.err.println("DayNightPlugin No View Service Found: "+url);
 			return false;
 		}
+		ViewService vService = vServices.get(0);
 		
 		boolean day = isDay();
 		current++;

@@ -7,7 +7,7 @@ import org.mortbay.jetty.servlet.ServletHolder;
 
 import com.golddigger.core.AppContext;
 import com.golddigger.core.GoldDiggerServer;
-import com.golddigger.core.impl.GoldDiggerServlet;
+import com.golddigger.core.GoldDiggerServlet;
 
 public class GenericServer  extends GoldDiggerServer {
 	private final static int PORT = 8066;
