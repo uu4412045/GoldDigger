@@ -10,7 +10,8 @@ import com.golddigger.model.Unit;
 public class HexViewService extends GameService {
 	public static final String ACTION_TEXT = "view";
 	public static final int DEFAULT_LINE_OF_SIGHT = 1;
-	private static final int UP=0,UP_RIGHT=1, DOWN_RIGHT=2, DOWN=3, DOWN_LEFT=4, UP_LEFT = 5;
+	private static int CHECK=1, CHECKED=2;
+	private static final int UP=0, UP_RIGHT=1, DOWN_RIGHT=2, DOWN=3, DOWN_LEFT=4, UP_LEFT = 5;
 	private int lineOfSight;
 
 	public HexViewService() {
@@ -38,8 +39,7 @@ public class HexViewService extends GameService {
 		}
 
 		Tile[][] area = game.getMap().getArea(unit.getX(), unit.getY(), lineOfSight);
-		Tile[][] hex = trim(area);
-		
+		int[][] hex = mask((area.length-1)/2);
 		return true;
 	}
 	
@@ -48,29 +48,39 @@ public class HexViewService extends GameService {
 	 * @param area
 	 * @return
 	 */
-	private Tile[][] trim(Tile[][] area){
-		Tile[][] hex = new Tile[][]{};
+	public static int[][] mask(int radius){
+		int size = (radius*2)+1;
+		int[][] mask = new int[size][size];
+		mask[radius][radius] = CHECK;
 		
-		return hex;
+		for (int i = 0; i < radius-3; i++){
+			for (int x = 0; x < size; x++){
+				for (int y = 0; y < size; y++) {
+					if (mask[x][y] == CHECK) mask = markNeighbours(mask,x,y);
+				}
+			}
+		}
+		return mask;
 	}
 	
-	public Tile[] getNeighbours(Tile[][] area, int x, int y){
-		Tile[] neighbours = new Tile[6];
-		neighbours[UP] = area[x+1][y];
-		neighbours[DOWN] = area[x][y+1];
+	
+	
+	private static int[][] markNeighbours(int[][] area, int x, int y){
+		area[x][y] = CHECKED;
+		area[x+1][y] = CHECK;
+		area[x][y+1] = CHECK;
 		if (x % 2 == 0){
-			neighbours[UP_RIGHT]   = area[x+1][y-1];
-			neighbours[DOWN_RIGHT] = area[x+1][y];
-			neighbours[UP_LEFT]    = area[x-1][y-1];
-			neighbours[DOWN_LEFT]  = area[x-1][y];
+			area[x+1][y-1] = CHECK;
+			area[x+1][y] = CHECK;
+			area[x-1][y-1] = CHECK;
+			area[x-1][y] = CHECK;
 		} else {
-			neighbours[UP_RIGHT]   = area[x+1][y];
-			neighbours[DOWN_RIGHT] = area[x+1][y+1];
-			neighbours[UP_LEFT]    = area[x-1][y];
-			neighbours[DOWN_LEFT]  = area[x-1][y+1];
-			
+			area[x+1][y] = CHECK;
+			area[x+1][y+1] = CHECK;
+			area[x-1][y] = CHECK;
+			area[x-1][y+1] = CHECK;
 		}
-		return neighbours;
+		return area;
 	}
 
 }

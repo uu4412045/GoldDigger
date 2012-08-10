@@ -19,6 +19,7 @@ public class TestGameTemplate extends GameTemplate {
 		this.map = map;
 		this.gen = gen;
 	}
+	
 	@Override
 	public Game build(String contextID) {
 		Game game = new Game(getID(), contextID);
@@ -29,4 +30,6 @@ public class TestGameTemplate extends GameTemplate {
 		return game;
 	}
 
+	
+	GameTemplate template = new TestGameTemplate("www\nwbw\nwww");
 }

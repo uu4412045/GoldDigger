@@ -13,10 +13,11 @@ import com.golddigger.core.Service;
  */
 public class DayNightService extends GameService {
 	private static final String ACTION_TEXT = "move";
-	private static final int DEFAULT_NUMBER_OF_TURNS = 10;
-	private int cycleTime = DEFAULT_NUMBER_OF_TURNS;
+	public static final int DEFAULT_CYCLE_TIME = 10;
+	public static final int DEFAULT_SCALE = 50;
+	private int cycleTime = DEFAULT_CYCLE_TIME;
 	private int current = 1;
-	private int scale=50;
+	private int scale= DEFAULT_SCALE;
 	
 	/**
 	 * @param cycleTime The number of turns between each day/night switch

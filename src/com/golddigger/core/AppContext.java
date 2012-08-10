@@ -96,6 +96,8 @@ public class AppContext {
 	public void add(Player player){
 		if (exists(player)) throw new RuntimeException("The Player ("+player.getName()+") is already playing");
 		players.add(player);
+		
+		//TODO: Make sure multiplayer game has templateid of 0.
 		//Check Multiplayer
 		for(Game game : games){
 			if (game.hasUnownedBase()) {

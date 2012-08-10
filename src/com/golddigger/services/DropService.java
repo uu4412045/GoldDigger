@@ -36,7 +36,7 @@ public class DropService extends GameService {
 	@Override
 	public boolean execute(String url, PrintWriter out) {
 		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
-		
+
 		Unit unit = game.getUnit(player);
 		if (unit == null){
 			out.println("ERROR: no unit found for this player");
@@ -57,9 +57,13 @@ public class DropService extends GameService {
 
 		synchronized (game){
 			if (tile instanceof BaseTile){
-				player.setScore(player.getScore() + unit.getGold());
-				out.println(unit.getGold());
-				unit.setGold(0);
+				if (((BaseTile) tile).getOwner() == player){
+					player.setScore(player.getScore() + unit.getGold());
+					out.println(unit.getGold());
+					unit.setGold(0);
+				} else {
+					out.println("FAILED");
+				}
 			} else if (tile instanceof GoldTile) {
 				GoldTile goldTile = (GoldTile) tile;
 				int qty = unit.getGold();

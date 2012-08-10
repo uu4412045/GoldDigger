@@ -3,7 +3,7 @@ package com.golddigger.core;
 
 /**
  * A simple {@link DelayedServer} that allows your to pass commands directy to it.
- * @author Brett
+ * @author Brett Wandel
  *
  */
 public class DirectInputDelayedServer extends DelayedServer {
@@ -25,6 +25,10 @@ public class DirectInputDelayedServer extends DelayedServer {
 		}
 	}
 	
+	/**
+	 * Add a log entry to the server
+	 * @param line the log entry to add
+	 */
 	public synchronized void add(String line){
 		log += line.trim()+"\n";
 	}

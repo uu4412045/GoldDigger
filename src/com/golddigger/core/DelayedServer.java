@@ -4,17 +4,29 @@ import java.io.PrintWriter;
 
 import com.golddigger.core.GoldDiggerServer;
 import com.golddigger.utils.NullWriter;
-
+/**
+ * The Base for a Delayed server. used to provide a time lag spectator view for the competitors
+ * @author Brett Wandel
+ */
 public abstract class DelayedServer extends Thread  {
 	private GoldDiggerServer server;
 	private long delay;
 	private PrintWriter	devNull = new PrintWriter(NullWriter.INSTANCE);
 
+	/**
+	 * Create a new DelayedService
+	 * @param server the server to be used
+	 * @param delay the time delay in milliseconds
+	 */
 	public DelayedServer(GoldDiggerServer server, long delay) {
 		this.delay = delay;
 		this.server = server;
 	}
 
+	/**
+	 * get the next command in the log
+	 * @return the next command
+	 */
 	protected abstract String next();
 
 	@Override

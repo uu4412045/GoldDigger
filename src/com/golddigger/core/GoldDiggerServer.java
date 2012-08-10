@@ -6,8 +6,17 @@ import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-
+/**
+ * The GoldDiggerServer is the gateway between the commands from the competitors and the Game objects themselves.
+ * @author Brett Wandel
+ */
 public abstract class GoldDiggerServer {
+	/**
+	 * Checks to make sure that the Player in the url exists, and that they are in a game.
+	 * After the checks, the url is passed to the games services.
+	 * @param url The "command" from the competitors
+	 * @param out The output to the competitor
+	 */
 	public void process(String url, PrintWriter out){
 		AppContext context = Service.getContextFromURL(url);
 		String name = Service.parseURL(url, Service.URL_PLAYER);

@@ -211,6 +211,7 @@ public class Game {
 
 		public int remove(Player player) {
 			this.players.remove(player);
+			this.units.remove(getUnit(player));
 			return players.size();
 		}
 

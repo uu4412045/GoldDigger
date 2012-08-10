@@ -131,5 +131,9 @@ public class MoveService extends GameService {
 			}
 		}
 	}
+
+	public int getCost(String key) {
+		return customCosts.get(key);
+	}
 	
 }

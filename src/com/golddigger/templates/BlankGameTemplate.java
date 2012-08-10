@@ -13,12 +13,11 @@ import com.golddigger.services.ScoreService;
 import com.golddigger.services.ViewService;
 
 public class BlankGameTemplate extends GameTemplate {
-	private Map map = new BlankMap(10, 10);
-	
+
 	@Override
 	public Game build(String contextID){
 		Game game = new Game(getID(), contextID);
-		game.setMap(map);
+		game.setMap(new BlankMap(10, 10));
 		
 		addServices(game);
 		return game;
