@@ -44,9 +44,6 @@ public class MultiplayerTest {
 		
 		assertNotSame(server.getGame(p1), server.getGame(p2));
 		
-
-		System.out.println("p1:"+server.getGame(p1));
-		System.out.println("p2:"+server.getGame(p2));
 		//Test Joining
 		assertEquals("OK", player1.next().trim());
 		assertEquals("OK", player2.next().trim());

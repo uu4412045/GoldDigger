@@ -31,7 +31,6 @@ public class BlankMapTest {
 	@Test
 	public void testBases(){
 		Map map = new BlankMap(6,4,6);
-		System.out.println(MapPrinter.print(map));
 		assertTrue(map.get(1,1) instanceof BaseTile);
 		assertTrue(map.get(1,2) instanceof BaseTile);
 		assertTrue(map.get(2,1) instanceof BaseTile);
