@@ -1,8 +1,7 @@
-package com.golddigger.core;
+package com.golddigger.core.server;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.AppContext;
 import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
@@ -10,7 +9,7 @@ import com.golddigger.model.Player;
  * The GoldDiggerServer is the gateway between the commands from the competitors and the Game objects themselves.
  * @author Brett Wandel
  */
-public abstract class GoldDiggerServer {
+public abstract class GoldDiggerServer extends GameServer{
 	/**
 	 * Checks to make sure that the Player in the url exists, and that they are in a game.
 	 * After the checks, the url is passed to the games services.
@@ -18,21 +17,17 @@ public abstract class GoldDiggerServer {
 	 * @param out The output to the competitor
 	 */
 	public void process(String url, PrintWriter out){
-		AppContext context = Service.getContextFromURL(url);
 		String name = Service.parseURL(url, Service.URL_PLAYER);
-		Player player;
+		Player player ;
 		Game game;
 		
-		if (context == null) {
-			System.err.println("[GoldDiggerServer.java] Could not get a context from the URL: "+url);
-			return;
-		} else if (name == null) {
+		if (name == null) {
 			System.err.println("[GoldDiggerServer.java] Could not get a player from the url: "+url);
 			return;
-		} else if ((player = context.getPlayer(name)) == null){
+		} else if ((player = this.getPlayer(name)) == null){
 			System.err.println("[GoldDiggerServer.java] No player by that name: "+url);
 			return;
-		} else if ((game = context.getGame(player)) == null){
+		} else if ((game = this.getGame(player)) == null){
 			System.err.println("[GoldDiggerServer.java] No game for player: "+name);
 			return;
 		}

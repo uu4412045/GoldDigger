@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.golddigger.core.server.DelayedServer;
+import com.golddigger.core.server.GoldDiggerServer;
+
 /**
  * The Servlet for the main interface for the Competitors. Simply passes the url to the {@link GoldDiggerServlet}
  * @author Brett Wandel

@@ -1,9 +1,10 @@
-package com.golddigger.core;
+package com.golddigger.core.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.golddigger.core.GameTemplate;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 
@@ -17,12 +18,8 @@ import com.golddigger.model.Player;
  * I want to re-factor all of this so that each instance of a server has its own "context",
  * but I haven't found the time just yet.
  */
-public class AppContext {
+public abstract class GameServer {
 	
-	/**
-	 * Stores the context for each server.
-	 */
-	private static HashMap<String, AppContext> contexts = new HashMap<String, AppContext>();
 	
 	/**
 	 * All the "games" currently running in the server
@@ -42,16 +39,6 @@ public class AppContext {
 	 */
 	private List<Player> players = new ArrayList<Player>();
 
-	private String contextID;
-	public AppContext(String contextID){
-		this.contextID = contextID;
-		contexts.put(contextID, this);
-	}
-	
-	public static AppContext getContext(String id){
-		return contexts.get(id);
-	}
-	
 	/** Gets the Game that the player is currently in.
 	 * @param player The player
 	 * @return <b>null<b> if they are not currently in a game.
@@ -106,7 +93,7 @@ public class AppContext {
 			}
 		}
 		//create new game
-		Game first = templates.get(0).build(contextID);
+		Game first = templates.get(0).build();
 		add(first);
 		first.add(player);
 	}
@@ -144,7 +131,7 @@ public class AppContext {
 			}
 		}
 		// create a new game
-		Game next = templates.get(id+1).build(contextID);
+		Game next = templates.get(id+1).build();
 		add(next);
 		next.add(player);
 	}
@@ -166,10 +153,6 @@ public class AppContext {
 		games = new ArrayList<Game>();
 		templates = new ArrayList<GameTemplate>();
 		players = new ArrayList<Player>();
-	}
-
-	public static void remove(String contextID) {
-		contexts.remove(contextID);
 	}
 }
 		

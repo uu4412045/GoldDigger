@@ -26,8 +26,8 @@ public class CustomizableGameTemplate extends GameTemplate {
 	private String map;
 
 	@Override
-	public Game build(String contextID) {
-		Game game = new Game(getID(), contextID);
+	public Game build() {
+		Game game = new Game(getID());
 		game.setMap(MapMaker.parse(map));
 		game.add(new ViewService(lineOfSight));
 		if (costs != null) game.add(new MoveService(formatCosts(costs)));

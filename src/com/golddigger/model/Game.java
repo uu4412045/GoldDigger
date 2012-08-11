@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.golddigger.core.AppContext;
 import com.golddigger.core.GameService;
 import com.golddigger.plugins.Plugin;
 import com.golddigger.utils.Container;
@@ -22,7 +21,6 @@ import com.golddigger.model.tiles.BaseTile;
  * @see Service
  */
 public class Game {
-	private String contextID;
 	/**
 	 * All the services that this game uses.
 	 * @see Service
@@ -58,8 +56,7 @@ public class Game {
 		 */
 		private int templateID;
 		
-		public Game(int templateID, String contextID){
-			this.contextID = contextID;
+		public Game(int templateID){
 			this.templateID = templateID;
 			services = new Container<GameService>();
 			players = new ArrayList<Player>();
@@ -134,9 +131,10 @@ public class Game {
 		 * @see Player
 		 */
 		public boolean add(Player player){
-			if (AppContext.getContext(contextID).getGame(player) != null){
-				throw new RuntimeException("Trying to add a player that already exists in another game");
-			}
+			//TODO: Need to add this check in somehow
+//			if (AppContext.getContext(contextID).getGame(player) != null){
+//				throw new RuntimeException("Trying to add a player that already exists in another game");
+//			}
 			synchronized(this){
 				BaseTile base = getUnownedBase();
 				if (base == null) {

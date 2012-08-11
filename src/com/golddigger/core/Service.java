@@ -2,8 +2,6 @@ package com.golddigger.core;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.AppContext;
-
 /**
  * The Base Specification of all services
  * 
@@ -77,14 +75,6 @@ public abstract class Service implements Comparable<Service>{
 		String[] x = url.split("/"); 
 		if (x.length < component+1) return null;
 		else return x[component];
-	}
-	
-	public static String getContextIDFromURL(String url){
-		return parseURL(url, URL_HOST)+"/"+parseURL(url, URL_CONTEXT);
-	}
-	
-	public static AppContext getContextFromURL(String url){
-		return AppContext.getContext(getContextIDFromURL(url));
 	}
 	
 	@Override

@@ -4,38 +4,18 @@ import static org.junit.Assert.*;
 
 import java.io.PrintWriter;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.golddigger.core.AppContext;
 import com.golddigger.core.GameService;
 import com.golddigger.core.Service;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.utils.MapMaker;
 
 public class GameTest {
-	private static final String contextID = "gameTest";
-	@BeforeClass
-	public static void before(){
-		new AppContext(contextID);
-	}
-	
-	@After
-	public void after(){
-		AppContext.getContext(contextID).clear();
-	}
-	
-	@AfterClass
-	public static void cleanup(){
-		AppContext.remove(contextID);
-	}
 	
 	@Test
 	public void test() {
-		new AppContext(contextID);
-		Game game = new Game(0, contextID);
+		Game game = new Game(0);
 		Map map = new BlankMap(3,3);
 		game.setMap(map);
 		Player player = new Player("test", "secret");
@@ -49,8 +29,7 @@ public class GameTest {
 	
 	@Test
 	public void testBaseFunctions(){
-		new AppContext(contextID);
-		Game game = new Game(0, contextID);
+		Game game = new Game(0);
 		Map map = new BlankMap(3,3);
 		game.setMap(map);
 		BaseTile[] bases = game.getBases();
@@ -62,7 +41,7 @@ public class GameTest {
 	@Test
 	public void testMultiplayer(){
 		String string_map = "wwwww\nwb.bw\nwwwww";
-		Game game = new Game(0, contextID);
+		Game game = new Game(0);
 		Map map = MapMaker.parse(string_map);
 		game.setMap(map);
 		Player player1 = new Player("player1","secret");
@@ -83,8 +62,7 @@ public class GameTest {
 	
 	@Test
 	public void testServiceOrder(){
-		new AppContext(contextID);
-		Game game = new Game(0, contextID);
+		Game game = new Game(0);
 		GameService s1 = newStub(Service.BASE_PRIORITY);
 		GameService s2 = newStub(10);
 		GameService s3 = newStub(5);

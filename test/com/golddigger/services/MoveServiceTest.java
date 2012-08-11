@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import com.golddigger.GenericServer;
 import com.golddigger.client.TestingClient;
-import com.golddigger.core.AppContext;
 import com.golddigger.model.Player;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
@@ -22,8 +21,8 @@ public class MoveServiceTest {
 	@Before()
 	public void setup(){
 		server = new GenericServer();
-		server.getContext().add(new TestGameTemplate(MAP));
-		server.getContext().add(new Player("test", "secret"));
+		server.add(new TestGameTemplate(MAP));
+		server.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
 

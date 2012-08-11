@@ -23,5 +23,5 @@ public abstract class GameTemplate {
 	 * Builds a new game for a player/players to be added to.
 	 * @return The new game
 	 */
-	public abstract Game build(String contextID);
+	public abstract Game build();
 }

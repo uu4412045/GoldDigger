@@ -15,8 +15,8 @@ import com.golddigger.services.ViewService;
 public class BlankGameTemplate extends GameTemplate {
 
 	@Override
-	public Game build(String contextID){
-		Game game = new Game(getID(), contextID);
+	public Game build(){
+		Game game = new Game(getID());
 		game.setMap(new BlankMap(10, 10));
 		
 		addServices(game);

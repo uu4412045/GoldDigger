@@ -23,11 +23,11 @@ public class MultiplayerTest {
 	@Before()
 	public void setup(){
 		server = new GenericServer();
-		server.getContext().add(new TestGameTemplate(MAP_1));
-		server.getContext().add(new TestGameTemplate(MAP_2));
-		server.getContext().add(new TestGameTemplate(MAP_1));
-		server.getContext().add(new Player("test1", "secret"));
-		server.getContext().add(new Player("test2", "secret"));
+		server.add(new TestGameTemplate(MAP_1));
+		server.add(new TestGameTemplate(MAP_2));
+		server.add(new TestGameTemplate(MAP_1));
+		server.add(new Player("test1", "secret"));
+		server.add(new Player("test2", "secret"));
 		player1 = new TestingClient("test1", BASE_URL);
 		player2 = new TestingClient("test2", BASE_URL);
 	}
@@ -39,14 +39,14 @@ public class MultiplayerTest {
 	
 	@Test
 	public void testMultiplayer() {
-		Player p1 = server.getContext().getPlayer("test1");
-		Player p2 = server.getContext().getPlayer("test2");
-		assertNotSame(server.getContext().getGame(p1), server.getContext().getGame(p2));
+		Player p1 = server.getPlayer("test1");
+		Player p2 = server.getPlayer("test2");
+		assertNotSame(server.getGame(p1), server.getGame(p2));
 		
 		//Test Joining
 		assertEquals("OK", player1.next().trim());
 		assertEquals("OK", player2.next().trim());
-		assertEquals(server.getContext().getGame(p1), server.getContext().getGame(p2));
+		assertEquals(server.getGame(p1), server.getGame(p2));
 		
 		//Test move collision
 		assertEquals("FAILED", player1.next().trim());
@@ -60,7 +60,7 @@ public class MultiplayerTest {
 		player2.move(Direction.EAST);
 		player2.drop();
 		assertEquals("OK", player2.next().trim());
-		assertNotSame(server.getContext().getGame(p1), server.getContext().getGame(p2));
+		assertNotSame(server.getGame(p1), server.getGame(p2));
 	}
 
 }

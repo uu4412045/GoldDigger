@@ -11,7 +11,6 @@ public class ServiceTest {
 	public void test() {
 		String url = "localhost:8066/golddigger/digger/test/move/south";
 		
-		assertEquals("localhost:8066/golddigger", Service.getContextIDFromURL(url));
 		assertEquals("localhost:8066", parseURL(url, URL_HOST));
 		assertEquals("golddigger", parseURL(url, URL_CONTEXT));
 		assertEquals("digger",parseURL(url, URL_TARGET));

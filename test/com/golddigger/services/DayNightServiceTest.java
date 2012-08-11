@@ -36,8 +36,8 @@ public class DayNightServiceTest {
 						new DayNightService(3,50)};
 			}
 		};
-		server.getContext().add(new TestGameTemplate(MAP, gen));
-		server.getContext().add(new Player("test", "secret"));
+		server.add(new TestGameTemplate(MAP, gen));
+		server.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
 	
@@ -48,8 +48,8 @@ public class DayNightServiceTest {
 	
 	@Test
 	public void testLineOfSightChanges() {
-		Player player = server.getContext().getPlayer("test");
-		Game game = server.getContext().getGame(player);
+		Player player = server.getPlayer("test");
+		Game game = server.getGame(player);
 		List<ViewService> services = game.getServices(ViewService.class);
 		assertEquals(1, services.size());
 		vService = services.get(0);

@@ -5,33 +5,20 @@ import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.DefaultServlet;
 import org.mortbay.jetty.servlet.ServletHolder;
 
-import com.golddigger.core.AppContext;
-import com.golddigger.core.DirectInputDelayedServer;
-import com.golddigger.core.GoldDiggerServer;
 import com.golddigger.core.GoldDiggerServlet;
+import com.golddigger.core.server.GoldDiggerServer;
 
 public class GenericServer  extends GoldDiggerServer {
 	private final static int PORT = 8066;
 	private final static String SERVLET_CONTEXT = "golddigger";
 	private Server server;
-	private String contextID;
-	private AppContext context;
-	private AppContext delayContext;
 	
 	public GenericServer(){
 		this(-1);
 	}
 	
 	public GenericServer(int delay){
-		contextID = "localhost:"+PORT+"/"+SERVLET_CONTEXT;
-		context = new AppContext(contextID);
-		context = new AppContext("delayed-"+contextID);
-		
 		GoldDiggerServlet servlet = new GoldDiggerServlet(this);
-		if(delay > 1){
-			DirectInputDelayedServer delayedServer = new DirectInputDelayedServer(this,delay);
-			servlet.setDelayedServer(delayedServer);
-		}
 		try {
             server = new Server(PORT);
             Context root = new Context(server, "/", Context.SESSIONS);
@@ -42,17 +29,11 @@ public class GenericServer  extends GoldDiggerServer {
             throw new RuntimeException(e);
         }
 	}
-
-	public AppContext getContext(){
-		return this.context;
-	}
 	
 	public void stop(){
 		try {
 			server.stop();
-			context.clear();
-			delayContext.clear();
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}

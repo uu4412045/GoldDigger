@@ -1,8 +1,8 @@
-package com.golddigger.core;
+package com.golddigger.core.server;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.GoldDiggerServer;
+import com.golddigger.core.server.GoldDiggerServer;
 import com.golddigger.utils.NullWriter;
 /**
  * The Base for a Delayed server. used to provide a time lag spectator view for the competitors

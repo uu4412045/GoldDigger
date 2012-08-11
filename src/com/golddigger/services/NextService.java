@@ -2,9 +2,7 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.AppContext;
 import com.golddigger.core.GameService;
-import com.golddigger.core.Service;
 import com.golddigger.model.Player;
 import com.golddigger.model.Unit;
 /**
@@ -31,7 +29,6 @@ public class NextService extends GameService {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		AppContext context = Service.getContextFromURL(url);
 		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
 		if (player == null){
 			out.println("ERROR: Invalid Player Given");
@@ -50,7 +47,7 @@ public class NextService extends GameService {
 			} else if (game.getMap().hasGoldLeft()) {
 				out.println("FAILED");
 			} else {
-				context.progress(player);
+				//TODO: context.progress(player);
 				out.println("OK");
 			}
 		}

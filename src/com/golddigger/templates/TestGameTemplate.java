@@ -21,15 +21,12 @@ public class TestGameTemplate extends GameTemplate {
 	}
 	
 	@Override
-	public Game build(String contextID) {
-		Game game = new Game(getID(), contextID);
+	public Game build() {
+		Game game = new Game(getID());
 		game.setMap(MapMaker.parse(map));
 		for (GameService service : gen.generate()){
 			game.add(service);
 		}
 		return game;
 	}
-
-	
-	GameTemplate template = new TestGameTemplate("www\nwbw\nwww");
 }

@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import com.golddigger.GenericServer;
 import com.golddigger.client.TestingClient;
-import com.golddigger.core.AppContext;
 import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.tiles.*;
@@ -28,7 +27,7 @@ public class MovementCostTest {
 	@Before()
 	public void setup(){
 		server = new GenericServer();
-		server.getContext().add(new TestGameTemplate(MAP));
+		server.add(new TestGameTemplate(MAP));
 		
 		// Adding GameTemplate with custom costs
 		HashMap<String, Integer> costs = new HashMap<String, Integer>();
@@ -46,9 +45,9 @@ public class MovementCostTest {
 		costs.put(GoldTile.class.getSimpleName()+"_9",50);
 		BaseServiceGenerator gen = new BaseServiceGenerator();
 		gen.setCosts(costs);
-		server.getContext().add(new TestGameTemplate(MAP, gen));
+		server.add(new TestGameTemplate(MAP, gen));
 		
-		server.getContext().add(new Player("test", "secret"));
+		server.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
 	}
 	
@@ -78,7 +77,7 @@ public class MovementCostTest {
 		moveAndTime(Direction.EAST, GoldTile.DEFAULT_MOVEMENT_COST);
 
 		// Testing custom movement costs
-		server.getContext().progress(server.getContext().getPlayer("test"));
+		server.progress(server.getPlayer("test"));
 		moveAndTime(Direction.EAST, 50);
 		moveAndTime(Direction.EAST, 50);
 		moveAndTime(Direction.EAST, 50);

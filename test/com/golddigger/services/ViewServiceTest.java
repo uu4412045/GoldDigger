@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import com.golddigger.GenericServer;
 import com.golddigger.client.TestingClient;
-import com.golddigger.core.AppContext;
 import com.golddigger.model.Player;
 import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
@@ -27,9 +26,9 @@ public class ViewServiceTest {
 		gen.setLOS(2);
 		server = new GenericServer();
 		client = new TestingClient("test", BASE_URL);
-		server.getContext().add(new TestGameTemplate(MAP_1));
-		server.getContext().add(new TestGameTemplate(MAP_2, gen));
-		server.getContext().add(new Player("test", "secret"));
+		server.add(new TestGameTemplate(MAP_1));
+		server.add(new TestGameTemplate(MAP_2, gen));
+		server.add(new Player("test", "secret"));
 	}
 
 	@After()
@@ -42,7 +41,7 @@ public class ViewServiceTest {
 		assertEquals("123\n5b6\n89w",client.view().trim());
 		assertEquals("OK",client.move(Direction.WEST).trim());
 		assertEquals(".12\n45b\n789",client.view().trim());
-		server.getContext().progress(server.getContext().getPlayer("test"));
+		server.progress(server.getPlayer("test"));
 		
 		//Testing Line Of Sight
 		assertEquals("wwwww\nw...w\nw.b.w\nw...w\nwwwww",client.view().trim());

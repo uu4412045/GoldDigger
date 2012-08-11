@@ -69,7 +69,7 @@ public class FieldFileTemplateGeneratorTest {
 		
 		int i=0;
 		for (GameTemplate template : templates){
-			Game game = template.build(null);
+			Game game = template.build();
 			List<ViewService> views = game.getServices(ViewService.class);
 			assertEquals(1,views.size());
 			if (i == 0){
