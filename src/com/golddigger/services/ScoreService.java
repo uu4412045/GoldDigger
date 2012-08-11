@@ -8,6 +8,7 @@ import com.golddigger.server.GameService;
  * This service will return the players current score.
  * 
  * @author Brett Wandel
+ * @deprecated Use {@link GoldService}
  */
 public class ScoreService extends GameService {
 	public static final String ACTION_TEXT = "score";

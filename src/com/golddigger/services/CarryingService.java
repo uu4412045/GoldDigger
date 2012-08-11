@@ -11,6 +11,7 @@ import com.golddigger.server.GameService;
  * @author Brett Wandel
  * @see Unit
  * @see Player
+ * @deprecated Use {@link GoldService}
  */
 public class CarryingService extends GameService {
 	public static final String ACTION_TEXT = "carrying";

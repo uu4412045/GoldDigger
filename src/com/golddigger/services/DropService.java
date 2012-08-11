@@ -20,6 +20,7 @@ import com.golddigger.server.GameService;
  * @author Brett Wandel
  * @see Player
  * @see Unit
+ * @deprecated Use {@link GoldService }
  */
 public class DropService extends GameService {
 	public static final String ACTION_TEXT = "drop";

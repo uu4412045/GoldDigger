@@ -20,6 +20,7 @@ import com.golddigger.server.GameService;
  * @see Player
  * @see Unit
  * @see GoldTile
+ * @deprecated Use {@link GoldService}
  */
 public class GrabService extends GameService {
 	public static final String ACTION_TEXT = "grab";
