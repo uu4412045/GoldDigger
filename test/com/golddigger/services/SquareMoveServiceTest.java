@@ -12,7 +12,7 @@ import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
 import com.golddigger.templates.TestGameTemplate;
 
-public class MoveServiceTest {
+public class SquareMoveServiceTest {
 	GenericServer server;
 	TestingClient client;
 	private static final String MAP = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";

@@ -21,6 +21,7 @@ public abstract class MoveService extends GameService {
 
 	public MoveService(){
 		super(BASE_PRIORITY);
+		customCosts = new HashMap<String,Integer>();
 	}
 	
 	public MoveService(Map<String, Integer> costs){
@@ -31,7 +32,9 @@ public abstract class MoveService extends GameService {
 	@Override
 	public boolean runnable(String url) {
 		String action = parseURL(url, URL_ACTION);
-		Direction direction = Direction.parse(parseURL(url, URL_EXTRA1));
+		String strDirection = parseURL(url, URL_EXTRA1);
+		if (strDirection == null) return false;
+		Direction direction = Direction.parse(strDirection);
 		return action.equalsIgnoreCase(ACTION_TEXT) && canMoveIn(direction);
 	}
 
@@ -46,21 +49,14 @@ public abstract class MoveService extends GameService {
 			out.println("ERROR: no unit found for this player");
 			return true;
 		}
-		
 		Tile tile;
 		synchronized (game){ //stop other units in the same game moving at the same time.
-			Point2D offset = getOffset(unit.getPosition(), direction);
-			Point2D target = unit.getPosition().add(offset);
+			Point2D target = getOffset(unit.getPosition(), direction);
 			tile = game.getMap().get(target);
-			if (tile == null) { // (x,y) is out of the map's boundary
+			if (tile == null) {
 				out.println("FAILED");
-				return true;
-			} else if (!tile.isTreadable()){
+			} else if (!tile.isTreadable() || game.isUnitAt(target)){
 				out.println("FAILED");
-				return true;
-			} else if (game.isUnitAt(target)) {
-				out.println("FAILED");
-				return true;
 			} else {
 				unit.setPosition(target);
 				out.println("OK");
@@ -86,10 +82,10 @@ public abstract class MoveService extends GameService {
 	public Point2D getOffset(Point2D position, Direction direction){
 		int x = 0, y = 0, i = x%2;
 		switch(direction){
-		case NORTH: return position.add(0,-1);
-		case SOUTH: return position.add(0,1);
-		case EAST: return position.add(1,0);
-		case WEST: return position.add(-1, 0);
+		case NORTH: return position.add(-1,0);
+		case SOUTH: return position.add(1,0);
+		case EAST: return position.add(0,1);
+		case WEST: return position.add(0,-1);
 		case NORTH_EAST: return position.add(1,i-1);
 		case SOUTH_EAST: return position.add(1,i);
 		case NORTH_WEST: return position.add(-1,i-1);

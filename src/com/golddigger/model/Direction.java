@@ -6,6 +6,8 @@ public enum Direction{
 	public static Direction parse(String url){
 		if (url.equalsIgnoreCase(NORTH.toString())) return NORTH;
 		if (url.equalsIgnoreCase(SOUTH.toString())) return SOUTH;
+		if (url.equalsIgnoreCase(EAST.toString())) return EAST;
+		if (url.equalsIgnoreCase(WEST.toString())) return WEST;
 		if (url.equalsIgnoreCase(NORTH_EAST.toString())) return NORTH_EAST;
 		if (url.equalsIgnoreCase(SOUTH_EAST.toString())) return SOUTH_EAST;
 		if (url.equalsIgnoreCase(NORTH_WEST.toString())) return NORTH_WEST;

@@ -34,7 +34,7 @@ public class Point2D {
 		}
 		
 		public Point2D sub(int x, int y){
-			return new Point2D(this.x - x, this.y - y);
+			return add(-x,-y);
 		}
 		
 		public Point2D inverse(){
