@@ -1,6 +1,5 @@
-package com.golddigger.core;
+package com.golddigger.server;
 
-import com.golddigger.core.server.GoldDiggerServer;
 
 public abstract class ServerService extends Service {
 	GoldDiggerServer server;

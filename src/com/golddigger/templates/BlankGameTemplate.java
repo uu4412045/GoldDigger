@@ -1,9 +1,9 @@
 package com.golddigger.templates;
 
-import com.golddigger.core.GameTemplate;
 import com.golddigger.model.BlankMap;
 import com.golddigger.model.Game;
 import com.golddigger.model.Map;
+import com.golddigger.server.GameTemplate;
 import com.golddigger.services.CarryingService;
 import com.golddigger.services.DropService;
 import com.golddigger.services.GrabService;

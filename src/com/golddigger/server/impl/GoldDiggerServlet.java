@@ -1,4 +1,4 @@
-package com.golddigger.core;
+package com.golddigger.server.impl;
 
 import java.io.IOException;
 
@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.golddigger.core.server.DelayedServer;
-import com.golddigger.core.server.GoldDiggerServer;
+import com.golddigger.server.GoldDiggerServer;
 
 /**
  * The Servlet for the main interface for the Competitors. Simply passes the url to the {@link GoldDiggerServlet}
@@ -29,7 +28,7 @@ public class GoldDiggerServlet extends HttpServlet{
 		String url = req.getRequestURL().toString();
 		url = url.substring(url.indexOf("//")+2); // remove the "http://" from the url
 		
-		if (delayedServer != null) delayedServer.add(DelayedServer.buildEntry("delay-"+url));
+		if (delayedServer != null) delayedServer.add(url);
 		server.process(url, resp.getWriter());
 	}
 

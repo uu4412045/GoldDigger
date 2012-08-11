@@ -1,8 +1,8 @@
-package com.golddigger.core.server;
+package com.golddigger.server.impl;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.server.GoldDiggerServer;
+import com.golddigger.server.GoldDiggerServer;
 import com.golddigger.utils.NullWriter;
 /**
  * The Base for a Delayed server. used to provide a time lag spectator view for the competitors
@@ -50,14 +50,18 @@ public abstract class DelayedServer extends Thread  {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Build a valid entry for the delay server to read.
 	 * @param url The url that has come in
 	 * @return Valid log entry to be added to the DelayedServer
 	 */
 	public static String buildEntry(String url){
-		if (url.contains(",")) throw new RuntimeException("the url can NOT contain a comma(\",\")");
-		return System.currentTimeMillis() + ","+ url;
+		if (url.contains(",")) {
+			throw new RuntimeException("the url CANNOT contain a comma(\",\")");
+		} else{
+			url = url.trim()+"\n";
+			return System.currentTimeMillis() + ","+ url;
+		}
 	}
 }

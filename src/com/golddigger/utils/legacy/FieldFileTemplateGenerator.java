@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.golddigger.core.GameTemplate;
+import com.golddigger.server.GameTemplate;
 import com.golddigger.utils.generators.TemplateGenerator;
 
 public class FieldFileTemplateGenerator implements TemplateGenerator{

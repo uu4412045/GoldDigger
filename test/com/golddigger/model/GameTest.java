@@ -6,9 +6,9 @@ import java.io.PrintWriter;
 
 import org.junit.Test;
 
-import com.golddigger.core.GameService;
-import com.golddigger.core.Service;
 import com.golddigger.model.tiles.BaseTile;
+import com.golddigger.server.GameService;
+import com.golddigger.server.Service;
 import com.golddigger.utils.MapMaker;
 
 public class GameTest {

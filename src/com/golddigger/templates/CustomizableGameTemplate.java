@@ -3,10 +3,10 @@ package com.golddigger.templates;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.golddigger.core.GameService;
-import com.golddigger.core.GameTemplate;
 import com.golddigger.model.Game;
 import com.golddigger.plugins.Plugin;
+import com.golddigger.server.GameService;
+import com.golddigger.server.GameTemplate;
 import com.golddigger.services.CarryingService;
 import com.golddigger.services.DayNightService;
 import com.golddigger.services.DropService;

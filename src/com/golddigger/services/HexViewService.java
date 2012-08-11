@@ -2,10 +2,10 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
+import com.golddigger.server.GameService;
 
 public class HexViewService extends GameService {
 	public static final String ACTION_TEXT = "view";

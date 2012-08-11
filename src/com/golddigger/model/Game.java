@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.golddigger.core.GameService;
 import com.golddigger.plugins.Plugin;
+import com.golddigger.server.GameService;
 import com.golddigger.utils.Container;
 import com.golddigger.model.tiles.BaseTile;
 

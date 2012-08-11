@@ -7,7 +7,6 @@ public class WallTile extends Tile {
 	
 	public WallTile() {
 		super(0);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

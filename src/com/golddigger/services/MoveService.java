@@ -4,11 +4,11 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.Point2D;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
+import com.golddigger.server.GameService;
 /**
  * This service will move the {@link Player}'s {@link Unit} in a particular direction. <br />
  * Each tile has a movement cost which will delay the servers response to simulate different terrain.<br />

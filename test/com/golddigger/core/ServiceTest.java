@@ -1,6 +1,6 @@
 package com.golddigger.core;
 
-import static com.golddigger.core.Service.*;
+import static com.golddigger.server.Service.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;

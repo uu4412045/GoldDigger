@@ -1,6 +1,6 @@
 package com.golddigger.utils.legacy;
 
-import com.golddigger.core.GameTemplate;
+import com.golddigger.server.GameTemplate;
 import com.golddigger.templates.CustomizableGameTemplate;
 
 public class LegacyTemplateParser {

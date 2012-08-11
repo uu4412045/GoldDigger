@@ -1,8 +1,7 @@
-package com.golddigger.core.server;
+package com.golddigger.server;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.Service;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 /**

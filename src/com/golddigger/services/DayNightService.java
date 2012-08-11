@@ -3,8 +3,8 @@ package com.golddigger.services;
 import java.io.PrintWriter;
 import java.util.List;
 
-import com.golddigger.core.GameService;
-import com.golddigger.core.Service;
+import com.golddigger.server.GameService;
+import com.golddigger.server.Service;
 
 /**
  * This service will imitate the a day/night effect by reducing the line of sight at night time. <br \>

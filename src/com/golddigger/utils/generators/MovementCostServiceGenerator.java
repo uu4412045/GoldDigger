@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.golddigger.core.GameService;
+import com.golddigger.server.GameService;
 import com.golddigger.services.CarryingService;
 import com.golddigger.services.DropService;
 import com.golddigger.services.GrabService;

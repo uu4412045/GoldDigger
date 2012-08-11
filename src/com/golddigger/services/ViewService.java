@@ -2,12 +2,12 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.*;
 import com.golddigger.plugins.Plugin;
+import com.golddigger.server.GameService;
 /**
  * This service will return the view of the player's unit.
  * @author Brett Wandel

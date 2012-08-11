@@ -1,11 +1,10 @@
-package com.golddigger.core;
+package com.golddigger.server.impl;
 
-import com.golddigger.core.server.DelayedServer;
-import com.golddigger.core.server.GoldDiggerServer;
+import com.golddigger.server.GoldDiggerServer;
 
 
 /**
- * A simple {@link DelayedServer} that allows your to pass commands directy to it.
+ * A simple {@link DelayedServer} that allows your to pass commands directly to it.
  * @author Brett Wandel
  *
  */
@@ -14,7 +13,7 @@ public class DirectInputDelayedServer extends DelayedServer {
 		super(server, delay);
 	}
 
-	private volatile String log = "";
+	private String log = "";
 	
 	@Override
 	protected synchronized String next() {
@@ -32,8 +31,8 @@ public class DirectInputDelayedServer extends DelayedServer {
 	 * Add a log entry to the server
 	 * @param line the log entry to add
 	 */
-	public synchronized void add(String line){
-		log += line.trim()+"\n";
+	public synchronized void add(String url){
+		log += buildEntry(url);
 	}
 
 }

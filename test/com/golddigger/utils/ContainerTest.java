@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import com.golddigger.core.Service;
 import com.golddigger.plugins.Plugin;
+import com.golddigger.server.Service;
 import com.golddigger.services.MoveService;
 import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;

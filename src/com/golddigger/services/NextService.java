@@ -2,9 +2,9 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
 import com.golddigger.model.Unit;
+import com.golddigger.server.GameService;
 /**
  * This service will progress the player on to the next map.
  * Will return: <br />
@@ -29,14 +29,16 @@ public class NextService extends GameService {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
-		if (player == null){
+		String name = parseURL(url, URL_PLAYER);
+		Player player;
+		Unit unit;
+		
+		if ((player = game.getPlayer(name))== null){
 			out.println("ERROR: Invalid Player Given");
 			return true;
 		}
 
-		Unit unit = game.getUnit(player);
-		if (unit == null){
+		if ((unit = game.getUnit(player)) == null){
 			out.println("ERROR: no unit found for this player");
 			return true;
 		}
@@ -47,7 +49,7 @@ public class NextService extends GameService {
 			} else if (game.getMap().hasGoldLeft()) {
 				out.println("FAILED");
 			} else {
-				//TODO: context.progress(player);
+//				server.progress(player);
 				out.println("OK");
 			}
 		}

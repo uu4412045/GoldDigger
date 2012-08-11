@@ -2,8 +2,8 @@ package com.golddigger.services;
 
 import java.io.PrintWriter;
 
-import com.golddigger.core.GameService;
 import com.golddigger.model.Player;
+import com.golddigger.server.GameService;
 /**
  * This service will return the players current score.
  * 

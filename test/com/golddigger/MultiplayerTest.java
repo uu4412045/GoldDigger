@@ -41,12 +41,16 @@ public class MultiplayerTest {
 	public void testMultiplayer() {
 		Player p1 = server.getPlayer("test1");
 		Player p2 = server.getPlayer("test2");
+		
 		assertNotSame(server.getGame(p1), server.getGame(p2));
 		
+
+		System.out.println("p1:"+server.getGame(p1));
+		System.out.println("p2:"+server.getGame(p2));
 		//Test Joining
 		assertEquals("OK", player1.next().trim());
 		assertEquals("OK", player2.next().trim());
-		assertEquals(server.getGame(p1), server.getGame(p2));
+		assertEquals("Players should be in the multiplayer game", server.getGame(p1), server.getGame(p2));
 		
 		//Test move collision
 		assertEquals("FAILED", player1.next().trim());

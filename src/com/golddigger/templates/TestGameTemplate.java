@@ -1,9 +1,9 @@
 package com.golddigger.templates;
 
 
-import com.golddigger.core.GameService;
-import com.golddigger.core.GameTemplate;
 import com.golddigger.model.Game;
+import com.golddigger.server.GameService;
+import com.golddigger.server.GameTemplate;
 import com.golddigger.utils.MapMaker;
 import com.golddigger.utils.generators.BaseServiceGenerator;
 import com.golddigger.utils.generators.ServiceGenerator;
