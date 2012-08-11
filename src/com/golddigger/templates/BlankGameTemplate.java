@@ -3,13 +3,13 @@ package com.golddigger.templates;
 import com.golddigger.model.BlankMap;
 import com.golddigger.model.Game;
 import com.golddigger.server.GameTemplate;
-import com.golddigger.services.CarryingService;
-import com.golddigger.services.DropService;
 import com.golddigger.services.GoldService;
-import com.golddigger.services.GrabService;
 import com.golddigger.services.MoveService;
-import com.golddigger.services.ScoreService;
 import com.golddigger.services.ViewService;
+import com.golddigger.services.old.CarryingService;
+import com.golddigger.services.old.DropService;
+import com.golddigger.services.old.GrabService;
+import com.golddigger.services.old.ScoreService;
 
 public class BlankGameTemplate extends GameTemplate {
 

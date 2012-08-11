@@ -1,9 +1,10 @@
-package com.golddigger.services;
+package com.golddigger.services.old;
 
 import java.io.PrintWriter;
 
 import com.golddigger.model.Player;
 import com.golddigger.server.GameService;
+import com.golddigger.services.GoldService;
 /**
  * This service will return the players current score.
  * 

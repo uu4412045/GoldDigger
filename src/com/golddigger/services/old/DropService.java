@@ -1,4 +1,4 @@
-package com.golddigger.services;
+package com.golddigger.services.old;
 
 import java.io.PrintWriter;
 
@@ -8,6 +8,7 @@ import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.model.tiles.GoldTile;
 import com.golddigger.server.GameService;
+import com.golddigger.services.GoldService;
 
 /**
  * This service will drop as much gold as it can from the {@link Player}'s {@link Unit}. <br \>

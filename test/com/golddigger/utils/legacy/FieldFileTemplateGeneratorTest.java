@@ -18,13 +18,13 @@ import org.junit.Test;
 
 import com.golddigger.model.Game;
 import com.golddigger.server.GameTemplate;
-import com.golddigger.services.CarryingService;
-import com.golddigger.services.DropService;
-import com.golddigger.services.GrabService;
 import com.golddigger.services.MoveService;
 import com.golddigger.services.NextService;
-import com.golddigger.services.ScoreService;
 import com.golddigger.services.ViewService;
+import com.golddigger.services.old.CarryingService;
+import com.golddigger.services.old.DropService;
+import com.golddigger.services.old.GrabService;
+import com.golddigger.services.old.ScoreService;
 import com.golddigger.utils.generators.TemplateGenerator;
 import static com.golddigger.utils.legacy.LegacyTemplateParser.*;
 

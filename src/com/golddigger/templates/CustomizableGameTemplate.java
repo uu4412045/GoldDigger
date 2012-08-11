@@ -7,15 +7,15 @@ import com.golddigger.model.Game;
 import com.golddigger.plugins.Plugin;
 import com.golddigger.server.GameService;
 import com.golddigger.server.GameTemplate;
-import com.golddigger.services.CarryingService;
 import com.golddigger.services.DayNightService;
-import com.golddigger.services.DropService;
 import com.golddigger.services.GoldService;
-import com.golddigger.services.GrabService;
 import com.golddigger.services.MoveService;
 import com.golddigger.services.NextService;
-import com.golddigger.services.ScoreService;
 import com.golddigger.services.ViewService;
+import com.golddigger.services.old.CarryingService;
+import com.golddigger.services.old.DropService;
+import com.golddigger.services.old.GrabService;
+import com.golddigger.services.old.ScoreService;
 import com.golddigger.utils.MapMaker;
 
 public class CustomizableGameTemplate extends GameTemplate {

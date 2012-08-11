@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.golddigger.server.GameService;
-import com.golddigger.services.CarryingService;
-import com.golddigger.services.DropService;
 import com.golddigger.services.GoldService;
-import com.golddigger.services.GrabService;
 import com.golddigger.services.MoveService;
 import com.golddigger.services.NextService;
-import com.golddigger.services.ScoreService;
 import com.golddigger.services.ViewService;
+import com.golddigger.services.old.CarryingService;
+import com.golddigger.services.old.DropService;
+import com.golddigger.services.old.GrabService;
+import com.golddigger.services.old.ScoreService;
 
 public class MovementCostServiceGenerator implements ServiceGenerator{
 	Map<String, Integer> costs;

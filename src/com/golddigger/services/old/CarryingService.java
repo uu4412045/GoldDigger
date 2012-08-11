@@ -1,10 +1,11 @@
-package com.golddigger.services;
+package com.golddigger.services.old;
 
 import java.io.PrintWriter;
 
 import com.golddigger.model.Player;
 import com.golddigger.model.Unit;
 import com.golddigger.server.GameService;
+import com.golddigger.services.GoldService;
 
 /**
  * This service returns the amount of gold being carried by a {@link Player}'s {@link Unit}.
