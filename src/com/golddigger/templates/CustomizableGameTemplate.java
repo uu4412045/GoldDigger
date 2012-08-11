@@ -9,7 +9,7 @@ import com.golddigger.server.GameService;
 import com.golddigger.server.GameTemplate;
 import com.golddigger.services.DayNightService;
 import com.golddigger.services.GoldService;
-import com.golddigger.services.MoveService;
+import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
 import com.golddigger.services.old.CarryingService;
@@ -31,13 +31,9 @@ public class CustomizableGameTemplate extends GameTemplate {
 		Game game = new Game(getID());
 		game.setMap(MapMaker.parse(map));
 		game.add(new ViewService(lineOfSight));
-		if (costs != null) game.add(new MoveService(formatCosts(costs)));
-		else game.add(new MoveService());
+		if (costs != null) game.add(new SquareMoveService(formatCosts(costs)));
+		else game.add(new SquareMoveService());
 		game.add(new GoldService());
-//		game.add(new GrabService());
-//		game.add(new DropService());
-//		game.add(new CarryingService());
-//		game.add(new ScoreService());
 
 		if (services != null){
 			for (String service : services){

@@ -9,10 +9,10 @@ import org.junit.Test;
 
 import com.golddigger.GenericServer;
 import com.golddigger.client.TestingClient;
+import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
 import com.golddigger.model.tiles.*;
 import com.golddigger.server.GameService;
-import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.generators.BaseServiceGenerator;
 import com.golddigger.utils.generators.ServiceGenerator;

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.golddigger.plugins.Plugin;
 import com.golddigger.server.Service;
-import com.golddigger.services.MoveService;
+import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
 
@@ -16,13 +16,13 @@ public class ContainerTest {
 	public void test() {
 		Container<Service> container = new Container<Service>();
 		container.add(new ViewService());
-		container.add(new MoveService());
+		container.add(new SquareMoveService());
 
 		assertEquals(2,container.size());
 		
-		List<MoveService> move = container.filter(MoveService.class);
+		List<SquareMoveService> move = container.filter(SquareMoveService.class);
 		assertEquals(1, move.size());
-		assertTrue(move.get(0) instanceof MoveService);
+		assertTrue(move.get(0) instanceof SquareMoveService);
 		
 		List<NextService> next = container.filter(NextService.class);
 		assertEquals(0, next.size());

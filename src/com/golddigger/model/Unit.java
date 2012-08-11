@@ -66,4 +66,8 @@ public class Unit {
 	public int getGold(){
 		return this.gold;
 	}
+
+	public void setPosition(Point2D location) {
+		setPosition(location.x, location.y);
+	}
 }

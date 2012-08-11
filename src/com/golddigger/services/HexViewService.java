@@ -11,7 +11,6 @@ public class HexViewService extends GameService {
 	public static final String ACTION_TEXT = "view";
 	public static final int DEFAULT_LINE_OF_SIGHT = 1;
 	private static int CHECK=1, CHECKED=2;
-	private static final int UP=0, UP_RIGHT=1, DOWN_RIGHT=2, DOWN=3, DOWN_LEFT=4, UP_LEFT = 5;
 	private int lineOfSight;
 
 	public HexViewService() {

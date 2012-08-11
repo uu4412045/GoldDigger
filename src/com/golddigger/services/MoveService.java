@@ -4,36 +4,25 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
 import com.golddigger.model.Point2D;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.server.GameService;
-/**
- * This service will move the {@link Player}'s {@link Unit} in a particular direction. <br />
- * Each tile has a movement cost which will delay the servers response to simulate different terrain.<br />
- * Will return: <br />
- * <ul>
- * 	<li>"FAILED" if the direction is invalid</li>
- *  <li>"FAILED" if the {@link Tile} is not "treadable"</li>
- *  <li>"FAILED" if the position is out of the maps boundaries.</li>
- * </ul>
- * @author Brett Wandel
- * @see Player
- * @see Unit
- */
-public class MoveService extends GameService {
+
+public abstract class MoveService extends GameService {
 	public static final String ACTION_TEXT = "move";
 	
 	/**
 	 * Holds all the custom movement costs for this service.
 	 */
 	private HashMap<String, Integer> customCosts;
-	
-	public MoveService() {
+
+	public MoveService(){
 		super(BASE_PRIORITY);
-		customCosts = new HashMap<String, Integer>();
 	}
+	
 	public MoveService(Map<String, Integer> costs){
 		this();
 		customCosts.putAll(costs);
@@ -41,25 +30,17 @@ public class MoveService extends GameService {
 
 	@Override
 	public boolean runnable(String url) {
-		return parseURL(url, URL_ACTION).equalsIgnoreCase(ACTION_TEXT);
+		String action = parseURL(url, URL_ACTION);
+		Direction direction = Direction.parse(parseURL(url, URL_EXTRA1));
+		return action.equalsIgnoreCase(ACTION_TEXT) && canMoveIn(direction);
 	}
+
+	public abstract boolean canMoveIn(Direction direction);
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		String direction = parseURL(url, URL_EXTRA1);
-		if (direction == null){
-			out.println("FAILED");
-			return true;
-		} 
-
-		Point2D offset = parseDirection(direction);
-		if (offset == null){
-			out.println("FAILED");
-			return true;
-		}
-
+		Direction direction = Direction.parse(parseURL(url, URL_EXTRA1));
 		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
-
 		Unit unit = game.getUnit(player);
 		if (unit == null){
 			out.println("ERROR: no unit found for this player");
@@ -68,19 +49,20 @@ public class MoveService extends GameService {
 		
 		Tile tile;
 		synchronized (game){ //stop other units in the same game moving at the same time.
-			int x = unit.getX()+offset.x, y = unit.getY() + offset.y;
-			tile = game.getMap().get(x, y);
+			Point2D offset = getOffset(unit.getPosition(), direction);
+			Point2D target = unit.getPosition().add(offset);
+			tile = game.getMap().get(target);
 			if (tile == null) { // (x,y) is out of the map's boundary
 				out.println("FAILED");
 				return true;
 			} else if (!tile.isTreadable()){
 				out.println("FAILED");
 				return true;
-			} else if (game.isUnitAt(x,y)) {
+			} else if (game.isUnitAt(target)) {
 				out.println("FAILED");
 				return true;
 			} else {
-				unit.setPosition(x, y);
+				unit.setPosition(target);
 				out.println("OK");
 			}
 		}
@@ -96,44 +78,24 @@ public class MoveService extends GameService {
 		}
 		return true;
 	}
-	
-	/**
-	 * Used to create an offset in a particular direction.
-	 * @param direction The string representation
-	 * @return The Point2D offset to be ADDED to the current location.
-	 */
-	private Point2D parseDirection(String direction){
-		if (direction.equalsIgnoreCase("north")) return new Point2D(-1,0);
-		if (direction.equalsIgnoreCase("south")) return new Point2D(1,0);
-		if (direction.equalsIgnoreCase("east"))  return new Point2D(0,1);
-		if (direction.equalsIgnoreCase("west"))  return new Point2D(0,-1);
-		return null;
-	}
-	
-	/**
-	 * Used to define the string representations of each direction.
-	 * @author Brett Wandel
-	 */
-	public enum Direction{
-		NORTH,SOUTH,EAST,WEST;
-		
-		/**
-		 * Returns the string representation of a particular direction.
-		 */
-		@Override
-		public String toString(){
-			switch(this){
-			case NORTH: return "north";
-			case SOUTH: return "south";
-			case EAST: return "east";
-			case WEST: return "west";
-			default: return null;
-			}
-		}
-	}
 
 	public int getCost(String key) {
 		return customCosts.get(key);
 	}
 	
+	public Point2D getOffset(Point2D position, Direction direction){
+		int x = 0, y = 0, i = x%2;
+		switch(direction){
+		case NORTH: return position.add(0,-1);
+		case SOUTH: return position.add(0,1);
+		case EAST: return position.add(1,0);
+		case WEST: return position.add(-1, 0);
+		case NORTH_EAST: return position.add(1,i-1);
+		case SOUTH_EAST: return position.add(1,i);
+		case NORTH_WEST: return position.add(-1,i-1);
+		case SOUTH_WEST: return position.add(-1,i);
+		default: break;
+		}
+		return position.add(x,y);
+	}
 }

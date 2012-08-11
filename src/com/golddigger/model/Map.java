@@ -132,4 +132,8 @@ public class Map {
 		}
 		return null;
 	}
+
+	public Tile get(Point2D location) {
+		return get(location.x, location.y);
+	}
 }

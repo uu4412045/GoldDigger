@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 
 import org.xml.sax.SAXException;
 
-import com.golddigger.services.MoveService.Direction;
+import com.golddigger.model.Direction;
 import com.meterware.httpunit.WebConversation;
 
 /**

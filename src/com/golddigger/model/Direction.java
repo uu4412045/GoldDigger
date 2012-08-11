@@ -1,0 +1,19 @@
+package com.golddigger.model;
+
+public enum Direction{
+	NORTH,SOUTH,EAST,WEST,NORTH_EAST,SOUTH_EAST,NORTH_WEST,SOUTH_WEST;
+	
+	public static Direction parse(String url){
+		if (url.equalsIgnoreCase(NORTH.toString())) return NORTH;
+		if (url.equalsIgnoreCase(SOUTH.toString())) return SOUTH;
+		if (url.equalsIgnoreCase(NORTH_EAST.toString())) return NORTH_EAST;
+		if (url.equalsIgnoreCase(SOUTH_EAST.toString())) return SOUTH_EAST;
+		if (url.equalsIgnoreCase(NORTH_WEST.toString())) return NORTH_WEST;
+		if (url.equalsIgnoreCase(SOUTH_WEST.toString())) return SOUTH_WEST;
+		return null;
+	}
+
+	public boolean isHex() {
+		return this != EAST && this != WEST;
+	}
+}

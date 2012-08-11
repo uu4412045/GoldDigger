@@ -4,7 +4,7 @@ import com.golddigger.model.BlankMap;
 import com.golddigger.model.Game;
 import com.golddigger.server.GameTemplate;
 import com.golddigger.services.GoldService;
-import com.golddigger.services.MoveService;
+import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.ViewService;
 import com.golddigger.services.old.CarryingService;
 import com.golddigger.services.old.DropService;
@@ -24,7 +24,7 @@ public class BlankGameTemplate extends GameTemplate {
 	
 	public void addServices(Game game){
 		game.add(new ViewService());
-		game.add(new MoveService());
+		game.add(new SquareMoveService());
 		game.add(new GoldService());
 //		game.add(new GrabService());
 //		game.add(new DropService());

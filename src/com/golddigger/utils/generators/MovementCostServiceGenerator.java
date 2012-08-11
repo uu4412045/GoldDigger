@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.golddigger.server.GameService;
 import com.golddigger.services.GoldService;
-import com.golddigger.services.MoveService;
+import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
 import com.golddigger.services.old.CarryingService;
@@ -25,7 +25,7 @@ public class MovementCostServiceGenerator implements ServiceGenerator{
 	public GameService[] generate() {
 		List<GameService> services = new ArrayList<GameService>();
 		services.add(new ViewService());
-		services.add(new MoveService(costs));
+		services.add(new SquareMoveService(costs));
 		services.add(new GoldService());
 //		services.add(new GrabService());
 //		services.add(new DropService());

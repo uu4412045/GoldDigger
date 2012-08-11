@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import com.golddigger.model.Game;
 import com.golddigger.server.GameTemplate;
-import com.golddigger.services.MoveService;
+import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
 import com.golddigger.services.old.CarryingService;

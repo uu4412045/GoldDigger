@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import com.golddigger.GenericServer;
 import com.golddigger.client.TestingClient;
+import com.golddigger.model.Direction;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 import com.golddigger.server.GameService;
-import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.generators.ServiceGenerator;
 
@@ -32,7 +32,7 @@ public class DayNightServiceTest {
 			public GameService[] generate() {
 				return new GameService[]{
 						new ViewService(4),
-						new MoveService(),
+						new SquareMoveService(),
 						new DayNightService(3,50)};
 			}
 		};

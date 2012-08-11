@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.golddigger.client.TestingClient;
+import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
-import com.golddigger.services.MoveService.Direction;
 import com.golddigger.templates.TestGameTemplate;
 
 public class MultiplayerTest {

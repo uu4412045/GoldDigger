@@ -216,6 +216,10 @@ public class Game {
 		}
 		return false;
 	}
+	
+	public boolean isUnitAt(Point2D location){
+		return isUnitAt(location.x, location.y);
+	}
 
 	public Player getPlayer(String name){
 		for (Player player : players){
