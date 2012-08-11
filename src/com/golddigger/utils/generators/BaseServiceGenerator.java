@@ -27,7 +27,6 @@ public class BaseServiceGenerator implements ServiceGenerator {
 		}else {
 			services.add(new MoveService( new HashMap<String, Integer>(costs)));
 		}
-		services.add(new NextService());
 		services.add(new GrabService());
 		services.add(new DropService());
 		services.add(new ScoreService());

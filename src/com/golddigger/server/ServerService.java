@@ -2,13 +2,13 @@ package com.golddigger.server;
 
 
 public abstract class ServerService extends Service {
-	GoldDiggerServer server;
+	protected GameServer server;
 	
 	public ServerService(int priority){
 		super(priority);
 	}
 	
-	public void setServer(GoldDiggerServer server){
+	public void setServer(GameServer server){
 		this.server = server;
 	}
 }

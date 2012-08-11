@@ -31,6 +31,18 @@ public abstract class GoldDiggerServer extends GameServer{
 			return;
 		}
 		
+		synchronized (this) {
+			Service[] services = this.getServices();
+			boolean consumed = false;
+			for (Service service : services){
+				if (service.caresAboutConsumption() && consumed){
+					break; //skip this service
+				} else if (service.runnable(url)){
+					consumed = service.execute(url, out);
+				}
+			}
+		}
+		
 		/*
 		 * This block decides what services are run, as well as stopping
 		 * people running parallel requests.

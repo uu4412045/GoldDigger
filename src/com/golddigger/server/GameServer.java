@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
+import com.golddigger.services.NextService;
+import com.golddigger.utils.Container;
 
 /**
  * This is the collection of games, templates and players on this server.
@@ -37,6 +39,11 @@ public class GameServer {
 	 */
 	private List<Player> players = new ArrayList<Player>();
 
+	/**
+	 * All the services used to manage the server.
+	 */
+	private List<ServerService> services = new ArrayList<ServerService>();
+
 	/** Gets the Game that the player is currently in.
 	 * @param player The player
 	 * @return <b>null<b> if they are not currently in a game.
@@ -61,6 +68,13 @@ public class GameServer {
 		this.games.add(game);
 	}
 
+
+	
+	public void add(ServerService service) {
+		service.setServer(this);
+		this.services.add(service);
+	}
+	
 	/**
 	 * Add a template to the server.
 	 * This template will be used to build Games when a player completes the template added before it.
@@ -87,6 +101,13 @@ public class GameServer {
 		return true;
 	}
 
+	/**
+	 * Returns all the server services used in this server
+	 */
+	public ServerService[] getServices() {
+		return this.services .toArray(new ServerService[]{});
+	}
+	
 	/**
 	 * Return the {@link Player} object with the this name;
 	 * @param name The name of the player

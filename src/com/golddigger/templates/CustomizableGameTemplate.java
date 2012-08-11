@@ -36,7 +36,6 @@ public class CustomizableGameTemplate extends GameTemplate {
 		game.add(new DropService());
 		game.add(new CarryingService());
 		game.add(new ScoreService());
-		game.add(new NextService());
 
 		if (services != null){
 			for (String service : services){

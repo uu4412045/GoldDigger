@@ -25,7 +25,6 @@ public class MovementCostServiceGenerator implements ServiceGenerator{
 		List<GameService> services = new ArrayList<GameService>();
 		services.add(new ViewService());
 		services.add(new MoveService(costs));
-		services.add(new NextService());
 		services.add(new GrabService());
 		services.add(new DropService());
 		services.add(new ScoreService());
