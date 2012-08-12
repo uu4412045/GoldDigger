@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
 import com.golddigger.model.Unit;
-import com.golddigger.server.ServerService;
 /**
  * This service will progress the player on to the next map.
  * Will return: <br />

@@ -1,6 +1,6 @@
 package com.golddigger.core;
 
-import static com.golddigger.server.Service.*;
+import static com.golddigger.services.Service.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -9,7 +9,7 @@ public class ServiceTest {
 
 	@Test
 	public void test() {
-		String url = "localhost:8066/golddigger/digger/test/move/south";
+		String url = "http://localhost:8066/golddigger/digger/test/move/south";
 		
 		assertEquals("localhost:8066", parseURL(url, URL_HOST));
 		assertEquals("golddigger", parseURL(url, URL_CONTEXT));

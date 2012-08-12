@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
+import com.golddigger.services.Service;
 /**
  * The GoldDiggerServer is the gateway between the commands from the competitors and the Game objects themselves.
  * @author Brett Wandel
@@ -17,14 +18,14 @@ public abstract class GoldDiggerServer extends GameServer{
 	 */
 	public void process(String url, PrintWriter out){
 		String name = Service.parseURL(url, Service.URL_PLAYER);
-		Player player ;
+		Player player;
 		Game game;
 		
 		if (name == null) {
 			System.err.println("[GoldDiggerServer.java] Could not get a player from the url: "+url);
 			return;
 		} else if ((player = this.getPlayer(name)) == null){
-			System.err.println("[GoldDiggerServer.java] No player by that name: "+url);
+			System.err.println("[GoldDiggerServer.java] No player by the name:"+name+". The URL:"+url);
 			return;
 		} else if ((game = this.getGame(player)) == null){
 			System.err.println("[GoldDiggerServer.java] No game for player: "+name);

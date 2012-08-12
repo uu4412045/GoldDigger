@@ -1,4 +1,4 @@
-package com.golddigger.server;
+package com.golddigger.services;
 
 import java.io.PrintWriter;
 
@@ -18,14 +18,14 @@ public abstract class Service implements Comparable<Service>{
 	/**
 	 * The offset for specific components of a URL
 	 */
-	public static final int URL_HOST = 0,
-							URL_CONTEXT= 1,
-							URL_TARGET = 2,
-							URL_PLAYER = 3,
-							URL_ACTION = 4,
-							URL_EXTRA1 = 5,
-							URL_EXTRA2 = 6,
-							URL_EXTRA3 = 7;
+	public static final int URL_HOST = 2,
+							URL_CONTEXT= 3,
+							URL_TARGET = 4,
+							URL_PLAYER = 5,
+							URL_ACTION = 6,
+							URL_EXTRA1 = 7,
+							URL_EXTRA2 = 8,
+							URL_EXTRA3 = 9;
 	
 	private int priority = BASE_PRIORITY;
 	/**

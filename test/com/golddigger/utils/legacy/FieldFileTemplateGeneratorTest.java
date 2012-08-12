@@ -17,14 +17,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.golddigger.model.Game;
-import com.golddigger.server.GameTemplate;
 import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
-import com.golddigger.services.old.CarryingService;
-import com.golddigger.services.old.DropService;
-import com.golddigger.services.old.GrabService;
-import com.golddigger.services.old.ScoreService;
+import com.golddigger.templates.GameTemplate;
 import com.golddigger.utils.generators.TemplateGenerator;
 import static com.golddigger.utils.legacy.LegacyTemplateParser.*;
 

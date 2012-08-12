@@ -7,7 +7,6 @@ import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.model.tiles.GoldTile;
-import com.golddigger.server.GameService;
 
 public class GoldService extends GameService {
 

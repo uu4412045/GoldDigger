@@ -1,13 +1,12 @@
 package com.golddigger.server;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-import com.golddigger.services.NextService;
-import com.golddigger.utils.Container;
+import com.golddigger.services.ServerService;
+import com.golddigger.templates.GameTemplate;
 
 /**
  * This is the collection of games, templates and players on this server.

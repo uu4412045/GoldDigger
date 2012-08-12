@@ -13,7 +13,6 @@ import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-import com.golddigger.server.GameService;
 import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.generators.ServiceGenerator;
 

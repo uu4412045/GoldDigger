@@ -1,7 +1,7 @@
 package com.golddigger.utils.legacy;
 
-import com.golddigger.server.GameTemplate;
 import com.golddigger.templates.CustomizableGameTemplate;
+import com.golddigger.templates.GameTemplate;
 
 public class LegacyTemplateParser {
 	public static final String DELIMITER = "!", SEPERATOR = "=";

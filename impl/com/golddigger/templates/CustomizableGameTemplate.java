@@ -5,35 +5,37 @@ import java.util.Map;
 
 import com.golddigger.model.Game;
 import com.golddigger.plugins.Plugin;
-import com.golddigger.server.GameService;
-import com.golddigger.server.GameTemplate;
 import com.golddigger.services.DayNightService;
+import com.golddigger.services.GameService;
 import com.golddigger.services.GoldService;
+import com.golddigger.services.HexMoveService;
+import com.golddigger.services.HexViewService;
 import com.golddigger.services.SquareMoveService;
-import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
-import com.golddigger.services.old.CarryingService;
-import com.golddigger.services.old.DropService;
-import com.golddigger.services.old.GrabService;
-import com.golddigger.services.old.ScoreService;
 import com.golddigger.utils.MapMaker;
 
 public class CustomizableGameTemplate extends GameTemplate {
-	private String[] services;
-	private String[] plugins;
-	private String[] costs;
+	private String[] services = new String[]{};
+	private String[] plugins = new String[]{};
+	private String[] costs = new String[]{};
 	private int lineOfSight = ViewService.DEFAULT_LINE_OF_SIGHT;
 	private int cycleTime = DayNightService.DEFAULT_CYCLE_TIME, scale = DayNightService.DEFAULT_SCALE;
+	private int numberOfSides = 4;
 	private String map;
 
 	@Override
 	public Game build() {
 		Game game = new Game(getID());
 		game.setMap(MapMaker.parse(map));
-		game.add(new ViewService(lineOfSight));
-		if (costs != null) game.add(new SquareMoveService(formatCosts(costs)));
-		else game.add(new SquareMoveService());
 		game.add(new GoldService());
+		
+		if (numberOfSides == 6){
+			game.add(new HexMoveService(formatCosts(costs)));
+			game.add(new HexViewService(lineOfSight));
+		} else {
+			game.add(new SquareMoveService(formatCosts(costs)));
+			game.add(new ViewService(lineOfSight));
+		}
 
 		if (services != null){
 			for (String service : services){
@@ -64,6 +66,11 @@ public class CustomizableGameTemplate extends GameTemplate {
 	public void setLineOfSight(int lineOfSight){
 		this.lineOfSight = lineOfSight;
 	}
+	
+	public void setNumberOfSides(int numberOfSides){
+		this.numberOfSides = numberOfSides;
+	}
+	
 	public void setServices(String[] services){
 		this.services = services;
 	}
@@ -92,7 +99,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		for (String cost : costs){
 			String[] s = cost.split("=");
-			map.put(s[0], Integer.parseInt(s[1]));
+			map.put(MapMaker.convert(s[0].charAt(0)).toString(), Integer.parseInt(s[1]));
 		}
 		return map;
 	}

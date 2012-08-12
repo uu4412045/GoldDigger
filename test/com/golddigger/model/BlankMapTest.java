@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.model.tiles.GoldTile;
 import com.golddigger.model.tiles.WallTile;
-import com.golddigger.utils.MapPrinter;
 
 public class BlankMapTest {
 

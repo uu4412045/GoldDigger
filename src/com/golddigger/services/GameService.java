@@ -1,4 +1,4 @@
-package com.golddigger.server;
+package com.golddigger.services;
 
 import com.golddigger.model.Game;
 

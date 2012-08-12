@@ -9,7 +9,6 @@ import com.golddigger.model.Player;
 import com.golddigger.model.Point2D;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
-import com.golddigger.server.GameService;
 
 public abstract class MoveService extends GameService {
 	public static final String ACTION_TEXT = "move";
@@ -26,7 +25,7 @@ public abstract class MoveService extends GameService {
 	
 	public MoveService(Map<String, Integer> costs){
 		this();
-		customCosts.putAll(costs);
+		if (costs != null) customCosts.putAll(costs);
 	}
 
 	@Override
@@ -35,7 +34,7 @@ public abstract class MoveService extends GameService {
 		String strDirection = parseURL(url, URL_EXTRA1);
 		if (strDirection == null) return false;
 		Direction direction = Direction.parse(strDirection);
-		return action.equalsIgnoreCase(ACTION_TEXT) && canMoveIn(direction);
+		return action.equalsIgnoreCase(ACTION_TEXT);
 	}
 
 	public abstract boolean canMoveIn(Direction direction);
@@ -43,6 +42,11 @@ public abstract class MoveService extends GameService {
 	@Override
 	public boolean execute(String url, PrintWriter out) {
 		Direction direction = Direction.parse(parseURL(url, URL_EXTRA1));
+		if (!canMoveIn(direction)) {
+			out.println("FAILED");
+			return true;
+		}
+		
 		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
 		Unit unit = game.getUnit(player);
 		if (unit == null){

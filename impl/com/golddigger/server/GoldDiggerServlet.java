@@ -1,4 +1,4 @@
-package com.golddigger.server.impl;
+package com.golddigger.server;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.golddigger.server.GoldDiggerServer;
-import com.golddigger.server.Service;
+import com.golddigger.services.Service;
 
 /**
  * The Servlet for the main interface for the Competitors. Simply passes the url to the {@link GoldDiggerServlet}
@@ -42,17 +42,15 @@ public class GoldDiggerServlet extends HttpServlet{
                 }
             }
 			synchronized(sync) {
-                long sleep = 100;
-                // long sleep = 20; // The sleep value is only used as a load limiter, no client should be able to overload the server. Change it if you want to test and is in a hurry
-                String header = req.getHeader("sleep");
+               String header = req.getHeader("sleep");
                 if (header != null) {
                     try {
-                        sleep = Long.parseLong(header);
+                        long sleep = Long.parseLong(header);
+                        Thread.sleep(sleep);
                     } catch (NumberFormatException e) {
                         // never mind
                     }
                 }
-                Thread.sleep(sleep);
             }
 			if (delayedServer != null) delayedServer.add(url);
 			server.process(url, resp.getWriter());

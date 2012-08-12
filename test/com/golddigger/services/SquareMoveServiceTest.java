@@ -32,12 +32,25 @@ public class SquareMoveServiceTest {
 	}
 
 	@Test
-	public void testMapBounds() throws Exception {
+	public void testInvalidMoves(){
+		//Make sure invalid directions fail
+		moveAndAssert(Direction.NORTH_EAST, "...\n.b.\n...\n", false);
+		moveAndAssert(Direction.NORTH_WEST, "...\n.b.\n...\n", false);
+		moveAndAssert(Direction.SOUTH_EAST, "...\n.b.\n...\n", false);
+		moveAndAssert(Direction.SOUTH_WEST, "...\n.b.\n...\n", false);
+	}
+	
+	@Test
+	public void testValidMoves(){
+		// Testing valid moves
 		moveAndAssert(Direction.NORTH, "www\n...\n.b.\n");
 		moveAndAssert(Direction.EAST, "www\n..w\nb.w\n");
 		moveAndAssert(Direction.SOUTH, "..w\nb.w\n..w\n");
 		moveAndAssert(Direction.WEST, "...\n.b.\n...\n");
-		
+	}
+	
+	@Test
+	public void testMapBounds() throws Exception {
 		//Should't move outside north bounds
 		moveAndAssert(Direction.NORTH, "www\n...\n.b.\n");
 		moveAndAssert(Direction.NORTH, "www\n...\n.b.\n", false);

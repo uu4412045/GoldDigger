@@ -1,5 +1,6 @@
-package com.golddigger.server;
+package com.golddigger.services;
 
+import com.golddigger.server.GameServer;
 
 public abstract class ServerService extends Service {
 	protected GameServer server;

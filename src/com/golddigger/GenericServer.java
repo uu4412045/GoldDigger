@@ -6,7 +6,7 @@ import org.mortbay.jetty.servlet.DefaultServlet;
 import org.mortbay.jetty.servlet.ServletHolder;
 
 import com.golddigger.server.GoldDiggerServer;
-import com.golddigger.server.impl.GoldDiggerServlet;
+import com.golddigger.server.GoldDiggerServlet;
 import com.golddigger.services.NextService;
 
 public class GenericServer  extends GoldDiggerServer {

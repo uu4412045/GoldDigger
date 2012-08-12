@@ -2,7 +2,7 @@ package com.golddigger.utils;
 
 import java.io.Reader;
 
-import com.golddigger.server.GameTemplate;
+import com.golddigger.templates.GameTemplate;
 import com.google.gson.Gson;
 
 public class JSONTemplateParser {

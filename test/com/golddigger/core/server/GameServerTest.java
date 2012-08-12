@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.golddigger.model.Player;
 import com.golddigger.server.GameServer;
-import com.golddigger.server.GameTemplate;
+import com.golddigger.templates.GameTemplate;
 import com.golddigger.templates.TestGameTemplate;
 
 public class GameServerTest {
