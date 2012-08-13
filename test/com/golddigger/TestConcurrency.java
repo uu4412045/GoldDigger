@@ -17,11 +17,11 @@ import com.meterware.httpunit.WebResponse;
 
 
 public class TestConcurrency {
-    private GenericServer server;
+    private ServletServer server;
 	
     @Before
     public void startServer() throws Exception {
-    	server = new GenericServer();
+    	server = new ServletServer();
     }
     
     @After

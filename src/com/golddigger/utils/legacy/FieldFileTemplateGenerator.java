@@ -14,9 +14,9 @@ import com.golddigger.utils.generators.TemplateGenerator;
 
 public class FieldFileTemplateGenerator implements TemplateGenerator{
 
-	File dir;
+	private File dir;
 
-	public FieldFileTemplateGenerator(File directory){
+	public void setDirectory(File directory){
 		this.dir = directory;
 	}
 

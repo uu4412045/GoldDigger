@@ -6,21 +6,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.golddigger.GenericServer;
+import com.golddigger.ServletServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
 import com.golddigger.templates.TestGameTemplate;
 
 public class GoldServiceTest {
-	GenericServer server;
+	ServletServer server;
 	TestingClient client;
 	private static final String MAP = "wwwww\nw.2.w\nw.b.w\nw.9.ww\nwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
 
 	@Before()
 	public void setup(){
-		server = new GenericServer();
+		server = new ServletServer();
 		server.add(new TestGameTemplate(MAP));
 		server.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);

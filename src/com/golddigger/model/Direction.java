@@ -18,4 +18,21 @@ public enum Direction{
 	public boolean isHex() {
 		return this != EAST && this != WEST;
 	}
+	
+
+	public Point2D getOffset(Point2D position){
+		int x = 0, y = 0, i = x%2;
+		switch(this){
+		case NORTH: return position.add(-1,0);
+		case SOUTH: return position.add(1,0);
+		case EAST: return position.add(0,1);
+		case WEST: return position.add(0,-1);
+		case NORTH_EAST: return position.add(1,i-1);
+		case SOUTH_EAST: return position.add(1,i);
+		case NORTH_WEST: return position.add(-1,i-1);
+		case SOUTH_WEST: return position.add(-1,i);
+		default: break;
+		}
+		return position.add(x,y);
+	}
 }

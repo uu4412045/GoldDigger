@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.golddigger.GenericServer;
+import com.golddigger.ServletServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
@@ -18,14 +18,14 @@ import com.golddigger.utils.generators.ServiceGenerator;
 
 
 public class MovementCostTest {
-	GenericServer server;
+	ServletServer server;
 	TestingClient client;
 	private static final String MAP = "wwwwwwwwwwwwww\nwbbcdshfrmt.19w\nwwwwwwwwwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
 
 	@Before()
 	public void setup(){
-		server = new GenericServer();
+		server = new ServletServer();
 		server.add(new TestGameTemplate(MAP));
 		
 		// Adding GameTemplate with custom costs

@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.golddigger.GenericServer;
+import com.golddigger.ServletServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
@@ -14,7 +14,7 @@ import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.generators.BaseServiceGenerator;
 
 public class ViewServiceTest {
-	GenericServer server;
+	ServletServer server;
 	TestingClient client;
 	private static final String MAP_1 = "wwwwww\nw.123w\nw45b6w\nw789ww\nwwwww";
 	private static final String MAP_2 = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
@@ -24,7 +24,7 @@ public class ViewServiceTest {
 	public void setup(){
 		BaseServiceGenerator gen = new BaseServiceGenerator();
 		gen.setLOS(2);
-		server = new GenericServer();
+		server = new ServletServer();
 		client = new TestingClient("test", BASE_URL);
 		server.add(new TestGameTemplate(MAP_1));
 		server.add(new TestGameTemplate(MAP_2, gen));

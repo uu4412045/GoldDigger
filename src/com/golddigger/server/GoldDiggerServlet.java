@@ -13,7 +13,7 @@ import com.golddigger.server.GoldDiggerServer;
 import com.golddigger.services.Service;
 
 /**
- * The Servlet for the main interface for the Competitors. Simply passes the url to the {@link GoldDiggerServlet}
+ * The Servlet for the main interface for the Competitors. Simply passes the url to the {@link GoldDiggerServer}
  * @author Brett Wandel
  */
 public class GoldDiggerServlet extends HttpServlet{
@@ -22,9 +22,10 @@ public class GoldDiggerServlet extends HttpServlet{
 	private DirectInputDelayedServer delayedServer;
     private Set<String> executingSecrets = new HashSet<String>();
 	
-	public GoldDiggerServlet(GoldDiggerServer server){
+	public GoldDiggerServlet(GoldDiggerServer server, DirectInputDelayedServer delayedServer){
 		super();
 		this.server = server;
+		this.delayedServer = delayedServer;
 	}
 	
 	@Override
@@ -52,7 +53,9 @@ public class GoldDiggerServlet extends HttpServlet{
                     }
                 }
             }
-			if (delayedServer != null) delayedServer.add(url);
+			if (this.delayedServer != null) {
+				this.delayedServer.add(url);
+			}
 			server.process(url, resp.getWriter());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -63,9 +66,5 @@ public class GoldDiggerServlet extends HttpServlet{
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doPost(req,resp);
-	}
-
-	public void setDelayedServer(DirectInputDelayedServer delayedServer) {
-		this.delayedServer = delayedServer;
 	}
 }

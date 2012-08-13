@@ -6,14 +6,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.golddigger.GenericServer;
+import com.golddigger.ServletServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
 import com.golddigger.templates.TestGameTemplate;
 
 public class NextGameTest {
-	GenericServer server;
+	ServletServer server;
 	TestingClient client;
 	private static final String MAP_1 = "wwwww\nw.2.w\nw.b.w\nw...ww\nwwwww";
 	private static final String MAP_2 = "www\nwbw\nwww";
@@ -21,7 +21,7 @@ public class NextGameTest {
 
 	@Before()
 	public void setup(){
-		server = new GenericServer();
+		server = new ServletServer();
 		server.add(new TestGameTemplate(MAP_1));
 		server.add(new TestGameTemplate(MAP_2));
 		server.add(new Player("test", "secret"));

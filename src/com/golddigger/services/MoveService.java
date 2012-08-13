@@ -55,7 +55,7 @@ public abstract class MoveService extends GameService {
 		}
 		Tile tile;
 		synchronized (game){ //stop other units in the same game moving at the same time.
-			Point2D target = getOffset(unit.getPosition(), direction);
+			Point2D target = direction.getOffset(unit.getPosition());
 			tile = game.getMap().get(target);
 			if (tile == null) {
 				out.println("FAILED");
@@ -83,19 +83,4 @@ public abstract class MoveService extends GameService {
 		return customCosts.get(key);
 	}
 	
-	public Point2D getOffset(Point2D position, Direction direction){
-		int x = 0, y = 0, i = x%2;
-		switch(direction){
-		case NORTH: return position.add(-1,0);
-		case SOUTH: return position.add(1,0);
-		case EAST: return position.add(0,1);
-		case WEST: return position.add(0,-1);
-		case NORTH_EAST: return position.add(1,i-1);
-		case SOUTH_EAST: return position.add(1,i);
-		case NORTH_WEST: return position.add(-1,i-1);
-		case SOUTH_WEST: return position.add(-1,i);
-		default: break;
-		}
-		return position.add(x,y);
-	}
 }

@@ -2,7 +2,6 @@ package com.golddigger.server;
 
 import java.io.PrintWriter;
 
-import com.golddigger.server.GoldDiggerServer;
 import com.golddigger.utils.NullWriter;
 /**
  * The Base for a Delayed server. used to provide a time lag spectator view for the competitors
@@ -21,6 +20,7 @@ public abstract class DelayedServer extends Thread  {
 	public DelayedServer(GoldDiggerServer server, long delay) {
 		this.delay = delay;
 		this.server = server;
+		this.start();
 	}
 
 	/**

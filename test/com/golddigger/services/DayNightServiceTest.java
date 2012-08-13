@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.golddigger.GenericServer;
+import com.golddigger.ServletServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Game;
@@ -17,7 +17,7 @@ import com.golddigger.templates.TestGameTemplate;
 import com.golddigger.utils.generators.ServiceGenerator;
 
 public class DayNightServiceTest {
-	GenericServer server;
+	ServletServer server;
 	TestingClient client;
 	ViewService vService;
 	private static final String MAP = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
@@ -25,7 +25,7 @@ public class DayNightServiceTest {
 
 	@Before()
 	public void setup(){
-		server = new GenericServer();
+		server = new ServletServer();
 		ServiceGenerator gen = new ServiceGenerator(){
 			@Override
 			public GameService[] generate() {

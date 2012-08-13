@@ -1,43 +1,58 @@
 package com.golddigger;
 
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.servlet.Context;
-import org.mortbay.jetty.servlet.DefaultServlet;
-import org.mortbay.jetty.servlet.ServletHolder;
-
+import com.golddigger.model.Player;
+import com.golddigger.server.DirectInputDelayedServer;
 import com.golddigger.server.GoldDiggerServer;
-import com.golddigger.server.GoldDiggerServlet;
 import com.golddigger.services.NextService;
+import com.golddigger.templates.GameTemplate;
+import com.golddigger.templates.TestGameTemplate;
 
-public class GenericServer  extends GoldDiggerServer {
-	private final static int PORT = 8066;
-	private final static String SERVLET_CONTEXT = "golddigger";
-	private Server server;
+public class GenericServer {
+	private GoldDiggerServer main, delayed;
+	private DirectInputDelayedServer delayedServer;
 	
 	public GenericServer(){
-		this(-1);
+		this.main = new ServletServer(delayedServer);
 	}
 	
-	public GenericServer(int delay){
-		GoldDiggerServlet servlet = new GoldDiggerServlet(this);
-		try {
-            server = new Server(PORT);
-            Context root = new Context(server, "/", Context.SESSIONS);
-            root.addServlet(new ServletHolder(servlet), "/" + SERVLET_CONTEXT + "/*");
-            root.addServlet(DefaultServlet.class.getName(), "/");
-            server.start();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+	public GenericServer(long delay){
+		this.delayed = new GoldDiggerServer();
+		this.delayedServer = new DirectInputDelayedServer(this.delayed, delay);
+		this.delayed.add(new NextService());
 		
-		this.add(new NextService());
+		this.main = new ServletServer(this.delayedServer);
+	}
+	
+	public static void main(String[] args){
+		GenericServer server = new GenericServer();
+		server.addTemplate(new TestGameTemplate("wwwww\nw.b.w\nwwwww"));
+		server.addTemplate(new TestGameTemplate("wwwww\nw1b1w\nwwwww"));
+		server.addPlayer("test", "secret");
 	}
 
-	public void stop(){
-		try {
-			server.stop();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+	public GoldDiggerServer getMain(){
+		return this.main;
+	}
+	
+	public GoldDiggerServer getDelayed(){
+		return this.delayed;
+	}
+	
+	public void addPlayer(String name, String secret){
+		this.main.add(new Player(name, secret));
+		if (this.delayed != null){
+			this.delayed.add(new Player(name, secret));
 		}
+	}
+	
+	public void addTemplate(GameTemplate template){
+		this.main.add(template);
+		if (this.delayed != null){
+			this.delayed.add(template);
+		}
+	}
+	
+	public void stop(){
+		((ServletServer) main).stop();
 	}
 }

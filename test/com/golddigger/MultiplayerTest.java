@@ -15,14 +15,14 @@ public class MultiplayerTest {
 	private static final String MAP_1 = "www\nwbw\nwww";
 	private static final String MAP_2 = "wwwww\nwb1bw\nwwwww";
 	private static final String BASE_URL = "http://localhost:8066";
-	private GenericServer server;
+	private ServletServer server;
 	private TestingClient player1;
 	private TestingClient player2;
 	
 
 	@Before()
 	public void setup(){
-		server = new GenericServer();
+		server = new ServletServer();
 		server.add(new TestGameTemplate(MAP_1));
 		server.add(new TestGameTemplate(MAP_2));
 		server.add(new TestGameTemplate(MAP_1));

@@ -171,7 +171,7 @@ public class Game {
 		return getUnownedBase() != null;
 	}
 
-	protected BaseTile[] getBases(){
+	public BaseTile[] getBases(){
 		ArrayList<BaseTile> bases = new ArrayList<BaseTile>();
 		for (Tile[] row : map.getTiles()){
 			for (Tile t : row){
