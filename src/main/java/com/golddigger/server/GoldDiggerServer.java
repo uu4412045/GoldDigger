@@ -10,6 +10,7 @@ import com.golddigger.services.Service;
  * @author Brett Wandel
  */
 public class GoldDiggerServer extends GameServer{
+
 	/**
 	 * Checks to make sure that the Player in the url exists, and that they are in a game.
 	 * After the checks, the url is passed to the games services.

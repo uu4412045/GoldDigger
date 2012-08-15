@@ -185,4 +185,8 @@ public class GameServer {
 		this.templates = new ArrayList<GameTemplate>();
 		this.players = new ArrayList<Player>();
 	}
+
+	public Player[] getPlayers() {
+		return this.players.toArray(new Player[]{});
+	}
 }

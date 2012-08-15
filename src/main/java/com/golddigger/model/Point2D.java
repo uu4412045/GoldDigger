@@ -40,4 +40,11 @@ public class Point2D {
 		public Point2D inverse(){
 			return new Point2D(-x, -y);
 		}
+
+		public int getX() {
+			return x;
+		}
+		public int getY() {
+			return y;
+		}
 	}
