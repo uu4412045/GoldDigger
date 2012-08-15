@@ -122,7 +122,7 @@ public class Map {
 		return false;
 	}
 
-	public Point2D getPostion(Tile tile) {
+	public Point2D getPosition(Tile tile) {
 		for (int x = 0; x <= getMaxX(); x++){
 			for (int y = 0; y <= getMaxY(); y++){
 				if (get(x, y) == tile){

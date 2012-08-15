@@ -152,7 +152,7 @@ public class Game {
 	 */
 	private void add(Player player, BaseTile base){
 		base.setOwner(player);
-		Unit unit = new Unit(player, map.getPostion(base));
+		Unit unit = new Unit(player, map.getPosition(base));
 		units.add(unit);
 	}
 
