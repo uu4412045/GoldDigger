@@ -1,4 +1,4 @@
-package com.golddigger.utils.legacy;
+package com.golddigger.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.golddigger.templates.GameTemplate;
-import com.golddigger.utils.generators.TemplateGenerator;
+import com.golddigger.templates.generators.TemplateGenerator;
 
 public class FieldFileTemplateGenerator implements TemplateGenerator{
 

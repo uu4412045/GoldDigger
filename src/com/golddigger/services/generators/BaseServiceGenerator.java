@@ -1,4 +1,4 @@
-package com.golddigger.utils.generators;
+package com.golddigger.services.generators;
 
 import java.util.ArrayList;
 import java.util.HashMap;

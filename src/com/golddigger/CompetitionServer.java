@@ -1,6 +1,6 @@
 package com.golddigger;
 import com.golddigger.templates.GameTemplate;
-import com.golddigger.utils.generators.CompetitionTemplateGenerator;
+import com.golddigger.templates.generators.CompetitionTemplateGenerator;
 
 
 public class CompetitionServer extends GenericServer {
@@ -10,7 +10,7 @@ public class CompetitionServer extends GenericServer {
 	String[] players;
 	
 	public CompetitionServer(){
-		super(5*SECONDS);
+		super(5*MINUTES);
 		
 		for (GameTemplate template : new CompetitionTemplateGenerator().generate()){
 			this.addTemplate(template);

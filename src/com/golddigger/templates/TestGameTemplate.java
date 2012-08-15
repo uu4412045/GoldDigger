@@ -3,9 +3,9 @@ package com.golddigger.templates;
 
 import com.golddigger.model.Game;
 import com.golddigger.services.GameService;
+import com.golddigger.services.generators.BaseServiceGenerator;
+import com.golddigger.services.generators.ServiceGenerator;
 import com.golddigger.utils.MapMaker;
-import com.golddigger.utils.generators.BaseServiceGenerator;
-import com.golddigger.utils.generators.ServiceGenerator;
 
 public class TestGameTemplate extends GameTemplate {
 	private String map;

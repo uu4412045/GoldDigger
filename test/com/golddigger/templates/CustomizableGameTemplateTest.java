@@ -19,6 +19,7 @@ import com.golddigger.services.HexViewService;
 import com.golddigger.services.MoveService;
 import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.ViewService;
+import com.golddigger.templates.CustomizableGameTemplate;
 import com.golddigger.utils.MapMaker;
 
 public class CustomizableGameTemplateTest {
@@ -47,9 +48,9 @@ public class CustomizableGameTemplateTest {
 			}
 		}
 		assertNotNull(move);
-		assertEquals(200, move.getCost(new BaseTile().toString()));
-		assertEquals(300, move.getCost(new MountainTile().toString()));
-		assertEquals(1000, move.getCost(new DeepWaterTile().toString()));
+		assertEquals(200, move.getCost(new BaseTile()));
+		assertEquals(300, move.getCost(new MountainTile()));
+		assertEquals(1000, move.getCost(new DeepWaterTile()));
 	}
 
 	@Test

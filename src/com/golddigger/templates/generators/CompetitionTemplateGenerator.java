@@ -1,8 +1,8 @@
-package com.golddigger.utils.generators;
+package com.golddigger.templates.generators;
 
 import java.io.File;
 
-import com.golddigger.utils.legacy.FieldFileTemplateGenerator;
+import com.golddigger.utils.FieldFileTemplateGenerator;
 
 public class CompetitionTemplateGenerator extends FieldFileTemplateGenerator {
 

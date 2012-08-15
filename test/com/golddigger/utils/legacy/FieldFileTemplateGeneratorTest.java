@@ -21,8 +21,9 @@ import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
 import com.golddigger.templates.GameTemplate;
-import com.golddigger.utils.generators.TemplateGenerator;
-import static com.golddigger.utils.legacy.LegacyTemplateParser.*;
+import com.golddigger.templates.generators.TemplateGenerator;
+
+import static com.golddigger.utils.LegacyTemplateParser.*;
 
 public class FieldFileTemplateGeneratorTest {
 	File tmp;

@@ -99,7 +99,10 @@ public class CustomizableGameTemplate extends GameTemplate {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		for (String cost : costs){
 			String[] s = cost.split("=");
-			map.put(MapMaker.convert(s[0].charAt(0)).toString(), Integer.parseInt(s[1]));
+			String key = MapMaker.convert(s[0].charAt(0)).toString();
+			Integer value = Integer.parseInt(s[1]);
+			System.out.println("Customizable Game Template: Added Cost "+key+" => "+value);
+			map.put(key, value);
 		}
 		return map;
 	}

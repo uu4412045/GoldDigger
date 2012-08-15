@@ -26,7 +26,7 @@ public class SquareMoveService extends MoveService {
 	}
 	
 	@Override
-	public boolean canMoveIn(Direction direction) {
+	public boolean isValidDirection(Direction direction) {
 		if (direction == null) return false;
 		switch (direction){
 		case NORTH: return true;

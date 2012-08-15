@@ -1,4 +1,4 @@
-package com.golddigger.utils.legacy;
+package com.golddigger.utils;
 
 import com.golddigger.templates.CustomizableGameTemplate;
 import com.golddigger.templates.GameTemplate;
@@ -36,7 +36,6 @@ public class LegacyTemplateParser {
 		String[] costs = section.split("\n");
 		return costs;
 	}
-	
 	
 	/**
 	 * Returns the line of sight length from the field file

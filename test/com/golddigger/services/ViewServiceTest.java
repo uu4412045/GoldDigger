@@ -10,8 +10,8 @@ import com.golddigger.ServletServer;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
+import com.golddigger.services.generators.BaseServiceGenerator;
 import com.golddigger.templates.TestGameTemplate;
-import com.golddigger.utils.generators.BaseServiceGenerator;
 
 public class ViewServiceTest {
 	ServletServer server;

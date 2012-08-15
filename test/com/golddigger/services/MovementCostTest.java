@@ -12,9 +12,9 @@ import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
 import com.golddigger.model.tiles.*;
+import com.golddigger.services.generators.BaseServiceGenerator;
+import com.golddigger.services.generators.ServiceGenerator;
 import com.golddigger.templates.TestGameTemplate;
-import com.golddigger.utils.generators.BaseServiceGenerator;
-import com.golddigger.utils.generators.ServiceGenerator;
 
 
 public class MovementCostTest {

@@ -1,6 +1,7 @@
-package com.golddigger.utils.generators;
+package com.golddigger.templates.generators;
 
 import com.golddigger.templates.GameTemplate;
+
 
 /**
  * 

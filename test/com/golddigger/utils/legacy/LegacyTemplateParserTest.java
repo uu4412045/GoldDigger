@@ -1,7 +1,7 @@
 package com.golddigger.utils.legacy;
 
 import static org.junit.Assert.*;
-import static com.golddigger.utils.legacy.LegacyTemplateParser.*;
+import static com.golddigger.utils.LegacyTemplateParser.*;
 
 import org.junit.Test;
 

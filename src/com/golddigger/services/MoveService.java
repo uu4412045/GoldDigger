@@ -31,18 +31,20 @@ public abstract class MoveService extends GameService {
 	@Override
 	public boolean runnable(String url) {
 		String action = parseURL(url, URL_ACTION);
+		if (!action.equalsIgnoreCase(ACTION_TEXT)) return false;
+		
 		String strDirection = parseURL(url, URL_EXTRA1);
 		if (strDirection == null) return false;
 		Direction direction = Direction.parse(strDirection);
-		return action.equalsIgnoreCase(ACTION_TEXT);
+		return isValidDirection(direction);
 	}
 
-	public abstract boolean canMoveIn(Direction direction);
+	public abstract boolean isValidDirection(Direction direction);
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
 		Direction direction = Direction.parse(parseURL(url, URL_EXTRA1));
-		if (!canMoveIn(direction)) {
+		if (!isValidDirection(direction)) {
 			out.println("FAILED");
 			return true;
 		}
@@ -68,7 +70,7 @@ public abstract class MoveService extends GameService {
 		}
 		
 		try {
-			Integer cost = customCosts.get(tile.toString());
+			Integer cost = customCosts.get(tile);
 			if (cost == null) {
 				cost = tile.getDefaultMovementCost();
 			}
@@ -80,7 +82,11 @@ public abstract class MoveService extends GameService {
 	}
 
 	public int getCost(String key) {
-		return customCosts.get(key);
+		return this.customCosts.get(key);
+	}
+	
+	public int getCost(Tile tile){
+		return this.getCost(tile.toString());
 	}
 	
 }

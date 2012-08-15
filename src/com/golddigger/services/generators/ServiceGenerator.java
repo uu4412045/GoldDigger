@@ -1,4 +1,4 @@
-package com.golddigger.utils.generators;
+package com.golddigger.services.generators;
 
 import com.golddigger.services.GameService;
 

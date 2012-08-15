@@ -14,7 +14,7 @@ public class HexMoveService extends MoveService{
 		super(costs);
 	}
 	@Override
-	public boolean canMoveIn(Direction direction) {
+	public boolean isValidDirection(Direction direction) {
 		if (direction == null) return false;
 		return direction != Direction.EAST && direction != Direction.WEST;
 	}
