@@ -27,7 +27,7 @@ public class FieldView extends JPanel {
 		this.unit = game.getUnit(player);
 		
 		isHex = game.getServices(HexMoveService.class).size() == 1;
-		if (isHex) renderer = new HexRenderer(game, unit);
+		if (isHex) renderer = new HexRenderer(this, game, unit);
 		else renderer = new SquareRenderer(this, game, unit);
 		this.setVisible(true);
 	}

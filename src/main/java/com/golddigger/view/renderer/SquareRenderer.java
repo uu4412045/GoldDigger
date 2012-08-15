@@ -40,6 +40,7 @@ public class SquareRenderer implements FieldRenderer {
 	private static Image ROAD = loadImage("road.png");
 	private static Image SHALLOW_WATER = loadImage("shallow_water.png");
 	private static Image TELEPORT= loadImage("teleport.png");
+	private static Image SOLID= loadImage("solid.png");
 
 	private static Image[] golds = new Image[]{GOLD0, GOLD1, GOLD2, GOLD3, GOLD4, GOLD5, GOLD6, GOLD7, GOLD8, GOLD9};
 
@@ -98,7 +99,7 @@ public class SquareRenderer implements FieldRenderer {
 		} else if (tile instanceof BaseTile){
 			image = BANK;
 		} else if (tile == null){
-			image = WALL_CENTER;
+			image = SOLID;
 		} else if (tile instanceof CityTile){
 			image = CITY;
 		} else if (tile instanceof DeepWaterTile){
@@ -120,7 +121,6 @@ public class SquareRenderer implements FieldRenderer {
 		}
 		return image;
 	}
-
 
 	private Image getWallTileImage(Point2D position) {
 		Map map = game.getMap();

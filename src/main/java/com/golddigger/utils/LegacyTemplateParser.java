@@ -9,7 +9,7 @@ public class LegacyTemplateParser {
 	public final static String TILES = "field-tiles",
 			COSTS = "cost-per-type",
 			LINE_OF_SIGHT = "line-of-sight",
-			NO_OF_SIDES   = "number-of-sides",
+			NUMBER_OF_SIDES   = "number-of-sides",
 			PLUGINS = "plugins";
 
 	public static GameTemplate parse(String text){
@@ -24,10 +24,18 @@ public class LegacyTemplateParser {
 			if (los != -1){
 				template.setLineOfSight(los);
 			}
+			int numberOfSides = getNumberOfSides(text);
+			if (numberOfSides != 4) template.setNumberOfSides(numberOfSides);
 		} else {
 			template.setMap(text);
 		}
 		return template;
+	}
+
+	private static int getNumberOfSides(String text) {
+		String value = getAttribute(NUMBER_OF_SIDES, text);
+		if (value == null) return 4;
+		else return Integer.parseInt(value);
 	}
 
 	public static String[] parseCosts(String text){
