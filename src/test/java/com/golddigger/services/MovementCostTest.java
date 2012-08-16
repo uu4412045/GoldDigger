@@ -14,6 +14,7 @@ import com.golddigger.model.Player;
 import com.golddigger.model.tiles.*;
 import com.golddigger.services.generators.BaseServiceGenerator;
 import com.golddigger.services.generators.ServiceGenerator;
+import com.golddigger.templates.CustomizableGameTemplate;
 import com.golddigger.templates.TestGameTemplate;
 
 
@@ -26,25 +27,15 @@ public class MovementCostTest {
 	@Before()
 	public void setup(){
 		server = new ServletServer();
-		server.add(new TestGameTemplate(MAP));
 		
-		// Adding GameTemplate with custom costs
-		HashMap<String, Integer> costs = new HashMap<String, Integer>();
-		costs.put(BaseTile.class.getSimpleName(),50);
-		costs.put(CityTile.class.getSimpleName(),50);
-		costs.put(DeepWaterTile.class.getSimpleName(),50);
-		costs.put(ShallowWaterTile.class.getSimpleName(),50);
-		costs.put(HillTile.class.getSimpleName(),50);
-		costs.put(ForestTile.class.getSimpleName(),50);
-		costs.put(RoadTile.class.getSimpleName(),50);
-		costs.put(MountainTile.class.getSimpleName(),50);
-		costs.put(TeleportTile.class.getSimpleName(),50);
-		costs.put(GoldTile.class.getSimpleName()+"_0",50);
-		costs.put(GoldTile.class.getSimpleName()+"_1",150);
-		costs.put(GoldTile.class.getSimpleName()+"_9",50);
-		BaseServiceGenerator gen = new BaseServiceGenerator();
-		gen.setCosts(costs);
-		server.add(new TestGameTemplate(MAP, gen));
+		String[] costs = {"b=50","c=50","d=50", "s=50", "h=50", "f=50","r=100","m=50","t=50",".=50", "1=150", "9=50" };
+		CustomizableGameTemplate template = new CustomizableGameTemplate();
+		CustomizableGameTemplate template1 = new CustomizableGameTemplate();
+		template.setMap(MAP);
+		template1.setMap(MAP);
+		template1.setCosts(costs);
+		server.add(template);
+		server.add(template1);
 		
 		server.add(new Player("test", "secret"));
 		client = new TestingClient("test", BASE_URL);
@@ -60,7 +51,7 @@ public class MovementCostTest {
 
 		// Testing with the default values
 		// Viewing first as there seems to be a 200ms performance
-		// hit for the first command of the game;
+//		// hit for the first command of the game;
 		client.view();
 		moveAndTime(Direction.EAST, BaseTile.DEFAULT_MOVEMENT_COST);
 		moveAndTime(Direction.EAST, CityTile.DEFAULT_MOVEMENT_COST);
@@ -83,7 +74,7 @@ public class MovementCostTest {
 		moveAndTime(Direction.EAST, 50);
 		moveAndTime(Direction.EAST, 50);
 		moveAndTime(Direction.EAST, 50);
-		moveAndTime(Direction.EAST, 50);
+		moveAndTime(Direction.EAST, 100);
 		moveAndTime(Direction.EAST, 50);
 		moveAndTime(Direction.EAST, 50);
 		moveAndTime(Direction.EAST, 50);
@@ -95,6 +86,6 @@ public class MovementCostTest {
 	private void moveAndTime(Direction d, long time){
 		long start = System.currentTimeMillis();
 		client.move(d);
-		assertEquals(time, System.currentTimeMillis() - start, 20);
+		assertEquals(time, System.currentTimeMillis() - start, 40);
 	}
 }

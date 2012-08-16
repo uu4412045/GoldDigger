@@ -26,17 +26,22 @@ public abstract class MoveService extends GameService {
 	public MoveService(Map<String, Integer> costs){
 		this();
 		if (costs != null) customCosts.putAll(costs);
+		for (String key : customCosts.keySet()){
+			System.err.println("Added "+key+" with cost "+customCosts.get(key));
+		}
 	}
 
 	@Override
 	public boolean runnable(String url) {
+		long start = System.currentTimeMillis();
 		String action = parseURL(url, URL_ACTION);
 		if (!action.equalsIgnoreCase(ACTION_TEXT)) return false;
 		
 		String strDirection = parseURL(url, URL_EXTRA1);
 		if (strDirection == null) return false;
 		Direction direction = Direction.parse(strDirection);
-		return isValidDirection(direction);
+		System.out.println("MoveService.runnable - "+(System.currentTimeMillis() - start)+"ms");
+		return direction != null;
 	}
 
 	public abstract boolean isValidDirection(Direction direction);
@@ -61,6 +66,7 @@ public abstract class MoveService extends GameService {
 			tile = game.getMap().get(target);
 			if (tile == null) {
 				out.println("FAILED");
+				return true;
 			} else if (!tile.isTreadable() || game.isUnitAt(target)){
 				out.println("FAILED");
 			} else {
@@ -68,24 +74,29 @@ public abstract class MoveService extends GameService {
 				out.println("OK");
 			}
 		}
-		
+
 		try {
-			Integer cost = customCosts.get(tile);
+			long start = System.currentTimeMillis();
+			Integer cost = this.getCost(tile);//customCosts.get(tile.toString());
 			if (cost == null) {
 				cost = tile.getDefaultMovementCost();
+				System.out.println("no custom cost");
 			}
+			System.out.println("MoveService.sleep - Sleeping for "+cost+"ms");
 			Thread.sleep(cost);
+			System.out.println("MoveService.sleeping - Actually slept for"+(System.currentTimeMillis() - start)+"ms");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return true;
 	}
 
-	public int getCost(String key) {
+	public Integer getCost(String key) {
+		if (customCosts == null) return null;
 		return this.customCosts.get(key);
 	}
 	
-	public int getCost(Tile tile){
+	public Integer getCost(Tile tile){
 		return this.getCost(tile.toString());
 	}
 	

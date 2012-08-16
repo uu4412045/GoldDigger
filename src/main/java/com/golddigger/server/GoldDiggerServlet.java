@@ -31,6 +31,7 @@ public class GoldDiggerServlet extends HttpServlet{
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String url = req.getRequestURL().toString();
+		long start = System.currentTimeMillis();
 		String sync = Service.parseURL(url, Service.URL_PLAYER);
 		if (sync == null) sync = "defaultSyncString";
 		try {
@@ -42,26 +43,27 @@ public class GoldDiggerServlet extends HttpServlet{
                    executingSecrets.add(sync);
                 }
             }
-			synchronized(sync) {
-               String header = req.getHeader("sleep");
-                if (header != null) {
-                    try {
-                        long sleep = Long.parseLong(header);
-                        Thread.sleep(sleep);
-                    } catch (NumberFormatException e) {
-                        // never mind
-                    }
-                }
-            }
+//			synchronized(sync) {
+//               String header = req.getHeader("sleep");
+//                if (header != null) {
+//                    try {
+//                        long sleep = Long.parseLong(header);
+//                        Thread.sleep(sleep);
+//                    } catch (NumberFormatException e) {
+//                        // never mind
+//                    }
+//                }
+//            }
 			if (this.delayedServer != null) {
 				this.delayedServer.add(url);
 			}
 			server.process(url, resp.getWriter());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
 		} finally {
 			executingSecrets.remove(sync);
 		}
+		System.out.println(url+" - "+(System.currentTimeMillis()-start)+"ms");
 	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

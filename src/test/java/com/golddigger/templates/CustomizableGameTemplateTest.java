@@ -48,9 +48,9 @@ public class CustomizableGameTemplateTest {
 			}
 		}
 		assertNotNull(move);
-		assertEquals(200, move.getCost(new BaseTile()));
-		assertEquals(300, move.getCost(new MountainTile()));
-		assertEquals(1000, move.getCost(new DeepWaterTile()));
+		assertEquals(200, (int) move.getCost(new BaseTile()));
+		assertEquals(300, (int) move.getCost(new MountainTile()));
+		assertEquals(1000, (int) move.getCost(new DeepWaterTile()));
 	}
 
 	@Test

@@ -10,7 +10,7 @@ public class CompetitionServer extends GenericServer {
 	String[] players;
 	
 	public CompetitionServer(){
-		super(5*MINUTES);
+		super(5*MINUTES, false);
 		
 		for (GameTemplate template : new CompetitionTemplateGenerator().generate()){
 			this.addTemplate(template);

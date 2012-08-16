@@ -34,7 +34,7 @@ public class GenericServerTest {
 
 	@Test
 	public void testGenericServerLong() throws InterruptedException {
-		server = new GenericServer(1000);
+		server = new GenericServer(1000, true);
 		assertNotNull(server.getDelayed());
 		assertNotNull(server.getMain());
 		
@@ -68,7 +68,7 @@ public class GenericServerTest {
 
 	@Test
 	public void testAddPlayer() {
-		server = new GenericServer(1000);
+		server = new GenericServer(1000, true);
 
 		GameServer main = server.getMain();
 		GameServer delayed = server.getDelayed();
@@ -83,7 +83,7 @@ public class GenericServerTest {
 
 	@Test
 	public void testAddTemplate() {
-		server = new GenericServer(1000);
+		server = new GenericServer(1000, true );
 
 		GameServer main = server.getMain();
 		GameServer delayed = server.getDelayed();
