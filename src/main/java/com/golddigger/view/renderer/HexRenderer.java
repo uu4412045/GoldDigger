@@ -66,14 +66,21 @@ public class HexRenderer implements FieldRenderer {
 
 	@Override
 	public void render(Graphics graphics, Rectangle bounds) {
-//		graphics.drawString("Hello World", 10, 10);
+
+		int x = 32*unit.getX() + 16;
+		int y = 32*unit.getY() + 16;
+		
+		x -= bounds.getWidth()/2;
+		y -= bounds.getHeight()/2;
+		graphics.translate(-x, -y);
 		draw(graphics, game.getMap().getTiles(), 0, 0);
+		graphics.translate(x, y);
 	}
 	
 	private void draw(Graphics graphics, Tile[][] area, int offsetX, int offsetY){
 		for (int i = 0; i < area.length; i++){
 			for (int j = 0; j < area[i].length; j++) {
-				draw(graphics, area[i][j], i, j, offsetX, offsetY);
+				draw(graphics, area[i][j], j, i, offsetX, offsetY);
 			}
 		}
 	}
@@ -89,7 +96,7 @@ public class HexRenderer implements FieldRenderer {
 			y = (int) Math.round((HEX_Y_DISTANCE*j) * HEX_H + ((i+1) % 2) * HEX_H);				
 		}
 		
-		graphics.drawImage(getImage(tile), x,y, view);
+		graphics.drawImage(getImage(tile), x, y, view);
 	}
 
 	private Image getImage(Tile tile){
