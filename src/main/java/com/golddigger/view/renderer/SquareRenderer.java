@@ -61,13 +61,14 @@ public class SquareRenderer implements FieldRenderer {
 	
 	@Override
 	public void render(Graphics graphics, Rectangle bounds) {
-		int x = -32*unit.getX() - 16;
-		int y = -32*unit.getY() - 16;
+		int x = 32*unit.getX() + 16;
+		int y = 32*unit.getY() + 16;
 		
-		x += bounds.getWidth()/2;
-		y += bounds.getHeight()/2;
-
-		render(graphics, x, y);
+		x -= bounds.getWidth()/2;
+		y -= bounds.getHeight()/2;
+		graphics.translate(-x, -y);
+		render(graphics, 0, 0);
+		graphics.translate(x, y);
 	}
 
 	private void draw(Graphics graphics, Unit unit, int offsetX, int offsetY) {
@@ -85,9 +86,8 @@ public class SquareRenderer implements FieldRenderer {
 		}
 	}
 
-	//TODO: fix (x, y) coordinates are stuffed
 	private void draw(Graphics g, Tile tile, int x, int y) {
-		g.drawImage(getImage(tile), x, y, view);
+		g.drawImage(getImage(tile), y ,x, view);
 //		g.drawRect(x, y, 32, 32); overlays a black grid
 	}
 
