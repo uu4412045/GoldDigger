@@ -18,11 +18,17 @@ public class GoldDiggerServer extends GameServer{
 	 * @param out The output to the competitor
 	 */
 	public void process(String url, PrintWriter out){
+		String target = Service.parseURL(url, Service.URL_TARGET);
 		String name = Service.parseURL(url, Service.URL_PLAYER);
-		Player player;
-		Game game;
-		
-		if (name == null) {
+		Player player = null;
+		Game game = null;
+
+		if (target == null){
+			System.err.println("[GoldDiggerServer.java] Could not get the target from the url: "+url);
+			return;
+		} else if (target.equalsIgnoreCase("admin")) {
+			//just skipping the rest of the checks
+		} else if (name == null) {
 			System.err.println("[GoldDiggerServer.java] Could not get a player from the url: "+url);
 			return;
 		} else if ((player = this.getPlayer(name)) == null){
@@ -32,7 +38,7 @@ public class GoldDiggerServer extends GameServer{
 			System.err.println("[GoldDiggerServer.java] No game for player: "+name);
 			return;
 		}
-		
+
 		synchronized (this) {
 			Service[] services = this.getServices();
 			boolean consumed = false;
@@ -44,12 +50,13 @@ public class GoldDiggerServer extends GameServer{
 				}
 			}
 		}
-		
+
 		/*
-		 * This block decides what services are run, as well as stopping
-		 * people running parallel requests.
+		 * I removed the synchronized block as the Servlet should do it for us.
+		 * TODO: move the manual synchronizing here
+		 * Should synchronize on units instead, so they can control multiple units later on.
 		 */
-		synchronized (player) {
+		if (game != null){
 			Service[] services = game.getServices();
 			boolean consumed = false;
 			for (Service service : services){

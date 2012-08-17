@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
+import com.golddigger.services.NextService;
 import com.golddigger.templates.TestGameTemplate;
 
 public class MultiplayerTest {
@@ -28,6 +29,7 @@ public class MultiplayerTest {
 		server.add(new TestGameTemplate(MAP_1));
 		server.add(new Player("test1", "secret"));
 		server.add(new Player("test2", "secret"));
+		server.add(new NextService());
 		player1 = new TestingClient("test1", BASE_URL);
 		player2 = new TestingClient("test2", BASE_URL);
 	}

@@ -38,7 +38,6 @@ public class CustomizableGameTemplateTest {
 		costs.add("b=200");
 		costs.add("m=300");
 		costs.add("d=1000");
-		
 		this.template.setCosts(costs.toArray(new String[]{}));
 		Game game = this.template.build();
 		MoveService move = null;

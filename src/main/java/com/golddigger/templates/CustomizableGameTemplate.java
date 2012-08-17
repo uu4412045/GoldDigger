@@ -101,7 +101,6 @@ public class CustomizableGameTemplate extends GameTemplate {
 			String[] s = cost.split("=");
 			String key = MapMaker.convert(s[0].charAt(0)).toString();
 			Integer value = Integer.parseInt(s[1]);
-			System.out.println("Customizable Game Template: Added Cost "+key+" => "+value);
 			map.put(key, value);
 		}
 		return map;

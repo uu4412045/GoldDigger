@@ -26,21 +26,18 @@ public abstract class MoveService extends GameService {
 	public MoveService(Map<String, Integer> costs){
 		this();
 		if (costs != null) customCosts.putAll(costs);
-		for (String key : customCosts.keySet()){
-			System.err.println("Added "+key+" with cost "+customCosts.get(key));
+			for (String key : customCosts.keySet()){
 		}
 	}
 
 	@Override
 	public boolean runnable(String url) {
-		long start = System.currentTimeMillis();
 		String action = parseURL(url, URL_ACTION);
 		if (!action.equalsIgnoreCase(ACTION_TEXT)) return false;
 		
 		String strDirection = parseURL(url, URL_EXTRA1);
 		if (strDirection == null) return false;
 		Direction direction = Direction.parse(strDirection);
-		System.out.println("MoveService.runnable - "+(System.currentTimeMillis() - start)+"ms");
 		return direction != null;
 	}
 
@@ -76,15 +73,11 @@ public abstract class MoveService extends GameService {
 		}
 
 		try {
-			long start = System.currentTimeMillis();
 			Integer cost = this.getCost(tile);//customCosts.get(tile.toString());
 			if (cost == null) {
 				cost = tile.getDefaultMovementCost();
-				System.out.println("no custom cost");
 			}
-			System.out.println("MoveService.sleep - Sleeping for "+cost+"ms");
-			Thread.sleep(cost);
-			System.out.println("MoveService.sleeping - Actually slept for"+(System.currentTimeMillis() - start)+"ms");
+			Thread.sleep(cost);;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

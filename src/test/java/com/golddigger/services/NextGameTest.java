@@ -22,6 +22,7 @@ public class NextGameTest {
 	@Before()
 	public void setup(){
 		server = new ServletServer();
+		server.add(new NextService());
 		server.add(new TestGameTemplate(MAP_1));
 		server.add(new TestGameTemplate(MAP_2));
 		server.add(new Player("test", "secret"));

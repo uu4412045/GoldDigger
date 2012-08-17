@@ -20,13 +20,7 @@ public class AdminService extends ServerService {
 	@Override
 	public boolean runnable(String url) {
 		String name = parseURL(url, URL_TARGET);
-		if (name == null || !name.equalsIgnoreCase(NAME)){
-			System.out.println("FAILED is  Runnable check");
-			return false;
-		} else {
-			System.out.println("IS Runnable");
-			return true;
-		}
+		return (name != null && name.equalsIgnoreCase(NAME));
 	}
 
 	@Override
@@ -48,7 +42,6 @@ public class AdminService extends ServerService {
 		}
 		
 		if (action.equalsIgnoreCase("add")){
-			System.out.println("Adding new Player");
 			String name = parseURL(url, URL_EXTRA1);
 			String password = parseURL(url, URL_EXTRA2);
 			
