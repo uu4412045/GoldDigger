@@ -32,13 +32,12 @@ public class FieldFileTemplateGenerator implements TemplateGenerator{
 		return templates.toArray(new GameTemplate[]{});
 	}
 	
-	private String load(File file) throws IOException{
+	private String load(File file) throws IOException {
 		System.out.println("loading: "+file.getCanonicalPath());
 		String contents = null;
 		BufferedReader in =  new BufferedReader(new FileReader(file));
 		String line = null;
-		while ((line = in.readLine()) != null) contents += line;
-		in.close();
+		while ((line = in.readLine()) != null) contents += line+"\n";
 		return contents;
 	}
 }

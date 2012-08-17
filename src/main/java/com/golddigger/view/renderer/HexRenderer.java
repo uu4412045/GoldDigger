@@ -52,6 +52,7 @@ public class HexRenderer implements FieldRenderer {
 	private static Image SHALLOW_WATER = loadImage("shallow_water.png");
 	private static Image TELEPORT= loadImage("teleport.png");
 	private static Image WALL= loadImage("wall.png");
+	private static Image SOLID = loadImage("solid.png");
 
 	private static Image[] golds = new Image[]{GOLD0, GOLD1, GOLD2, GOLD3, GOLD4, GOLD5, GOLD6, GOLD7, GOLD8, GOLD9};
 	
@@ -67,16 +68,30 @@ public class HexRenderer implements FieldRenderer {
 	@Override
 	public void render(Graphics graphics, Rectangle bounds) {
 
-		int x = 32*unit.getX() + 16;
-		int y = 32*unit.getY() + 16;
+		int x = (int) ((int) HEX_R*HEX_X_DISTANCE*unit.getX() + HEX_R*HEX_X_DISTANCE/2);
+		int y = (int) ((int) HEX_H*HEX_Y_DISTANCE*unit.getY() + HEX_H*HEX_Y_DISTANCE/2);
 		
 		x -= bounds.getWidth()/2;
 		y -= bounds.getHeight()/2;
 		graphics.translate(-x, -y);
+		drawBackground(graphics, bounds);
 		draw(graphics, game.getMap().getTiles(), 0, 0);
 		graphics.translate(x, y);
 	}
 	
+	private void drawBackground(Graphics g, Rectangle bounds) {
+		int w = (int) (bounds.width/(HEX_X_DISTANCE*HEX_R)), h = (int) (bounds.height/(HEX_Y_DISTANCE*HEX_H));
+		
+		for (int i = -w; i< w; i++){
+			for (int j = -h; j < h; j++){
+//				g.drawImage(WALL, i, j, view);
+				Tile t = new WallTile();
+				draw(g, t, i,j,0,0);
+//				g.drawRect(i, j, 32, 32); //overlays a black grid
+			}
+		}
+	}
+
 	private void draw(Graphics graphics, Tile[][] area, int offsetX, int offsetY){
 		for (int i = 0; i < area.length; i++){
 			for (int j = 0; j < area[i].length; j++) {
