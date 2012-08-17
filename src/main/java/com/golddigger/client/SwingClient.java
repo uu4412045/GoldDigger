@@ -59,11 +59,16 @@ public class SwingClient extends JFrame {
 	 * the tab that holds the Square Tile Movement command buttons
 	 */
 	JPanel move4 = new JPanel(new FlowLayout());
-	
+
 	/**
 	 * the tab that holds the Hex Tile Movement command buttons
 	 */
 	JPanel move6 = new JPanel(new FlowLayout());
+	
+	/**
+	 * the tab that holds the Admin command buttons
+	 */
+	JPanel admin = new JPanel(new FlowLayout());
 	
 	/**
 	 * The JTabPanel that contains the command buttons.

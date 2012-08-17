@@ -25,4 +25,8 @@ public class Player {
 		this.score = score;
 	}
 
+	public String getSecret() {
+		return secret;
+	}
+
 }

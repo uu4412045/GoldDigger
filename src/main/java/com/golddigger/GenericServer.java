@@ -3,6 +3,7 @@ package com.golddigger;
 import com.golddigger.model.Player;
 import com.golddigger.server.DirectInputDelayedServer;
 import com.golddigger.server.GoldDiggerServer;
+import com.golddigger.services.AdminService;
 import com.golddigger.services.NextService;
 import com.golddigger.templates.GameTemplate;
 import com.golddigger.templates.TestGameTemplate;
@@ -31,8 +32,13 @@ public class GenericServer {
 	public GenericServer(long delay, boolean headless){
 		this.delayed = new GoldDiggerServer();
 		this.delayedServer = new DirectInputDelayedServer(this.delayed, delay);
-		this.delayed.add(new NextService());
 		this.main = new ServletServer(this.delayedServer);
+		
+		this.delayed.add(new NextService());
+		this.main.add(new NextService());
+		this.delayed.add(new AdminService());
+		this.main.add(new AdminService());
+		
 		if (!headless){
 			this.delayedGUI = new GUI(delayed, "Golddigger - Delayed");
 			this.mainGUI = new GUI(main, "Golddigger");
