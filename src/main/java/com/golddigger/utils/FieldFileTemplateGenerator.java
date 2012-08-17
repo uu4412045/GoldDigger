@@ -1,11 +1,9 @@
 package com.golddigger.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,15 +34,10 @@ public class FieldFileTemplateGenerator implements TemplateGenerator{
 	
 	private String load(File file) throws IOException{
 		System.out.println("loading: "+file.getCanonicalPath());
-		String s;
-		FileInputStream stream = new FileInputStream(file);
-		try {
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-			/* Instead of using default, pass in a decoder. */
-			return Charset.defaultCharset().decode(bb).toString();
-		} finally {
-			stream.close();
-		}
+		String contents = null;
+		BufferedReader in =  new BufferedReader(new FileReader(file));
+		String line = null;
+		while ((line = in.readLine()) != null) contents += line;
+		return contents;
 	}
 }
