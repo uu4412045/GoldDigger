@@ -38,6 +38,7 @@ public class FieldFileTemplateGenerator implements TemplateGenerator{
 		BufferedReader in =  new BufferedReader(new FileReader(file));
 		String line = null;
 		while ((line = in.readLine()) != null) contents += line;
+		in.close();
 		return contents;
 	}
 }

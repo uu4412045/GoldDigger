@@ -1,6 +1,5 @@
 package com.golddigger.view.renderer;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -67,8 +66,20 @@ public class SquareRenderer implements FieldRenderer {
 		x -= bounds.getWidth()/2;
 		y -= bounds.getHeight()/2;
 		graphics.translate(-x, -y);
+		drawBackground(graphics, bounds);
 		render(graphics, 0, 0);
 		graphics.translate(x, y);
+	}
+	
+	private void drawBackground(Graphics g, Rectangle bounds){
+		int w = bounds.width, h = bounds.height;
+		//Added the bitshifts to round i and j to the closest 32.
+		for (int i = (-w>>5)<<5; i< w; i+=32){
+			for (int j = (-h>>5)<<5; j < h; j+=32){
+				g.drawImage(SOLID, i, j, view);
+				g.drawRect(i, j, 32, 32); //overlays a black grid
+			}
+		}
 	}
 
 	private void draw(Graphics graphics, Unit unit, int offsetX, int offsetY) {
