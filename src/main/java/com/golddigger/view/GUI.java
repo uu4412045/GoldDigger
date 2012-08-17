@@ -39,6 +39,7 @@ public class GUI extends Thread  {
 				if (panels.containsKey(player)){
 					panels.get(player).update();
 				} else {
+					if (server.getGame(player) == null) continue;
 					System.out.println("GUI: Adding "+player.getName());
 					ViewPanel view = new ViewPanel(server, player);
 					panels.put(player, view);

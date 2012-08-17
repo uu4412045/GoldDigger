@@ -27,7 +27,7 @@ public class LegacyTemplateParser {
 			int numberOfSides = getNumberOfSides(text);
 			if (numberOfSides != 4) template.setNumberOfSides(numberOfSides);
 		} else {
-			template.setMap(text);
+			template.setMap(text.trim());
 		}
 		return template;
 	}

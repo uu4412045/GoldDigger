@@ -27,14 +27,10 @@ public class FieldView extends JPanel {
 		this.unit = game.getUnit(player);
 		
 		isHex = game.getServices(HexMoveService.class).size() == 1;
-		if (isHex) renderer = new HexRenderer(this, game, unit);
-		else renderer = new SquareRenderer(this, game, unit);
+		if (isHex) renderer = new HexRenderer(this, game, player);
+		else renderer = new SquareRenderer(this, game, player);
 		this.setVisible(true);
 	}
-
-//	private FieldPeek createFieldPeek(Unit unit) {
-//		return new FieldPeek(game, unit, Math.round(getWidth()/32F), Math.round(getHeight()/32F));
-//	}
 
 	@Override
 	public void paint(Graphics g) {

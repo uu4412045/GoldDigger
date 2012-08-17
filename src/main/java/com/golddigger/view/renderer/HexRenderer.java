@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.net.URL;
 
 import com.golddigger.model.Game;
+import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.BaseTile;
@@ -30,88 +31,99 @@ public class HexRenderer implements FieldRenderer {
 	private static final double HEX_R = 21.0;
 	private static final double HEX_H = Math.sqrt(3.0)*HEX_R/2.0;
 
-	private static Image GOLD0 = loadImage("empty.png");
-	private static Image GOLD1 = loadImage("gold1.png");
-	private static Image GOLD2 = loadImage("gold2.png");
-	private static Image GOLD3 = loadImage("gold3.png");
-	private static Image GOLD4 = loadImage("gold4.png");
-	private static Image GOLD5 = loadImage("gold5.png");
-	private static Image GOLD6 = loadImage("gold6.png");
-	private static Image GOLD7 = loadImage("gold7.png");
-	private static Image GOLD8 = loadImage("gold8.png");
-	private static Image GOLD9 = loadImage("gold9.png");
-	private static Image WALL_CENTER = loadImage("center.png");
-	private static Image DIGGER = loadImage("digger.png");
-	private static Image BANK = loadImage("bank.png");
-	private static Image CITY = loadImage("city.png");
-	private static Image DEEP_WATER = loadImage("deep_water.png");
-	private static Image FOREST = loadImage("forest.png");
-	private static Image HILL = loadImage("hill.png");
-	private static Image MOUNTAIN = loadImage("mountain.png");
-	private static Image ROAD = loadImage("road.png");
-	private static Image SHALLOW_WATER = loadImage("shallow_water.png");
-	private static Image TELEPORT= loadImage("teleport.png");
-	private static Image WALL= loadImage("wall.png");
-	private static Image SOLID = loadImage("solid.png");
+	private static final Image GOLD0 = loadImage("empty.png");
+	private static final Image GOLD1 = loadImage("gold1.png");
+	private static final Image GOLD2 = loadImage("gold2.png");
+	private static final Image GOLD3 = loadImage("gold3.png");
+	private static final Image GOLD4 = loadImage("gold4.png");
+	private static final Image GOLD5 = loadImage("gold5.png");
+	private static final Image GOLD6 = loadImage("gold6.png");
+	private static final Image GOLD7 = loadImage("gold7.png");
+	private static final Image GOLD8 = loadImage("gold8.png");
+	private static final Image GOLD9 = loadImage("gold9.png");
+	private static final Image WALL_CENTER = loadImage("center.png");
+	private static final Image DIGGER = loadImage("digger.png");
+	private static final Image BANK = loadImage("bank.png");
+	private static final Image CITY = loadImage("city.png");
+	private static final Image DEEP_WATER = loadImage("deep_water.png");
+	private static final Image FOREST = loadImage("forest.png");
+	private static final Image HILL = loadImage("hill.png");
+	private static final Image MOUNTAIN = loadImage("mountain.png");
+	private static final Image ROAD = loadImage("road.png");
+	private static final Image SHALLOW_WATER = loadImage("shallow_water.png");
+	private static final Image TELEPORT= loadImage("teleport.png");
+	private static final Image WALL= loadImage("wall.png");
+	private static final Image SOLID = loadImage("solid.png");
 
 	private static Image[] golds = new Image[]{GOLD0, GOLD1, GOLD2, GOLD3, GOLD4, GOLD5, GOLD6, GOLD7, GOLD8, GOLD9};
 	
 	private Game game;
-	private Unit unit;
+	private Player player;
 	private FieldView view;
 	
-	public HexRenderer(FieldView view, Game game, Unit unit){
+	public HexRenderer(FieldView view, Game game, Player player){
 		this.game = game;
-		this.unit = unit;
+		this.player = player;
+		System.out.println();
 	}
 
 	@Override
 	public void render(Graphics graphics, Rectangle bounds) {
-
-		int x = (int) ((int) HEX_R*HEX_X_DISTANCE*unit.getX() + HEX_R*HEX_X_DISTANCE/2);
-		int y = (int) ((int) HEX_H*HEX_Y_DISTANCE*unit.getY() + HEX_H*HEX_Y_DISTANCE/2);
+		Unit playersUnit = game.getUnit(player);
 		
-		x -= bounds.getWidth()/2;
-		y -= bounds.getHeight()/2;
-		graphics.translate(-x, -y);
+		//TODO: Fix this initial translation, the x and y values are incorrect
+		int x = playersUnit.getX();
+		x *= HEX_H*HEX_Y_DISTANCE;
+		x += (HEX_H*HEX_Y_DISTANCE)/2;
+		x -= bounds.getHeight()/2;
+		
+		int y = playersUnit.getY();
+		y *= HEX_R*HEX_X_DISTANCE;
+		y += (HEX_R*HEX_X_DISTANCE)/2;
+		y -= bounds.getWidth()/2;
+		
+		graphics.translate(-y, -x);
 		drawBackground(graphics, bounds);
-		draw(graphics, game.getMap().getTiles(), 0, 0);
-		graphics.translate(x, y);
+		draw(graphics, game.getMap().getTiles());
+		for (Unit unit : game.getUnits()){
+			draw(graphics, DIGGER, unit.getX(), unit.getY());
+		}
+		graphics.translate(y, x);
 	}
 	
 	private void drawBackground(Graphics g, Rectangle bounds) {
-		int w = (int) (bounds.width/(HEX_X_DISTANCE*HEX_R)), h = (int) (bounds.height/(HEX_Y_DISTANCE*HEX_H));
+		int w = (int) (bounds.width/(HEX_X_DISTANCE*HEX_R));
+		int h = (int) (bounds.height/(HEX_Y_DISTANCE*HEX_H));
 		
-		for (int i = -w; i< w; i++){
-			for (int j = -h; j < h; j++){
-//				g.drawImage(WALL, i, j, view);
-				Tile t = new WallTile();
-				draw(g, t, i,j,0,0);
-//				g.drawRect(i, j, 32, 32); //overlays a black grid
+		for (int x = -w; x< w; x++){
+			for (int y = -h; y < h; y++){
+				draw(g, WALL, y, x);
 			}
 		}
 	}
 
-	private void draw(Graphics graphics, Tile[][] area, int offsetX, int offsetY){
-		for (int i = 0; i < area.length; i++){
-			for (int j = 0; j < area[i].length; j++) {
-				draw(graphics, area[i][j], j, i, offsetX, offsetY);
+	private void draw(Graphics graphics, Tile[][] area){
+		for (int x = 0; x < area.length; x++){
+			for (int y = 0; y < area[x].length; y++) {
+				draw(graphics, getImage(area[x][y]), x, y);
 			}
 		}
 	}
-	
-	private void draw(Graphics graphics, Tile tile, int i, int j, int offsetX, int offsetY) {
-		int x, y;
+
+/*	NOTE: the (x,y) are flipped to rotate the screen 90 degrees, that is (x,y) is actually (y,x)
+ *	This is due to the maps layout. may be changed to lng/lat at a later date
+ *	Brett Wandel
+ *	17/8/2012
+ */ private void draw(Graphics graphics, Image image, int x, int y){
+		int dx, dy;
+		dx = (int) Math.round(HEX_X_DISTANCE * y * HEX_R);
 		
-		x = (int) Math.round(HEX_X_DISTANCE * i * HEX_R);
-		
-		if (i%2 == 0){
-			y = (int) Math.round((HEX_Y_DISTANCE*j) * HEX_H + (i % 2) * HEX_H + HEX_H);
+		if (y%2 == 0){
+			dy = (int) Math.round((HEX_Y_DISTANCE*x) * HEX_H + (y % 2) * HEX_H + HEX_H);
 		} else {
-			y = (int) Math.round((HEX_Y_DISTANCE*j) * HEX_H + ((i+1) % 2) * HEX_H);				
+			dy = (int) Math.round((HEX_Y_DISTANCE*x) * HEX_H + ((y+1) % 2) * HEX_H);				
 		}
-		
-		graphics.drawImage(getImage(tile), x, y, view);
+		graphics.drawImage(image, dx, dy, view);
 	}
 
 	private Image getImage(Tile tile){

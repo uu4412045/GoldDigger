@@ -32,9 +32,10 @@ public class FieldFileTemplateGenerator implements TemplateGenerator{
 		return templates.toArray(new GameTemplate[]{});
 	}
 	
+	//TODO: Add test for empty file
 	private String load(File file) throws IOException {
 		System.out.println("loading: "+file.getCanonicalPath());
-		String contents = null;
+		String contents = "";
 		BufferedReader in =  new BufferedReader(new FileReader(file));
 		String line = null;
 		while ((line = in.readLine()) != null) contents += line+"\n";

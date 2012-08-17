@@ -229,4 +229,8 @@ public class Game {
 		}
 		return null;
 	}
+	
+	public Unit[] getUnits(){
+		return units.toArray(new Unit[]{});
+	}
 }
