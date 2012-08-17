@@ -94,6 +94,8 @@ public class HexRenderer implements FieldRenderer {
 	private void drawBackground(Graphics g, Rectangle bounds) {
 		int w = (int) (bounds.width/(HEX_X_DISTANCE*HEX_R));
 		int h = (int) (bounds.height/(HEX_Y_DISTANCE*HEX_H));
+		w += bounds.x;
+		h += bounds.y;
 		
 		for (int x = -w; x< w; x++){
 			for (int y = -h; y < h; y++){
