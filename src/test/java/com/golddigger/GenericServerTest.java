@@ -80,6 +80,18 @@ public class GenericServerTest {
 
 		server.stop();
 	}
+	
+	@Test
+	public void testAdminServices(){
+		server = new GenericServer();
+		server.addPlayer("test1","Secrt");
+		TestingClient client = new TestingClient(null, null);
+		String before = client.doGET("http://localhost:8066/golddigger/admin/ccret/listdiggers").trim();
+		assertEquals("OK",client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test8/secret").trim());
+		String after = client.doGET("http://localhost:8066/golddigger/admin/ccret/listdiggers").trim();
+		assertEquals(before+"\ntest8 secret", after);
+		server.stop();
+	}
 
 	@Test
 	public void testAddTemplate() {

@@ -21,8 +21,13 @@ public class GenericServer {
 		this(true);
 	}
 
+	//TODO: Refactor this so that setting Server Services is simple
 	public GenericServer(boolean headless){
 		this.main = new ServletServer(delayedServer);
+		
+		this.main.add(new AdminService());
+		this.main.add(new NextService());
+		
 		if (!headless){
 			this.mainGUI = new GUI(main, "Golddigger");
 			this.mainGUI.start();

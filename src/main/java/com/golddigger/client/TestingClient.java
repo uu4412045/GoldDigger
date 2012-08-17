@@ -32,7 +32,7 @@ public class TestingClient {
 	 * @return the number of gold
 	 */
 	public String carrying(){
-		return doGET("/carrying");
+		return sendAction("/carrying");
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class TestingClient {
 	 * @return the number of gold you have banked
 	 */
 	public String score(){
-		return doGET("/score");
+		return sendAction("/score");
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class TestingClient {
 	 * @return "OK" if successful, "FAILED" otherwise
 	 */
 	public String next(){
-		return doGET("/next");
+		return sendAction("/next");
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class TestingClient {
 	 * @return the number of gold you have picked up, "FAILED" you couldn't pick any up.
 	 */
 	public String grab(){
-		return doGET("/grab");
+		return sendAction("/grab");
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class TestingClient {
 	 * @return the number of gold you dropped, "FAILED" if you couldn't drop any
 	 */
 	public String drop(){
-		return doGET("/drop");
+		return sendAction("/drop");
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class TestingClient {
 	 * @return String representation of the view
 	 */
 	public String view(){
-		return doGET("/view");
+		return sendAction("/view");
 	}
 	
 	/**
@@ -81,12 +81,16 @@ public class TestingClient {
 	 * @return "OK" if successful, "FAILED" otherwise
 	 */
 	public String move(Direction d){
-		return doGET("/move/"+d.toString());
+		return sendAction("/move/"+d.toString());
 	}
 
-	private String doGET(String action){
+	private String sendAction(String action){
+		return doGET(baseURL+"/golddigger/digger/"+player+action);
+	}
+	
+	public String doGET(String url){
 		try {
-			return wc.getResponse(baseURL+"/golddigger/digger/"+player+action).getText();
+			return wc.getResponse(url).getText();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

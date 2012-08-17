@@ -8,7 +8,6 @@ import org.mortbay.jetty.servlet.ServletHolder;
 import com.golddigger.server.DirectInputDelayedServer;
 import com.golddigger.server.GoldDiggerServer;
 import com.golddigger.server.GoldDiggerServlet;
-import com.golddigger.services.NextService;
 
 public class ServletServer extends GoldDiggerServer {
 	private final static int PORT = 8066;
@@ -30,8 +29,6 @@ public class ServletServer extends GoldDiggerServer {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-		
-		this.add(new NextService());
 	}
 
 	public void stop(){

@@ -3,10 +3,15 @@ package com.golddigger.services;
 import java.io.PrintWriter;
 
 import com.golddigger.model.Player;
-
+/**
+ * The AdminServer provides the basic functionality found in the orginial GoldDigger server.
+ * It allows administrators to either list current players or add a new player.
+ * @author Brett Wandel
+ */
 public class AdminService extends ServerService {
-	private static final String NAME = "admin", SECRET = "ccret";
-
+/* TODO: change these to non-static variables.
+ * A good secure server should have a customisable name and password
+ */ private static final String NAME = "admin", SECRET = "ccret";
 
 	public AdminService() {
 		super(BASE_PRIORITY);
@@ -15,8 +20,13 @@ public class AdminService extends ServerService {
 	@Override
 	public boolean runnable(String url) {
 		String name = parseURL(url, URL_TARGET);
-		if (name == null) return false;
-		return name.equalsIgnoreCase(NAME);
+		if (name == null || !name.equalsIgnoreCase(NAME)){
+			System.out.println("FAILED is  Runnable check");
+			return false;
+		} else {
+			System.out.println("IS Runnable");
+			return true;
+		}
 	}
 
 	@Override
@@ -24,16 +34,21 @@ public class AdminService extends ServerService {
 		String secret = parseURL(url, URL_PLAYER);
 		String action = parseURL(url, URL_ACTION);
 
-		if (secret == null || !secret.equals(SECRET) || action == null) {
+		if (secret == null || !secret.trim().equals(SECRET.trim()) || action == null) {
 			out.println("bad command");
 			return true;
 		}
 
 		if (action.equalsIgnoreCase("listdiggers")){
+			String output = "";
 			for (Player player : server.getPlayers()){
-				out.println(player.getName() + " "+player.getSecret());
+				output += player.getName() + " "+player.getSecret() +'\n';
 			}
-		} else if (action.equalsIgnoreCase("add")){
+			out.println(output);
+		}
+		
+		if (action.equalsIgnoreCase("add")){
+			System.out.println("Adding new Player");
 			String name = parseURL(url, URL_EXTRA1);
 			String password = parseURL(url, URL_EXTRA2);
 			
