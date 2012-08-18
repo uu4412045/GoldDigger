@@ -61,7 +61,7 @@ public class MapMaker {
 	 * @return A character representation of that tile
 	 */
 	public static char convert(Tile t){
-		if (t == null) return ' ';
+		if (t == null) return '-';
 		if (t instanceof OccludedTile) return '?';
 		if (t instanceof WallTile) return 'w';
 		if (t instanceof BaseTile) return 'b';
