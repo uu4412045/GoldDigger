@@ -5,11 +5,13 @@ import java.io.PrintWriter;
 import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
+import com.golddigger.utils.MapMaker;
 
 public class HexViewService extends GameService {
 	public static final String ACTION_TEXT = "view";
 	public static final int DEFAULT_LINE_OF_SIGHT = 1;
-	private static int CHECK=1, CHECKED=2;
+	private static int TRUE=1, CHECK=2, CHECKED=3;
+	private static final char HIDDEN_TILE_SYMBOL = '?';
 	private int lineOfSight;
 
 	public HexViewService() {
@@ -37,7 +39,25 @@ public class HexViewService extends GameService {
 		}
 
 		Tile[][] area = game.getMap().getArea(unit.getX(), unit.getY(), lineOfSight);
-		int[][] hex = mask((area.length-1)/2);
+		
+		
+		int[][] hex = mask((area.length-1)/2, unit);
+		
+		for (int i = 0; i < area.length; i++) {
+			for (int j = 0; j < area[i].length; j++) {
+				if (hex[i][j] > 0) {
+					out.append(MapMaker.convert(area[i][j]));
+				} else {
+					if (MapMaker.convert(area[i][j]) == '-') {
+						out.append('-');
+					} else {
+						out.append(HIDDEN_TILE_SYMBOL);
+					}
+				}
+			}
+			out.append('\n');
+		}
+		
 		return true;
 	}
 	
@@ -46,37 +66,55 @@ public class HexViewService extends GameService {
 	 * @param area
 	 * @return
 	 */
-	public static int[][] mask(int radius){
+	public static int[][] mask(int radius, Unit unit){
 		int size = (radius*2)+1;
 		int[][] mask = new int[size][size];
 		mask[radius][radius] = CHECK;
-		
-		for (int i = 0; i < radius-3; i++){
-			for (int x = 0; x < size; x++){
-				for (int y = 0; y < size; y++) {
-					if (mask[x][y] == CHECK) mask = markNeighbours(mask,x,y);
+
+		for (int i = 0; i < radius; i++){
+			
+			for (int lat = 0; lat < size; lat++){
+				for (int lng = 0; lng < size; lng++) {
+					
+					if (mask[lat][lng] == CHECK) mask = markNeighbours(mask,lat,lng,unit);
+					
 				}
 			}
+			
+			for (int m = 0; m < mask.length; m++) {
+				for (int n = 0; n < mask[m].length; n++) {
+					if (mask[m][n] == TRUE) {
+						mask[m][n] = CHECK;
+					}
+				}				
+			}
 		}
+
 		return mask;
 	}
 	
 	
 	
-	private static int[][] markNeighbours(int[][] area, int x, int y){
-		area[x][y] = CHECKED;
-		area[x+1][y] = CHECK;
-		area[x][y+1] = CHECK;
-		if (x % 2 == 0){
-			area[x+1][y-1] = CHECK;
-			area[x+1][y] = CHECK;
-			area[x-1][y-1] = CHECK;
-			area[x-1][y] = CHECK;
+	private static int[][] markNeighbours(int[][] area, int lat, int lng, Unit unit){
+		
+		int ref_lng = unit.getY() + lng;
+		if (area.length == 3) ref_lng = unit.getY();
+				
+		area[lat][lng] = CHECKED;
+		if (area[lat+1][lng] == 0) area[lat+1][lng] = TRUE;
+		if (area[lat-1][lng] == 0) area[lat-1][lng] = TRUE;
+		if (area[lat][lng+1] == 0) area[lat][lng+1] = TRUE;
+		if (area[lat][lng-1] == 0) area[lat][lng-1] = TRUE;
+		
+		if (ref_lng % 2 == 0){
+			System.out.println("even long: " + lng);
+			if (area[lat+1][lng+1] == 0) area[lat+1][lng+1] = TRUE;
+			if (area[lat+1][lng-1] == 0) area[lat+1][lng-1] = TRUE;
 		} else {
-			area[x+1][y] = CHECK;
-			area[x+1][y+1] = CHECK;
-			area[x-1][y] = CHECK;
-			area[x-1][y+1] = CHECK;
+			System.out.println("odd long: " + lng);
+			if (area[lat-1][lng+1] == 0) area[lat-1][lng+1] = TRUE;
+			if (area[lat-1][lng-1] == 0) area[lat-1][lng-1] = TRUE;
+			
 		}
 		return area;
 	}
