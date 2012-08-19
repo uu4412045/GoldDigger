@@ -46,7 +46,9 @@ public class ViewPanel extends JSplitPane {
 //			Draw Finished Screen
 		} else if (tmp != game){
 			this.game = tmp;
+			this.remove(field);
 			this.field = new FieldView(this.game, this.player);
+			this.add(field);
 		}
 		field.repaint();
 	}
