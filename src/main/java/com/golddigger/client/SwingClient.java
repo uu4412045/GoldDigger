@@ -128,10 +128,10 @@ public class SwingClient extends JFrame {
 		JPanel move6 = new JPanel();
 		move6.add(new Button("North", "/move/north", true));
 		move6.add(new Button("South", "/move/south", true));
-		move6.add(new Button("North East", "/move/north-east", true));
-		move6.add(new Button("South East", "/move/south-east", true));
-		move6.add(new Button("North West", "/move/north-east", true));
-		move6.add(new Button("South West", "/move/south-west", true));
+		move6.add(new Button("North East", "/move/north_east", true));
+		move6.add(new Button("South East", "/move/south_east", true));
+		move6.add(new Button("North West", "/move/north_west", true));
+		move6.add(new Button("South West", "/move/south_west", true));
 		commands.add(move6, "Hex Tile Movement");
 	}
 	
