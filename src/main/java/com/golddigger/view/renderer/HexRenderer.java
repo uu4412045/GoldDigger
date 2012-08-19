@@ -41,7 +41,7 @@ public class HexRenderer implements FieldRenderer {
 	private static final Image GOLD7 = loadImage("gold7.png");
 	private static final Image GOLD8 = loadImage("gold8.png");
 	private static final Image GOLD9 = loadImage("gold9.png");
-	private static final Image WALL_CENTER = loadImage("center.png");
+//	private static final Image WALL_CENTER = loadImage("center.png");
 	private static final Image DIGGER = loadImage("digger.png");
 	private static final Image BANK = loadImage("bank.png");
 	private static final Image CITY = loadImage("city.png");
@@ -53,7 +53,7 @@ public class HexRenderer implements FieldRenderer {
 	private static final Image SHALLOW_WATER = loadImage("shallow_water.png");
 	private static final Image TELEPORT= loadImage("teleport.png");
 	private static final Image WALL= loadImage("wall.png");
-	private static final Image SOLID = loadImage("solid.png");
+//	private static final Image SOLID = loadImage("solid.png");
 
 	private static Image[] golds = new Image[]{GOLD0, GOLD1, GOLD2, GOLD3, GOLD4, GOLD5, GOLD6, GOLD7, GOLD8, GOLD9};
 	
@@ -81,9 +81,9 @@ public class HexRenderer implements FieldRenderer {
 		y *= HEX_R*HEX_X_DISTANCE;
 		y += (HEX_R*HEX_X_DISTANCE)/2;
 		y -= bounds.getWidth()/2;
+		drawBackground(graphics, bounds);
 		
 		graphics.translate(-y, -x);
-		drawBackground(graphics, bounds);
 		draw(graphics, game.getMap().getTiles());
 		for (Unit unit : game.getUnits()){
 			draw(graphics, DIGGER, unit.getX(), unit.getY());

@@ -60,11 +60,11 @@ public class SquareRenderer implements FieldRenderer {
 		Unit unit = game.getUnit(player);
 		int y = 32*unit.getX() + 16;
 		int x = 32*unit.getY() + 16;
-		
 		x -= bounds.getWidth()/2;
 		y -= bounds.getHeight()/2;
-		graphics.translate(-x, -y);
 		drawBackground(graphics, bounds);
+		
+		graphics.translate(-x, -y);
 		draw(graphics, game.getMap().getTiles());
 		for (Unit u : game.getUnits()){
 			draw(graphics, u);
@@ -73,7 +73,7 @@ public class SquareRenderer implements FieldRenderer {
 	}
 	
 	private void drawBackground(Graphics g, Rectangle bounds){
-		int w = bounds.width+TILE_SIZE, h = bounds.height+TILE_SIZE;
+		int w = bounds.width, h = bounds.height;
 		//Added the bitshifts to round i and j to the closest 32.
 		//This aligns the background tiles with the map tiles
 		for (int i = (-w>>5)<<5; i < w; i+=TILE_SIZE){
@@ -137,6 +137,7 @@ public class SquareRenderer implements FieldRenderer {
 		return image;
 	}
 
+	//TODO: calculate which wall tile to use
 	private Image getWallTileImage(Point2D position) {
 		Map map = game.getMap();
 		if (map.get(Direction.NORTH.getOffset(position)) instanceof WallTile){
