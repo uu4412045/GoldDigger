@@ -19,6 +19,7 @@ import com.golddigger.view.FieldView;
 public class SquareRenderer implements FieldRenderer {
 	public static final String SQUARE_IMAGE_PATH = "../../../images/square/";
 
+	private static final int TILE_SIZE = 32;
 	private static final Image GOLD0 = loadImage("empty.png");
 	private static final Image GOLD1 = loadImage("gold1.png");
 	private static final Image GOLD2 = loadImage("gold2.png");
@@ -40,8 +41,19 @@ public class SquareRenderer implements FieldRenderer {
 	private static final Image ROAD = loadImage("road.png");
 	private static final Image SHALLOW_WATER = loadImage("shallow_water.png");
 	private static final Image TELEPORT= loadImage("teleport.png");
-	private static final Image SOLID= loadImage("solid.png");
-	private static final int TILE_SIZE = 32;
+	private static final Image WALL_SOLID = loadImage("solid.png");
+	private static final Image WALL_NORTH = loadImage("w_north.png");
+	private static final Image WALL_SOUTH = loadImage("w_south.png");
+	private static final Image WALL_EAST = loadImage("w_east.png");
+	private static final Image WALL_WEST = loadImage("w_west.png");
+	private static final Image WALL_NORTHEAST = loadImage("w_northeast.png");
+	private static final Image WALL_SOUTHEAST = loadImage("w_southeast.png");
+	private static final Image WALL_NORTHWEST = loadImage("w_northwest.png");
+	private static final Image WALL_SOUTHWEST = loadImage("w_southwest.png");
+	private static final Image WALL_NORTHEAST_INV = loadImage("w_northeast_i.png");
+	private static final Image WALL_SOUTHEAST_INV = loadImage("w_southeast_i.png");
+	private static final Image WALL_NORTHWEST_INV = loadImage("w_northwest_i.png");
+	private static final Image WALL_SOUTHWEST_INV = loadImage("w_southwest_i.png");
 
 	private static Image[] golds = new Image[]{GOLD0, GOLD1, GOLD2, GOLD3, GOLD4, GOLD5, GOLD6, GOLD7, GOLD8, GOLD9};
 
@@ -78,7 +90,7 @@ public class SquareRenderer implements FieldRenderer {
 		//This aligns the background tiles with the map tiles
 		for (int i = (-w>>5)<<5; i < w; i+=TILE_SIZE){
 			for (int j = (-h>>5)<<5; j < h; j+=TILE_SIZE){
-				g.drawImage(SOLID, i, j, view);
+				g.drawImage(WALL_SOLID, i, j, view);
 			}
 		}
 	}
@@ -114,7 +126,7 @@ public class SquareRenderer implements FieldRenderer {
 		} else if (tile instanceof BaseTile){
 			image = BANK;
 		} else if (tile == null){
-			image = SOLID;
+			image = WALL_SOLID;
 		} else if (tile instanceof CityTile){
 			image = CITY;
 		} else if (tile instanceof DeepWaterTile){
@@ -137,12 +149,21 @@ public class SquareRenderer implements FieldRenderer {
 		return image;
 	}
 
-	//TODO: calculate which wall tile to use
 	private Image getWallTileImage(Point2D position) {
-		Map map = game.getMap();
-		if (map.get(Direction.NORTH.getOffset(position)) instanceof WallTile){
-			
-		}
+		Tile[][] area = game.getMap().getArea(position, 1);
+		if (wallIs(area, MASK_SOLID)) return WALL_SOLID;
+		if (wallIs(area, MASK_NORTH)) return WALL_NORTH;
+		if (wallIs(area, MASK_SOUTH)) return WALL_SOUTH;
+		if (wallIs(area, MASK_EAST)) return WALL_EAST;
+		if (wallIs(area, MASK_WEST)) return WALL_WEST;
+		if (wallIs(area, MASK_NORTHEAST)) return WALL_NORTHEAST;
+		if (wallIs(area, MASK_SOUTHEAST)) return WALL_SOUTHEAST;
+		if (wallIs(area, MASK_NORTHWEST)) return WALL_NORTHWEST;
+		if (wallIs(area, MASK_SOUTHWEST)) return WALL_SOUTHWEST;
+		if (wallIs(area, MASK_NORTHEAST_INV)) return WALL_NORTHEAST_INV;
+		if (wallIs(area, MASK_SOUTHEAST_INV)) return WALL_SOUTHEAST_INV;
+		if (wallIs(area, MASK_NORTHWEST_INV)) return WALL_NORTHWEST_INV;
+		if (wallIs(area, MASK_SOUTHWEST_INV)) return WALL_SOUTHWEST_INV;
 		return WALL_CENTER;
 	}
 
@@ -151,4 +172,98 @@ public class SquareRenderer implements FieldRenderer {
 		System.err.println(url.getFile());
 		return Toolkit.getDefaultToolkit().getImage(url);
 	}
+
+	private boolean wallIs(Tile[][] area, int[][] mask){
+		for (int i=0; i < 3; i++){
+			for (int j = 0; j < 3; j++){
+				int a = mask[i][j];
+				if (a == ANY) continue;
+				
+				if (area[i][j] == null || area[i][j] instanceof WallTile) {
+					if (a != WALL) return false;
+				} else if (a == WALL) return false;
+			}
+		}
+		return true;
+	}
+	
+	private static final int WALL=0, NOTW=1, ANY=2;
+	private static final int[][] MASK_SOLID = new int[][] {
+		{WALL, WALL, WALL},
+		{WALL, WALL, WALL},
+		{WALL, WALL, WALL},
+	};
+	
+	private static final int[][] MASK_NORTH = new int[][] {
+		{ANY,  WALL, ANY },
+		{WALL, WALL, WALL},
+		{ANY,  NOTW, ANY },
+	};
+	
+	private static final int[][] MASK_NORTHEAST = new int[][] {
+		{WALL,  WALL, WALL},
+		{WALL,  WALL, WALL},
+		{NOTW,  WALL, WALL},
+	};
+	
+	private static final int[][] MASK_NORTHEAST_INV = new int[][] {
+		{ANY,  NOTW, ANY},
+		{WALL, WALL, NOTW},
+		{WALL, WALL, ANY},
+	};
+	
+	private static final int[][] MASK_EAST = new int[][] {
+		{ANY,  WALL, ANY },
+		{NOTW, WALL, WALL},
+		{ANY,  WALL, ANY },
+	};
+	
+	private static final int[][] MASK_SOUTHEAST = new int[][] {
+		{NOTW, WALL, WALL},
+		{WALL, WALL, WALL},
+		{WALL, WALL, WALL},
+	};
+	
+	private static final int[][] MASK_SOUTHEAST_INV = new int[][] {
+		{WALL, WALL, ANY},
+		{WALL, WALL, NOTW},
+		{ANY,  NOTW, ANY },
+	};
+	
+	private static final int[][] MASK_SOUTH = new int[][] {
+		{ANY,  NOTW, ANY},
+		{WALL, WALL, WALL},
+		{ANY,  WALL, ANY},
+	};
+	
+	private static final int[][] MASK_SOUTHWEST = new int[][] {
+		{WALL, WALL, NOTW},
+		{WALL, WALL, WALL},
+		{WALL, WALL, WALL},
+	};
+	
+	private static final int[][] MASK_SOUTHWEST_INV = new int[][] {
+		{ANY,  WALL, WALL },
+		{NOTW, WALL, WALL },
+		{ANY,  NOTW, ANY },
+	};
+	
+	private static final int[][] MASK_WEST = new int[][] {
+		{ANY,  WALL, ANY },
+		{WALL, WALL, NOTW},
+		{ANY,  WALL, ANY },
+	};
+	
+	private static final int[][] MASK_NORTHWEST = new int[][] {
+		{WALL, WALL, WALL },
+		{WALL, WALL, WALL },
+		{WALL, WALL, NOTW },
+	};
+	
+	private static final int[][] MASK_NORTHWEST_INV = new int[][] {
+		{ANY,  NOTW, ANY },
+		{NOTW, WALL, WALL },
+		{ANY,  WALL, WALL },
+	};
+		
 }

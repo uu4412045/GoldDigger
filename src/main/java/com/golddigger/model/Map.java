@@ -107,6 +107,10 @@ public class Map {
 		return area;
 	}
 	
+	public Tile[][] getArea(Point2D pos, int r){
+		return getArea(pos.x, pos.y, r);
+	}
+	
 	/**
 	 * Check to see if there is any {@link GoldTile}s that still have gold left.
 	 * @return <b>true</b> if yes, <b>false</b> if no.
