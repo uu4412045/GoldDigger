@@ -120,7 +120,7 @@ public class HexRenderer implements FieldRenderer {
 		int dx, dy;
 		dx = (int) Math.round(HEX_X_DISTANCE * y * HEX_R);
 		
-		if (y%2 == 0){
+		if (y%2 == 1){
 			dy = (int) Math.round((HEX_Y_DISTANCE*x) * HEX_H + (y % 2) * HEX_H + HEX_H);
 		} else {
 			dy = (int) Math.round((HEX_Y_DISTANCE*x) * HEX_H + ((y+1) % 2) * HEX_H);				
