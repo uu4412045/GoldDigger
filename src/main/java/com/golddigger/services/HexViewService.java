@@ -115,14 +115,11 @@ public class HexViewService extends GameService {
 		if (area[lat][lng-1] == 0) area[lat][lng-1] = TRUE;
 		
 		if (ref_lng % 2 == 0){
-//			System.out.println("even long: " + lng);
-			if (area[lat+1][lng+1] == 0) area[lat+1][lng+1] = TRUE;
-			if (area[lat+1][lng-1] == 0) area[lat+1][lng-1] = TRUE;
-		} else {
-//			System.out.println("odd long: " + lng);
 			if (area[lat-1][lng+1] == 0) area[lat-1][lng+1] = TRUE;
-			if (area[lat-1][lng-1] == 0) area[lat-1][lng-1] = TRUE;
-			
+			if (area[lat-1][lng-1] == 0) area[lat-1][lng-1] = TRUE;			
+		} else {
+			if (area[lat+1][lng+1] == 0) area[lat+1][lng+1] = TRUE;
+			if (area[lat+1][lng-1] == 0) area[lat+1][lng-1] = TRUE;			
 		}
 		return area;
 	}
