@@ -38,25 +38,26 @@ public class HexViewServiceTest {
 	
 	@Test
 	public void test() {
+		
 		// starts at the base at position (2, 2)		
-		assertEquals( "?.?\n.b.\n...", client.view().trim());
-		client.move(Direction.SOUTH);
-		assertEquals( "?b?\n...\nwww", client.view().trim());
-		client.move(Direction.NORTH_EAST);
-		assertEquals( "b.w\n..w\n?w?", client.view().trim());
+		assertEquals("...\n.b.\n?.?", client.view().trim());
 		client.move(Direction.NORTH);
-		assertEquals( "..w\nb.w\n?.?", client.view().trim());
-		client.move(Direction.NORTH);
-		assertEquals( "www\n..w\n?.?", client.view().trim());
+		assertEquals("www\n...\n?b?", client.view().trim());
 		client.move(Direction.SOUTH_WEST);
-		assertEquals( "?w?\n...\n.b.", client.view().trim());
-		client.move(Direction.NORTH_WEST);
-		assertEquals( "www\nw..\n?.?", client.view().trim());
+		assertEquals("?w?\nw..\nw.b", client.view().trim());
 		client.move(Direction.SOUTH);
-		assertEquals( "w..\nw.b\n?.?", client.view().trim());
+		assertEquals("?.?\nw.b\nw..", client.view().trim());
 		client.move(Direction.SOUTH);
-		assertEquals( "w.b\nw..\n?w?", client.view().trim());
-
+		assertEquals("?.?\nw..\nwww", client.view().trim());
+		client.move(Direction.NORTH_EAST);
+		assertEquals(".b.\n...\n?w?", client.view().trim());
+		client.move(Direction.SOUTH_EAST);
+		assertEquals("?.?\n..w\nwww", client.view().trim());
+		client.move(Direction.NORTH);
+		assertEquals( "?.?\nb.w\n..w", client.view().trim());
+		client.move(Direction.NORTH);
+		assertEquals("?w?\n..w\nb.w", client.view().trim());
+		
 	}
 
 }

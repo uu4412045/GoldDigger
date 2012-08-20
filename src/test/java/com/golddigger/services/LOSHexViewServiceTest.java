@@ -39,23 +39,23 @@ public class LOSHexViewServiceTest {
 	@Test
 	public void test() {
 		// starts at the base at position (2, 2)		
-		assertEquals("??w??\nw...w\nw.b.w\nw...w\n?www?", client.view().trim());
+		assertEquals("?www?\nw...w\nw.b.w\nw...w\n??w??", client.view().trim());
 		client.move(Direction.SOUTH);
-		assertEquals("??.??\nw.b.w\nw...w\nwwwww\n-----", client.view().trim());
-		client.move(Direction.NORTH_EAST);
-		assertEquals("?..w-\n.b.w-\n...w-\nwwww-\n-----", client.view().trim());
+		assertEquals("?...?\nw.b.w\nw...w\nwwwww\n-----", client.view().trim());
+		client.move(Direction.SOUTH_EAST);
+		assertEquals("??.?-\n.b.w-\n...w-\nwwww-\n-----", client.view().trim());		
 		client.move(Direction.NORTH);
-		assertEquals("?www-\n...w-\n.b.w-\n...w-\n??w?-", client.view().trim());		
+		assertEquals("??w?-\n...w-\n.b.w-\n...w-\n?www-", client.view().trim());		
 		client.move(Direction.NORTH);
-		assertEquals("-----\nwwww-\n...w-\n.b.w-\n??.?-", client.view().trim());
-		client.move(Direction.SOUTH_WEST);
-		assertEquals("-----\nwwwww\nw...w\nw.b.w\n?...?", client.view().trim());
+		assertEquals("-----\nwwww-\n...w-\n.b.w-\n?..w-", client.view().trim());
 		client.move(Direction.NORTH_WEST);
-		assertEquals("-----\n-wwww\n-w...\n-w.b.\n-?.??", client.view().trim());
+		assertEquals("-----\nwwwww\nw...w\nw.b.w\n??.??", client.view().trim());
+		client.move(Direction.SOUTH_WEST);
+		assertEquals("-----\n-wwww\n-w...\n-w.b.\n-w..?", client.view().trim());
 		client.move(Direction.SOUTH);
-		assertEquals("-www?\n-w...\n-w.b.\n-w...\n-?w??", client.view().trim());
+		assertEquals("-?w??\n-w...\n-w.b.\n-w...\n-www?", client.view().trim());
 		client.move(Direction.SOUTH);
-		assertEquals("-w..?\n-w.b.\n-w...\n-wwww\n-----", client.view().trim());
+		assertEquals("-?.??\n-w.b.\n-w...\n-wwww\n-----", client.view().trim());
 
 	}
 
