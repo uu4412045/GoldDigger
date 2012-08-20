@@ -21,42 +21,18 @@ public enum Direction{
 	
 
 	public Point2D getOffset(Point2D position){
-		int x = 0, y = 0, i = x%2;
+		int i = position.y % 2;
+		
 		switch(this){
 		case NORTH: return position.add(-1,0);
 		case SOUTH: return position.add(1,0);
 		case EAST: return position.add(0,1);
 		case WEST: return position.add(0,-1);
-		case NORTH_EAST:
-			if (position.y % 2 == 0) {
-				return position.add(0,i+1);
-			} else {
-				return position.add(-1,i+1);
-			}
-			
-		case SOUTH_EAST:
-			if (position.y % 2 == 0) {
-				return position.add(1,i+1);
-			} else {
-				return position.add(0,i+1);
-			}
-			
-		case NORTH_WEST:
-			if (position.y % 2 == 0) {
-				return position.add(0,i-1);
-			} else {
-				return position.add(-1,i-1);
-			}
-			
-		case SOUTH_WEST:
-			if (position.y % 2 == 0) {
-				return position.add(1,i-1);
-			} else {
-				return position.add(0,i-1);
-			}
-			
-		default: break;
+		case NORTH_EAST: return position.add(0-i, 1);
+		case SOUTH_EAST :return position.add(1-i, 1);
+		case NORTH_WEST: return position.add(0-i, -1);
+		case SOUTH_WEST: return position.add(1-i,-1);
+		default: return position;
 		}
-		return position.add(x,y);
 	}
 }
