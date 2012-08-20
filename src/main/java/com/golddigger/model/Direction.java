@@ -28,10 +28,10 @@ public enum Direction{
 		case SOUTH: return position.add(1,0);
 		case EAST: return position.add(0,1);
 		case WEST: return position.add(0,-1);
-		case NORTH_EAST: return position.add(0-i, 1);
-		case SOUTH_EAST :return position.add(1-i, 1);
-		case NORTH_WEST: return position.add(0-i, -1);
-		case SOUTH_WEST: return position.add(1-i,-1);
+		case NORTH_EAST: return position.add(i-1, 1);
+		case SOUTH_EAST :return position.add(i, 1);
+		case NORTH_WEST: return position.add(i-1, -1);
+		case SOUTH_WEST: return position.add(i,-1);
 		default: return position;
 		}
 	}
