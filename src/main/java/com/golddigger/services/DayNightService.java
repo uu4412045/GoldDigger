@@ -13,8 +13,15 @@ public class DayNightService extends GameService {
 	private static final String ACTION_TEXT = "move";
 	public static final int DEFAULT_CYCLE_TIME = 10;
 	public static final int DEFAULT_SCALE = 50;
+
+	/** Used to determine how many moves a player can make before the LOS is updated */
 	private int cycleTime = DEFAULT_CYCLE_TIME;
+	/** The current number of moves executed */
 	private int current = 1;
+	
+	/** Determines how far to scale the LOS. should be in percentage.
+	 * e.g. 50 would be 50% of the LOS at night time.
+	 */
 	private int scale= DEFAULT_SCALE;
 	
 	/**
@@ -34,27 +41,40 @@ public class DayNightService extends GameService {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		List<ViewService> vServices = game.getServices(ViewService.class);
-		if (vServices.size() < 1){
-			System.err.println("DayNightPlugin No View Service Found: "+url);
-			return false;
-		}
-		ViewService vService = vServices.get(0);
+		
+		List<ViewService> squareServices = game.getServices(ViewService.class);
+		List<HexViewService> hexServices= game.getServices(HexViewService.class);
 		
 		boolean day = isDay();
 		current++;
 		if (day != isDay()){
-			double newLOS= vService.getLineOfSight();
-			if (isDay()){
-				newLOS = (100/scale)*newLOS;
+			if (squareServices.size() > 0){
+				ViewService squareService = squareServices.get(0);
+				squareService.setLineOfSight(calc(squareService.getLineOfSight()));
+			} else if (hexServices.size() > 0){
+				HexViewService hexService = hexServices.get(0);
+				hexService.setLineOfSight(calc(hexService.getLineOfSight()));
 			} else {
-				newLOS = (newLOS*scale)/100;
+				System.err.println("There is no view service for this game!");
 			}
-			vService.setLineOfSight((int) Math.round(newLOS));
 		}
 		return false;
 	}
 
+	/**
+	 * Calculate the new line of sight, uses isDay() to determine if it should scale up or down.
+	 * @param currentLOS the current line of sight.
+	 * @return The new LOS to be set.
+	 */
+	private int calc(int currentLOS){
+		if (isDay()){
+			currentLOS = (100/scale)*currentLOS;
+		} else {
+			currentLOS = (currentLOS*scale)/100;
+		}
+		return (int) Math.round(currentLOS);
+	}
+	
 	/**
 	 * @return <b>true</b> if its "day time", <b>false</b> otherwise.
 	 */
@@ -63,10 +83,11 @@ public class DayNightService extends GameService {
 		int x = current/cycleTime;
 		return (x % 2) == 0;
 	}
-	
+
 	public int getCycleTime(){
 		return this.cycleTime;
 	}
+	
 	public int getScale(){
 		return this.scale;
 	}
