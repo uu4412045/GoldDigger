@@ -2,17 +2,16 @@ package com.golddigger.services;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.golddigger.GenericServer;
+import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
-import com.golddigger.model.Player;
 import com.golddigger.templates.CustomizableGameTemplate;
-import com.golddigger.tools.TestingClient;
-import com.golddigger.tools.TestingServer;
-
 public class HexMoveServiceTest {
-	TestingServer server;
+	GenericServer server;
 	TestingClient client;
 	private static final String MAP = 
 			"wwwwww\n"+
@@ -24,17 +23,22 @@ public class HexMoveServiceTest {
 
 	@Before
 	public void before() {
-		server = new TestingServer();
+		server = new GenericServer();
 		CustomizableGameTemplate template = new CustomizableGameTemplate();
 		template.setMap(MAP);
 		template.setNumberOfSides(6);
-		server.add(template);
-		server.add(new Player("test1","secret"));
-		client = new TestingClient(server, "test1");
+		server.addTemplate(template);
+		server.addPlayer("test1","secret");
+		client = new TestingClient("test1", "http://localhost:8066");
 		client.move(Direction.SOUTH);
 		client.move(Direction.NORTH_EAST);
 		client.move(Direction.SOUTH_EAST);
 //        assertEquals( "?.?\n...\n...\n", client.view());
+	}
+	
+	@After
+	public void after(){
+		server.stop();
 	}
 
 	@Test
