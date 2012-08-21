@@ -8,7 +8,6 @@ import java.util.Map;
 import com.golddigger.services.GameService;
 import com.golddigger.services.GoldService;
 import com.golddigger.services.SquareMoveService;
-import com.golddigger.services.NextService;
 import com.golddigger.services.ViewService;
 
 public class MovementCostServiceGenerator implements ServiceGenerator{

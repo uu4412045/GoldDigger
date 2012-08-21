@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import com.golddigger.plugins.Plugin;
 import com.golddigger.services.Service;
 import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.NextService;

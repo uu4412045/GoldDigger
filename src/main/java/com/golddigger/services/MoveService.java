@@ -26,8 +26,6 @@ public abstract class MoveService extends GameService {
 	public MoveService(Map<String, Integer> costs){
 		this();
 		if (costs != null) customCosts.putAll(costs);
-			for (String key : customCosts.keySet()){
-		}
 	}
 
 	@Override

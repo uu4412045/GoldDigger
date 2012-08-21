@@ -6,9 +6,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.net.URL;
 
-import com.golddigger.model.Direction;
 import com.golddigger.model.Game;
-import com.golddigger.model.Map;
 import com.golddigger.model.Player;
 import com.golddigger.model.Point2D;
 import com.golddigger.model.Tile;

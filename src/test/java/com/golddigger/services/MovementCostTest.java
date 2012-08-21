@@ -1,8 +1,6 @@
 package com.golddigger.services;
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,10 +10,7 @@ import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
 import com.golddigger.model.tiles.*;
-import com.golddigger.services.generators.BaseServiceGenerator;
-import com.golddigger.services.generators.ServiceGenerator;
 import com.golddigger.templates.CustomizableGameTemplate;
-import com.golddigger.templates.TestGameTemplate;
 
 
 public class MovementCostTest {
