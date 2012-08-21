@@ -5,6 +5,7 @@ import javax.swing.JSplitPane;
 
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
+import com.golddigger.model.Unit;
 import com.golddigger.server.GameServer;
 
 public class ViewPanel extends JSplitPane {
@@ -21,7 +22,7 @@ public class ViewPanel extends JSplitPane {
 		this.player = player;
 		this.server = server;
 		this.game = server.getGame(player);
-		this.score = new JLabel(player.getName()+": 0");
+		this.score = new JLabel(player.getName()+": 0 [0]");
 		this.field = new FieldView(this.game, this.player);
 		
 		this.setDividerSize(0);
@@ -38,7 +39,6 @@ public class ViewPanel extends JSplitPane {
 	}
 	
 	public void update(){
-		this.score.setText(player.getName() + ": "+player.getScore());
 		
 		Game tmp = server.getGame(player);
 		if (tmp == null) {
@@ -49,6 +49,9 @@ public class ViewPanel extends JSplitPane {
 			this.remove(field);
 			this.field = new FieldView(this.game, this.player);
 			this.add(field);
+		} else {
+			Unit unit = game.getUnit(player);
+			this.score.setText(player.getName() + ": "+player.getScore()+" ["+unit.getGold()+"]");
 		}
 		field.repaint();
 	}
