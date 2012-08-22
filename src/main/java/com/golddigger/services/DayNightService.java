@@ -120,10 +120,19 @@ public class DayNightService extends GameService {
 		return (x % 2) == 0;
 	}
 
+	/**
+	 * The CycleTime is the number of turns it takes to go from day to night and vise versa.
+	 * @return The cycleTime
+	 */
 	public int getCycleTime(){
 		return this.cycleTime;
 	}
 	
+	/**
+	 * The scale is the percentage that the Line of Sight is scaled by at night time.
+	 * e.g: 50 = half line of sight at night time. 25 is a quarter.
+	 * @return
+	 */
 	public int getScale(){
 		return this.scale;
 	}

@@ -10,6 +10,12 @@ import com.golddigger.model.Point2D;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 
+/**
+ * Movement Service contains all the core logic about how unit can and can not move.
+ * It needs to be extended to determine which directions are valid movements.
+ * 
+ * @author Brett Wandel
+ */
 public abstract class MoveService extends GameService {
 	public static final String ACTION_TEXT = "move";
 	
@@ -23,6 +29,10 @@ public abstract class MoveService extends GameService {
 		customCosts = new HashMap<String,Integer>();
 	}
 	
+	/**
+	 * Create a Movement service with custom costs.
+	 * @param costs
+	 */
 	public MoveService(Map<String, Integer> costs){
 		this();
 		if (costs != null) customCosts.putAll(costs);
@@ -39,6 +49,11 @@ public abstract class MoveService extends GameService {
 		return direction != null;
 	}
 
+	/**
+	 * Determines if a move is valid depending on which kind of tile the map has.
+	 * @param direction
+	 * @return
+	 */
 	public abstract boolean isValidDirection(Direction direction);
 
 	@Override

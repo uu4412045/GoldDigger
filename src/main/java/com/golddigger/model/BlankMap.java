@@ -4,13 +4,30 @@ import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.model.tiles.GoldTile;
 import com.golddigger.model.tiles.WallTile;
 
+/**
+ * Simple Blank {@link Map} only used for automated tests.
+ * 
+ * @author Brett Wandel
+ */
 public class BlankMap extends Map {
-	
+	/**
+	 * Create a new Map with a specific width, height and location for the base.
+	 * @param x the width of the map.
+	 * @param y the height of the map.
+	 * @param baseX the x-coord of the base
+	 * @param baseY the y-coord of the base
+	 */
 	public BlankMap(int x, int y, int baseX, int baseY){
 		this(x,y);
 		setBase(baseX,baseY);
 	}
 	
+	/**
+	 * Creates a new Map with specific width and height, with more than one base.
+	 * @param x the width of the map
+	 * @param y the height of the map
+	 * @param numberOfBases the number of bases to be added.
+	 */
 	public BlankMap(int x, int y, int numberOfBases){
 		this(x,y);
 		
@@ -26,6 +43,11 @@ public class BlankMap extends Map {
 		}
 	}
 	
+	/**
+	 * Create a base with a specific width and height, with a base at position (1,1)
+	 * @param x width of the map
+	 * @param y height of the map
+	 */
 	public BlankMap(int x, int y) {
 		super(x, y);
 		for (int i = 0; i <= getMaxX(); i++){
@@ -40,6 +62,11 @@ public class BlankMap extends Map {
 		setBase(1,1);
 	}
 	
+	/**
+	 * put a base at (x,y).
+	 * @param x x-coord of the new base
+	 * @param y y-coord of the new base
+	 */
 	public void setBase(int x, int y){
 		tiles[x][y] = new BaseTile();
 	}

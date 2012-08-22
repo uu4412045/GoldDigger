@@ -14,10 +14,6 @@ import com.golddigger.templates.GameTemplate;
  * 
  * @author Brett Wandel
  */
-/*
- * I want to re-factor all of this so that each instance of a server has its own "context",
- * but I haven't found the time just yet.
- */
 public class GameServer {
 
 	/**
@@ -67,8 +63,10 @@ public class GameServer {
 		this.games.add(game);
 	}
 
-
-	
+	/**
+	 * Add a Server Service to the server.
+	 * @param service the service to add.
+	 */
 	public void add(ServerService service) {
 		service.setServer(this);
 		this.services.add(service);
@@ -186,6 +184,10 @@ public class GameServer {
 		this.players = new ArrayList<Player>();
 	}
 
+	/**
+	 * return all the players in the server.
+	 * @return
+	 */
 	public Player[] getPlayers() {
 		return this.players.toArray(new Player[]{});
 	}

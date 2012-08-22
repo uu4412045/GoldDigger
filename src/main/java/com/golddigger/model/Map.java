@@ -126,6 +126,11 @@ public class Map {
 		return false;
 	}
 
+	/**
+	 * returns the coordinate of the given tile
+	 * @param tile the tile you want the position of
+	 * @return <b>null</b> if the tile does not exist in this map.
+	 */
 	public Point2D getPosition(Tile tile) {
 		for (int x = 0; x <= getMaxX(); x++){
 			for (int y = 0; y <= getMaxY(); y++){
@@ -137,6 +142,11 @@ public class Map {
 		return null;
 	}
 
+	/**
+	 * returns the tile at the given location
+	 * @param location A Point2D containing the coordinate of the tile to get.
+	 * @return the tile at the location, or null if its outside the map bounds.
+	 */
 	public Tile get(Point2D location) {
 		return get(location.x, location.y);
 	}

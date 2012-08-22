@@ -7,7 +7,14 @@ import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.model.tiles.GoldTile;
-
+/**
+ * Gold Service contains all the basic commands for gold gathering.
+ * It has grab, drop, carrying and score.
+ * Should be added to every game.
+ * 
+ * @author Brett Wandel
+ *
+ */
 public class GoldService extends GameService {
 
 	private static final int MAX_UNIT_GOLD = 3;
@@ -44,6 +51,10 @@ public class GoldService extends GameService {
 		return false;
 	}
 
+	/**
+	 * Simple enum used to easily determine what command is being executed.
+	 * @author Brett Wandel
+	 */
 	private enum Action {
 		CARRYING, GRAB, DROP, SCORE;
 		public static Action parse(String action){
@@ -55,6 +66,12 @@ public class GoldService extends GameService {
 		}
 	}
 	
+	/**
+	 * perform "the grab" logic
+	 * @param unit The unit grabbing the gold
+	 * @param tile the tile the unit is on
+	 * @return The number of gold picked up, or FAILED
+	 */
 	private String grab(Unit unit, Tile tile){
 		if (unit.getGold() == MAX_UNIT_GOLD) return "0";
 		
@@ -76,6 +93,13 @@ public class GoldService extends GameService {
 		}
 	}
 	
+	/**
+	 * perform the drop logic
+	 * @param unit The unit dropping the gold
+	 * @param tile The tile the gold is being dropped on.
+	 * @param player The player who owns the unit.
+	 * @return The number of gold dropped, or FAILED
+	 */
 	private String drop(Unit unit, Tile tile, Player player) {
 		if (unit.getGold() == 0) return "0";
 		int qty;

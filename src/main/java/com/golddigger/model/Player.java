@@ -1,5 +1,9 @@
 package com.golddigger.model;
-
+/**
+ * The class representing a player/team in the server.
+ * @author Brett Wandel
+ *
+ */
 public class Player {
 	private String name, secret;
 	private int score = 0;

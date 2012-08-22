@@ -1,4 +1,10 @@
 package com.golddigger.model;
+/**
+ * Simple 2 Dimensional Vector class
+ * Mainly used when both x and y coordinates are needed to be return.
+ * @author Brett Wandel
+ *
+ */
 public class Point2D {
 		public int x, y;
 		public Point2D(int x, int y){

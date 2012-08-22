@@ -67,6 +67,10 @@ public class Unit {
 		return this.gold;
 	}
 
+	/**
+	 * set the position of the unit
+	 * @param location The target location.
+	 */
 	public void setPosition(Point2D location) {
 		setPosition(location.x, location.y);
 	}

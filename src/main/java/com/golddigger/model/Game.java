@@ -12,8 +12,8 @@ import com.golddigger.model.tiles.BaseTile;
 /**
  * This is the object that contains all the needed information about a game.
  * 
- * <p>Each game contains its own services and plugins, which allow the services and plugins
- * to customized for each game. These services and plugins are the actual objects that modify
+ * <p>Each game contains its own services, which allow the services
+ * to customized for each game. These services are the actual objects that modify
  * the data in the game, and this class is simply a container for all the data needed. They are
  * what actually contain the "business logic" behind how a game is run.</p>
  * 
@@ -29,6 +29,7 @@ public class Game {
 
 	/**
 	 * All the plugins that this game uses.
+	 * NOT USED ATM. Brett Wandel 22/8/2012
 	 * @See Plugin
 	 */
 	private Container<Plugin> plugins;
@@ -93,6 +94,7 @@ public class Game {
 
 	/**
 	 * Add a {@link Plugin} to the game
+	 * NOT USED ATM. Brett Wandel, 22/8/2012
 	 * @param plugin The plugin to be added
 	 * @see Plugin
 	 */
@@ -101,17 +103,29 @@ public class Game {
 	}
 
 	/**
+	 * NOT USED ATM. Brett Wandel, 22/8/2012
 	 * @return All the plugins used by this game
 	 * @see Plugin
 	 */
 	public Plugin[] getPlugins(){
 		return this.plugins.toArray(new Plugin[]{});
 	}
-
+	
+	/**
+	 * NOT USED ATM. Brett Wandel, 22/8/2012
+	 * @param classOfPlugin the class of the plugins, must extend {@link Plugin}
+	 * @return All the plugins of a particular class
+	 * @see Plugin
+	 */
 	public <T extends Plugin> List<T> getPlugins(Class<T> classOfPlugin){
 		return plugins.filter(classOfPlugin);
 	}
 
+	/**
+	 * Returns all the services of a particular class
+	 * @param classOfPlugin the class of the service, must extend {@link GameService}
+	 * @see GameService
+	 */
 	public <T extends GameService> List<T> getServices(Class<T> classOfService){
 		return services.filter(classOfService);
 	}
@@ -167,10 +181,19 @@ public class Game {
 		return null;
 	}
 
+	/**
+	 * Check to see if there is any unowned bases left in the game
+	 * mainly used for checking to see if a multiplayer map is can take more players
+	 * @return true if there is a a base without a owner.
+	 */
 	public boolean hasUnownedBase(){
 		return getUnownedBase() != null;
 	}
 
+	/**
+	 * get all the bases in the game
+	 * @return all the bases.
+	 */
 	public BaseTile[] getBases(){
 		ArrayList<BaseTile> bases = new ArrayList<BaseTile>();
 		for (Tile[] row : map.getTiles()){
@@ -181,10 +204,17 @@ public class Game {
 		return bases.toArray(new BaseTile[]{});
 	}
 
+	/**
+	 * @return the {@link Map} of the game.
+	 */
 	public Map getMap(){
 		return this.map;
 	}
 
+	/**
+	 * Set the map for the game
+	 * @param map the {@link Map} for the game.
+	 */
 	public void setMap(Map map){
 		this.map = map;
 	}
@@ -202,12 +232,24 @@ public class Game {
 		return null;
 	}
 
+	/**
+	 * remove a player from the game
+	 * used when a player want to move to the next game.
+	 * @param player The player to remove
+	 * @return the number of players left in the game
+	 */
 	public int remove(Player player) {
 		this.players.remove(player);
 		this.units.remove(getUnit(player));
 		return players.size();
 	}
 
+	/**
+	 * check to see if there is a unit at the given coordinate
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 * @return true if there is a unit at that location.
+	 */
 	public boolean isUnitAt(int x, int y) {
 		for (Unit unit : units){
 			if (unit.getX() == x && unit.getY() == y){
@@ -217,10 +259,21 @@ public class Game {
 		return false;
 	}
 	
+	/**
+	 * Checks to see if there is a unit at the given location
+	 * @param location The location to check
+	 * @return true if there is a unit at the location
+	 */
 	public boolean isUnitAt(Point2D location){
 		return isUnitAt(location.x, location.y);
 	}
 
+	/**
+	 * Return the player in this game with the given name
+	 * @param name The name of the player
+	 * @return <b>null</b> if there is no player with the given name.
+	 * @see Player
+	 */
 	public Player getPlayer(String name){
 		for (Player player : players){
 			if (player.getName().equalsIgnoreCase(name)){
@@ -230,6 +283,10 @@ public class Game {
 		return null;
 	}
 	
+	/**
+	 * Get all the units in the game.
+	 * @see Unit
+	 */
 	public Unit[] getUnits(){
 		return units.toArray(new Unit[]{});
 	}

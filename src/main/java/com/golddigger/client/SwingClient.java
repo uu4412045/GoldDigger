@@ -19,6 +19,7 @@ import com.meterware.httpunit.WebResponse;
 
 /** A Simple GoldDigger GUI client to allow easy interaction with a running
  *   GoldDigger server.
+ * Mainly used as a testing device to quickly interact with a running server.
  */
 public class SwingClient extends JFrame {
 	private static final long serialVersionUID = -8050979025970084790L;

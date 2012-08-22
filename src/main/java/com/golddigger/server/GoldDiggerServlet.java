@@ -22,6 +22,11 @@ public class GoldDiggerServlet extends HttpServlet{
 	private DirectInputDelayedServer delayedServer;
     private Set<String> executingSecrets = new HashSet<String>();
 	
+    /**
+     * Create a new Servlet to run a server
+     * @param server The main server
+     * @param delayedServer The delayed server.
+     */
 	public GoldDiggerServlet(GoldDiggerServer server, DirectInputDelayedServer delayedServer){
 		super();
 		this.server = server;

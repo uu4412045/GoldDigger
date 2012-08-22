@@ -9,8 +9,10 @@ import com.golddigger.model.Direction;
 import com.meterware.httpunit.WebConversation;
 
 /**
- * Simple HTML Client for the server, build for testing a running server.
- * @author Brett
+ * Simple HTML Client for the server, built for automated testing.
+ * Basically combination of WebController and AdminWebController, but returns the 
+ * http content, rather than the whole request.
+ * @author Brett Wandel
  *
  */
 public class TestingClient {
@@ -88,6 +90,11 @@ public class TestingClient {
 		return doGET(baseURL+"/golddigger/digger/"+player+action);
 	}
 	
+	/**
+	 * Mainly used to access the admin commands.
+	 * @param url The entire url, including "http://"
+	 * @return the http content of the response
+	 */
 	public String doGET(String url){
 		try {
 			return wc.getResponse(url).getText();

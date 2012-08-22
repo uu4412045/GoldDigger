@@ -13,6 +13,11 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
+/**
+ * A HTTP client that provides access to the main commands to control a digger.
+ * 
+ * @author Brett Wandel
+ */
 public class WebController {
     private static WebConversation wc = new WebConversation();
     private String secretName;
