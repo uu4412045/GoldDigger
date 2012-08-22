@@ -56,12 +56,12 @@ public class GoldService extends GameService {
 	}
 	
 	private String grab(Unit unit, Tile tile){
-		if (unit.getGold() == MAX_UNIT_GOLD) return "FAILED";
+		if (unit.getGold() == MAX_UNIT_GOLD) return "0";
 		
 		synchronized (game) {
 			if (tile instanceof GoldTile){
 				GoldTile goldTile = (GoldTile) tile;
-				if (goldTile.getGold() == 0) return "FAILED";
+				if (goldTile.getGold() == 0) return "0";
 				else {
 					int qty = MAX_UNIT_GOLD - unit.getGold();
 					if (qty > goldTile.getGold()){
@@ -72,12 +72,12 @@ public class GoldService extends GameService {
 					unit.setGold(unit.getGold() + qty);
 					return ""+qty;
 				}
-			} else return "FAILED";
+			} else return "0";
 		}
 	}
 	
 	private String drop(Unit unit, Tile tile, Player player) {
-		if (unit.getGold() == 0) return "FAILED";
+		if (unit.getGold() == 0) return "0";
 		int qty;
 		synchronized (game){
 			if (tile instanceof BaseTile){
