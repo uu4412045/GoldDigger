@@ -1,5 +1,6 @@
 package com.golddigger.templates;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,11 +58,17 @@ public class CustomizableGameTemplate extends GameTemplate {
 		this.costs = costs;
 	}
 
-	public void setScale(int scale){
-		this.scale = scale;
-	}
-	public void setCycleTime(int cycleTime){
+	public void setDayNight(int cycleTime, int scale){
 		this.cycleTime = cycleTime;
+		this.scale = scale;
+		for (String service : services){
+			if (service.equals(DayNightService.class.getName())){
+				return;
+			}
+		}
+		
+		services = Arrays.copyOf(services, services.length+1);
+		services[services.length-1] = DayNightService.class.getName();
 	}
 	public void setLineOfSight(int lineOfSight){
 		this.lineOfSight = lineOfSight;

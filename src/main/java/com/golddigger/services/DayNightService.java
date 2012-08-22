@@ -3,11 +3,16 @@ package com.golddigger.services;
 import java.io.PrintWriter;
 import java.util.List;
 
+import com.golddigger.model.Direction;
+
 
 /**
  * This service will imitate the a day/night effect by reducing the line of sight at night time. <br \>
  * It will scale the line of sight every "x" number of valid move commands issued.
  * @author Brett Wandel
+ */
+/*TODO: need to clean this service up. it should probably be initalised with as either hex or square.
+ * Brett Wandel - 22/8/2012
  */
 public class DayNightService extends GameService {
 	private static final String ACTION_TEXT = "move";
@@ -44,23 +49,46 @@ public class DayNightService extends GameService {
 		
 		List<ViewService> squareServices = game.getServices(ViewService.class);
 		List<HexViewService> hexServices= game.getServices(HexViewService.class);
+		boolean isHex = (hexServices.size() == 1 && squareServices.size() == 0);
+
+		Direction direction = Direction.parse(parseURL(url, URL_EXTRA1));
+		if (direction == null || !isValidMove(isHex, direction)) {
+			return false; //invalid direction, shouldn't increase the turn count
+		}
 		
 		boolean day = isDay();
 		current++;
 		if (day != isDay()){
-			if (squareServices.size() > 0){
-				ViewService squareService = squareServices.get(0);
-				squareService.setLineOfSight(calc(squareService.getLineOfSight()));
-			} else if (hexServices.size() > 0){
+			if (isHex){
 				HexViewService hexService = hexServices.get(0);
 				hexService.setLineOfSight(calc(hexService.getLineOfSight()));
 			} else {
-				System.err.println("There is no view service for this game!");
+				ViewService squareService = squareServices.get(0);
+				squareService.setLineOfSight(calc(squareService.getLineOfSight()));
 			}
 		}
 		return false;
 	}
 
+	/**
+	 * Determine if the Direction is a valid move direction for the number of sides
+	 * @param isHex is the ViewService a HexViewService
+	 * @param moveDirection The Direction that the unit is moving in.
+	 * @return true if it is a valid move
+	 */
+	private boolean isValidMove(boolean isHex, Direction moveDirection){
+		switch(moveDirection){
+		case EAST: if (isHex) return false;
+		case WEST: if (isHex) return false;
+		case SOUTH_EAST: if (!isHex) return false;
+		case SOUTH_WEST: if (!isHex) return false;
+		case NORTH_EAST: if (!isHex) return false;
+		case NORTH_WEST: if (!isHex) return false;
+		default: return true;
+		}
+	}
+	
+	
 	/**
 	 * Calculate the new line of sight, uses isDay() to determine if it should scale up or down.
 	 * @param currentLOS the current line of sight.
@@ -73,6 +101,14 @@ public class DayNightService extends GameService {
 			currentLOS = (currentLOS*scale)/100;
 		}
 		return (int) Math.round(currentLOS);
+	}
+	
+	/**
+	 * The number of "turns" or valid move commands executed so far.
+	 * @return
+	 */
+	public int getTurnCount(){
+		return this.current;
 	}
 	
 	/**

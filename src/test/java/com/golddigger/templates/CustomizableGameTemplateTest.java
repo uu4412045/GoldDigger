@@ -54,9 +54,7 @@ public class CustomizableGameTemplateTest {
 
 	@Test
 	public void testDayNight() {
-		this.template.setCycleTime(3);
-		this.template.setScale(400);
-		this.template.setServices(new String[]{DayNightService.class.getName()});
+		this.template.setDayNight(3, 400);
 		Game game = this.template.build();
 		
 		DayNightService day = null;
