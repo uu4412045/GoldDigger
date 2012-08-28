@@ -34,7 +34,7 @@ public class GoldService extends GameService {
 		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
 		Unit unit = game.getUnit(player);
 		Action action = Action.parse(parseURL(url, URL_ACTION));
-		Tile tile = game.getMap().get(unit.getX(), unit.getY());
+		Tile tile = game.getMap().get(unit.getLat(), unit.getLng());
 		
 		String result = "FAILED";
 		switch (action){

@@ -6,17 +6,17 @@ package com.golddigger.model;
  *
  */
 public class Point2D {
-		public int x, y;
-		public Point2D(int x, int y){
-			this.x = x;
-			this.y = y;
+		public int lat, lng;
+		public Point2D(int lat, int lng){
+			this.lat = lat;
+			this.lng = lng;
 		}
 		
 		@Override
 		public boolean equals(Object object){
 			if (object instanceof Point2D) {
 				Point2D tmp = (Point2D) object;
-				return this.x == tmp.x && this.y == tmp.y;
+				return this.lat == tmp.lat && this.lng == tmp.lng;
 			} else {
 				return false;
 			}
@@ -24,33 +24,33 @@ public class Point2D {
 		
 		@Override
 		public String toString(){
-			return "("+x+","+y+")";
+			return "("+lat+","+lng+")";
 		}
 
 		public Point2D add(Point2D p) {
-			return add(p.x, p.y);
+			return add(p.lat, p.lng);
 		}
 		
-		public Point2D add(int x, int y){
-			return new Point2D(this.x + x, this.y + y);
+		public Point2D add(int lat, int lng){
+			return new Point2D(this.lat + lat, this.lng + lng);
 		}
 
 		public Point2D sub(Point2D p) {
-			return add(p.x, p.y);
+			return add(p.lat, p.lng);
 		}
 		
-		public Point2D sub(int x, int y){
-			return add(-x,-y);
+		public Point2D sub(int lat, int lng){
+			return add(-lat,-lng);
 		}
 		
 		public Point2D inverse(){
-			return new Point2D(-x, -y);
+			return new Point2D(-lat, -lng);
 		}
 
 		public int getX() {
-			return x;
+			return lat;
 		}
 		public int getY() {
-			return y;
+			return lng;
 		}
 	}

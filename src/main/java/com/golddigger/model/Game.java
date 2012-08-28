@@ -246,13 +246,13 @@ public class Game {
 
 	/**
 	 * check to see if there is a unit at the given coordinate
-	 * @param x the x-coordinate
-	 * @param y the y-coordinate
+	 * @param lat the latitude
+	 * @param lng the longitude
 	 * @return true if there is a unit at that location.
 	 */
-	public boolean isUnitAt(int x, int y) {
+	public boolean isUnitAt(int lat, int lng) {
 		for (Unit unit : units){
-			if (unit.getX() == x && unit.getY() == y){
+			if (unit.getLat() == lat && unit.getLng() == lng){
 				return true;
 			}
 		}
@@ -265,7 +265,7 @@ public class Game {
 	 * @return true if there is a unit at the location
 	 */
 	public boolean isUnitAt(Point2D location){
-		return isUnitAt(location.x, location.y);
+		return isUnitAt(location.lat, location.lng);
 	}
 
 	/**

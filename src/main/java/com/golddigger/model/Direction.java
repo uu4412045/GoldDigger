@@ -40,7 +40,7 @@ public enum Direction{
 	 */
 	// TODO: Write a better description
 	public Point2D getOffset(Point2D position){
-		int i = position.y % 2;
+		int i = position.lng % 2;
 		
 		switch(this){
 		case NORTH: return position.add(-1,0);

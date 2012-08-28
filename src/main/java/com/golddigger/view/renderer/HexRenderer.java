@@ -72,23 +72,23 @@ public class HexRenderer implements FieldRenderer {
 		Unit playersUnit = game.getUnit(player);
 		
 		//TODO: Fix this initial translation, the x and y values are incorrect
-		int x = playersUnit.getX();
-		x *= HEX_H*HEX_Y_DISTANCE;
-		x += (HEX_H*HEX_Y_DISTANCE)/2;
-		x -= bounds.getHeight()/2;
+		int y = playersUnit.getLat();
+		y *= HEX_H*HEX_Y_DISTANCE;
+		y += (HEX_H*HEX_Y_DISTANCE)/2;
+		y -= bounds.getHeight()/2;
 		
-		int y = playersUnit.getY();
-		y *= HEX_R*HEX_X_DISTANCE;
-		y += (HEX_R*HEX_X_DISTANCE)/2;
-		y -= bounds.getWidth()/2;
+		int x = playersUnit.getLng();
+		x *= HEX_R*HEX_X_DISTANCE;
+		x += (HEX_R*HEX_X_DISTANCE)/2;
+		x -= bounds.getWidth()/2;
 		drawBackground(graphics, bounds);
 		
-		graphics.translate(-y, -x);
+		graphics.translate(-x, -y);
 		draw(graphics, game.getMap().getTiles());
 		for (Unit unit : game.getUnits()){
-			draw(graphics, DIGGER, unit.getX(), unit.getY());
+			draw(graphics, DIGGER, unit.getLat(), unit.getLng());
 		}
-		graphics.translate(y, x);
+		graphics.translate(x, y);
 	}
 	
 	private void drawBackground(Graphics g, Rectangle bounds) {
@@ -105,9 +105,9 @@ public class HexRenderer implements FieldRenderer {
 	}
 
 	private void draw(Graphics graphics, Tile[][] area){
-		for (int x = 0; x < area.length; x++){
-			for (int y = 0; y < area[x].length; y++) {
-				draw(graphics, getImage(area[x][y]), x, y);
+		for (int lat = 0; lat < area.length; lat++){
+			for (int lng = 0; lng < area[lat].length; lng++) {
+				draw(graphics, getImage(area[lat][lng]), lat, lng);
 			}
 		}
 	}

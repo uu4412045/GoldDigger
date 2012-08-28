@@ -17,45 +17,45 @@ public class Map {
 	
 	/**
 	 * create a new map
-	 * @param x Width of the map
-	 * @param y Height of the map
+	 * @param height Height of the map
+	 * @param width Width of the map
 	 */
-	public Map(int x, int y){
-		tiles = new Tile[x][y];
+	public Map(int height, int width){
+		tiles = new Tile[height][width];
 	}
 	
 	/**
 	 * Get a particular {@link Tile} at the given coordinates.
-	 * @param x The x coordinate
-	 * @param y The y coordinate
+	 * @param lat The latitude
+	 * @param lng The longitude
 	 * @return <b>null</b> if is outside of the map boundaries.
 	 * @see Tile
 	 */
-	public Tile get(int x, int y){
-		if(!inBounds(x,y)) return null;
-		else return tiles[x][y];
+	public Tile get(int lat, int lng){
+		if(!inBounds(lat,lng)) return null;
+		else return tiles[lat][lng];
 	}
 	
 	/**
 	 * Sets a particular {@link Tile} at the given coordinates.<br />
 	 * No effect if its outside the maps boundaries.
-	 * @param x The x coordinate
-	 * @param y The y coordinate
+	 * @param lat The latitude
+	 * @param lng The longitude
 	 * @param tile The tile to set at this location.
 	 * @see Tile
 	 */
-	public void set(int x, int y, Tile tile){
-		if(inBounds(x,y)) tiles[x][y] = tile;
+	public void set(int lat, int lng, Tile tile){
+		if(inBounds(lat,lng)) tiles[lat][lng] = tile;
 	}
 	
 	/**
 	 * Checks to see if a location is inside the maps boundaries
-	 * @param x The x coordinate
-	 * @param y The y coordinate
+	 * @param lat The latitude
+	 * @param lng The longitude
 	 * @return <b>true</b> if it is, <b>false if its not</b>.
 	 */
-	protected boolean inBounds(int x, int y){
-		return x > -1 && y > -1 && x < tiles.length && y < tiles[0].length;
+	protected boolean inBounds(int lat, int lng){
+		return lat > -1 && lng > -1 && lat < tiles.length && lng < tiles[lat].length;
 	}
 	
 	/**
@@ -69,15 +69,15 @@ public class Map {
 	/**
 	 * @return The width of the map.
 	 */
-	public int getMaxX(){
-		return tiles.length-1;
+	public int getWidth(){
+		return this.tiles[getHeight()].length-1;
 	}
 	
 	/**
 	 * @return The height of the map
 	 */
-	public int getMaxY(){
-		return this.tiles[0].length-1;
+	public int getHeight(){
+		return tiles.length-1;
 	}
 	
 	/**
@@ -89,26 +89,26 @@ public class Map {
 	 *  <li>r=2 would return a 5x5 grid</li>
 	 *  <li>r=3 would return a 7x7 grid</li>
 	 * </ul>
-	 * @param x The x coordinate of the center tile
-	 * @param y The y coordinate of the center tile
+	 * @param lat The latitude of the center tile
+	 * @param lng The longitude of the center tile
 	 * @param r The radius of the area to get.
 	 * @return The area specified. <b>null</b> if r < 1.
 	 */
-	public Tile[][] getArea(int x, int y, int r){
+	public Tile[][] getArea(int lat, int lng, int r){
 		if (r < 1) return null;
 
 		int size = (2*r)+1;
 		Tile[][] area = new Tile[size][size];
 		for (int i = 0; i < size; i++){
 			for(int j = 0; j < size; j++){
-				area[i][j] = get(x+i-r, y+j-r);
+				area[i][j] = get(lat+i-r, lng+j-r);
 			}
 		}
 		return area;
 	}
 	
 	public Tile[][] getArea(Point2D pos, int r){
-		return getArea(pos.x, pos.y, r);
+		return getArea(pos.lat, pos.lng, r);
 	}
 	
 	/**
@@ -132,10 +132,10 @@ public class Map {
 	 * @return <b>null</b> if the tile does not exist in this map.
 	 */
 	public Point2D getPosition(Tile tile) {
-		for (int x = 0; x <= getMaxX(); x++){
-			for (int y = 0; y <= getMaxY(); y++){
-				if (get(x, y) == tile){
-					return new Point2D(x, y);
+		for (int lat = 0; lat <= getHeight(); lat++){
+			for (int lng = 0; lng <= getWidth(); lng++){
+				if (get(lat, lng) == tile){
+					return new Point2D(lat, lng);
 				}
 			}
 		}
@@ -148,6 +148,6 @@ public class Map {
 	 * @return the tile at the location, or null if its outside the map bounds.
 	 */
 	public Tile get(Point2D location) {
-		return get(location.x, location.y);
+		return get(location.lat, location.lng);
 	}
 }

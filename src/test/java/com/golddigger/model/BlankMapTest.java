@@ -13,8 +13,8 @@ public class BlankMapTest {
 	@Test
 	public void testNormal() {
 		Map map = new BlankMap(10,20);
-		assertEquals(9, map.getMaxX());
-		assertEquals(19, map.getMaxY());
+		assertEquals(9, map.getHeight());
+		assertEquals(19, map.getWidth());
 
 		assertTrue(map.get(0,0) instanceof WallTile);
 		assertTrue(map.get(0,19) instanceof WallTile);

@@ -14,7 +14,7 @@ public class Point2DTest {
 		assertTrue(p1.equals(p2));
 		assertTrue(p2.equals(p1));
 		
-		p2.x = 9;
+		p2.lat = 9;
 		assertFalse(p1.equals(p2));
 		assertFalse(p2.equals(p1));
 	}

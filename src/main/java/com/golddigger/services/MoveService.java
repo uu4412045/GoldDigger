@@ -86,7 +86,7 @@ public abstract class MoveService extends GameService {
 		}
 
 		try {
-			Integer cost = this.getCost(tile);//customCosts.get(tile.toString());
+			Integer cost = this.getCost(tile);
 			if (cost == null) {
 				cost = tile.getDefaultMovementCost();
 			}

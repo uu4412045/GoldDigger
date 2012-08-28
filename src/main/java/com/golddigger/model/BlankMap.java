@@ -12,50 +12,50 @@ import com.golddigger.model.tiles.WallTile;
 public class BlankMap extends Map {
 	/**
 	 * Create a new Map with a specific width, height and location for the base.
-	 * @param x the width of the map.
-	 * @param y the height of the map.
-	 * @param baseX the x-coord of the base
-	 * @param baseY the y-coord of the base
+	 * @param width the width of the map.
+	 * @param height the height of the map.
+	 * @param baseLat the latitude of the base
+	 * @param baseLng the longitude of the base
 	 */
-	public BlankMap(int x, int y, int baseX, int baseY){
-		this(x,y);
-		setBase(baseX,baseY);
+	public BlankMap(int width, int height, int baseLat, int baseLng){
+		this(width,height);
+		setBase(baseLat,baseLng);
 	}
 	
 	/**
 	 * Creates a new Map with specific width and height, with more than one base.
-	 * @param x the width of the map
-	 * @param y the height of the map
+	 * @param width the width of the map
+	 * @param height the height of the map
 	 * @param numberOfBases the number of bases to be added.
 	 */
-	public BlankMap(int x, int y, int numberOfBases){
-		this(x,y);
+	public BlankMap(int width, int height, int numberOfBases){
+		this(width,height);
 		
-		int i=1,j=1;
+		int lat=1,lng=1;
 		for (int n = 0; n < numberOfBases; n++){
-			setBase(i,j);
-			if (j == y-2){
-				i++;
-				j = 1;
-			} else if (j < y-1){
-				j++;
+			setBase(lat,lng);
+			if (lng == height-2){
+				lat++;
+				lng = 1;
+			} else if (lng < height-1){
+				lng++;
 			}
 		}
 	}
 	
 	/**
 	 * Create a base with a specific width and height, with a base at position (1,1)
-	 * @param x width of the map
-	 * @param y height of the map
+	 * @param height height of the map
+	 * @param width width of the map
 	 */
-	public BlankMap(int x, int y) {
-		super(x, y);
-		for (int i = 0; i <= getMaxX(); i++){
-			for (int j = 0; j <= getMaxY(); j++) {
-				if (i == 0 || i == getMaxX() || j == 0 || j == getMaxY()){
-					tiles[i][j] = new WallTile();
+	public BlankMap(int height, int width) {
+		super(height, width);
+		for (int lat = 0; lat < height; lat++){
+			for (int lng = 0; lng < width; lng++) {
+				if (lat == 0 || lat == getHeight() || lng == 0 || lng == getWidth()){
+					tiles[lat][lng] = new WallTile();
 				} else {
-					tiles[i][j] = new GoldTile();
+					tiles[lat][lng] = new GoldTile();
 				}
 			}
 		}
@@ -64,10 +64,10 @@ public class BlankMap extends Map {
 	
 	/**
 	 * put a base at (x,y).
-	 * @param x x-coord of the new base
-	 * @param y y-coord of the new base
+	 * @param lat the latitude of the new base
+	 * @param lng the longitude of the new base
 	 */
-	public void setBase(int x, int y){
-		tiles[x][y] = new BaseTile();
+	public void setBase(int lat, int lng){
+		tiles[lat][lng] = new BaseTile();
 	}
 }

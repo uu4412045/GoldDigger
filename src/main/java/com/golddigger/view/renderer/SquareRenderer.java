@@ -68,8 +68,8 @@ public class SquareRenderer implements FieldRenderer {
 	@Override
 	public void render(Graphics graphics, Rectangle bounds) {
 		Unit unit = game.getUnit(player);
-		int y = 32*unit.getX() + 16;
-		int x = 32*unit.getY() + 16;
+		int y = 32*unit.getLat() + 16;
+		int x = 32*unit.getLng() + 16;
 		x -= bounds.getWidth()/2;
 		y -= bounds.getHeight()/2;
 		drawBackground(graphics, bounds);
@@ -97,17 +97,17 @@ public class SquareRenderer implements FieldRenderer {
 		//TODO: Fix image: Image is offset by 4 pixels as its not 32x32
 		graphics.translate(-4, -4);
 		if (unit.isOwnedBy(player)){
-			draw(graphics, DIGGER, unit.getX(), unit.getY());
+			draw(graphics, DIGGER, unit.getLat(), unit.getLng());
 		} else { //Added for new image later
-			draw(graphics, DIGGER, unit.getX(), unit.getY());
+			draw(graphics, DIGGER, unit.getLat(), unit.getLng());
 		}
 		graphics.translate(4,4);
 	}
 
 	private void draw(Graphics g, Tile[][] area){
-		for (int i = 0; i < area.length; i++){
-			for (int j = 0; j < area[i].length; j++){
-				draw(g, getImage(area[i][j]), i, j);
+		for (int lat = 0; lat < area.length; lat++){
+			for (int lng = 0; lng < area[lat].length; lng++){
+				draw(g, getImage(area[lat][lng]), lat, lng);
 			}
 		}
 	}
@@ -172,12 +172,12 @@ public class SquareRenderer implements FieldRenderer {
 	}
 
 	private boolean wallIs(Tile[][] area, int[][] mask){
-		for (int i=0; i < 3; i++){
-			for (int j = 0; j < 3; j++){
-				int a = mask[i][j];
+		for (int lat=0; lat < 3; lat++){
+			for (int lng = 0; lng < 3; lng++){
+				int a = mask[lat][lng];
 				if (a == ANY) continue;
 				
-				if (area[i][j] == null || area[i][j] instanceof WallTile) {
+				if (area[lat][lng] == null || area[lat][lng] instanceof WallTile) {
 					if (a != WALL) return false;
 				} else if (a == WALL) return false;
 			}

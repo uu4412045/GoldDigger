@@ -6,31 +6,31 @@ package com.golddigger.model;
  * @see Player
  */
 public class Unit {
-	private int x, y, gold=0;
+	private int lat, lng, gold=0;
 	
 	/**
 	 * The player who owns this unit
 	 */
 	private Player owner;
 	
-	public Unit(Player owner, int x, int y){
+	public Unit(Player owner, int lat, int lng){
 		this.owner = owner;
-		this.x = x;
-		this.y = y;
+		this.lat = lat;
+		this.lng = lng;
 	}
 	
 	public Unit(Player owner, Point2D pos){
-		this(owner, pos.x, pos.y);
+		this(owner, pos.lat, pos.lng);
 	}
 	
 	/**
 	 * Set the position of this digger.
-	 * @param x The x coordinate
-	 * @param y The y coordinate
+	 * @param lat The latitude
+	 * @param lng The longitude
 	 */
-	public void setPosition(int x, int y){
-		this.x = x;
-		this.y = y;
+	public void setPosition(int lat, int lng){
+		this.lat = lat;
+		this.lng = lng;
 	}
 	
 	/**
@@ -39,11 +39,11 @@ public class Unit {
 	 * @see Point2D
 	 */
 	public Point2D getPosition(){
-		return new Point2D(x,y);
+		return new Point2D(lat,lng);
 	}
 	
-	public int getX(){ return this.x;}
-	public int getY(){ return this.y;}
+	public int getLat(){ return this.lat;}
+	public int getLng(){ return this.lng;}
 	
 	/**
 	 * Check to see if the unit is owned by the specified {@link Player}
@@ -72,6 +72,6 @@ public class Unit {
 	 * @param location The target location.
 	 */
 	public void setPosition(Point2D location) {
-		setPosition(location.x, location.y);
+		setPosition(location.lat, location.lng);
 	}
 }

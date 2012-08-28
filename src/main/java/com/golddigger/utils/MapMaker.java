@@ -8,10 +8,10 @@ public class MapMaker {
 	public static Map parse(String string) {
 		String[] lines = string.split("\n");
 		Map map = new Map(lines.length, lines[0].trim().length());
-		for (int i = 0; i < lines.length; i++){
-			String line = lines[i].trim();
-			for (int j = 0; j < line.length(); j++){
-				map.set(i, j, MapMaker.convert(line.charAt(j)));
+		for (int lat = 0; lat < lines.length; lat++){
+			String line = lines[lat].trim();
+			for (int lng = 0; lng < line.length(); lng++){
+				map.set(lat, lng, MapMaker.convert(line.charAt(lng)));
 			}
 		}
 		

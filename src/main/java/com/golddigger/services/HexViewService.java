@@ -46,17 +46,17 @@ public class HexViewService extends GameService {
 			return true;
 		}
 
-		Tile[][] area = game.getMap().getArea(unit.getX(), unit.getY(), lineOfSight);
+		Tile[][] area = game.getMap().getArea(unit.getLat(), unit.getLng(), lineOfSight);
 		
 		
 		int[][] hex = mask((area.length-1)/2, unit);
 		
-		for (int i = 0; i < area.length; i++) {
-			for (int j = 0; j < area[i].length; j++) {
-				if (hex[i][j] > 0) {
-					out.append(MapMaker.convert(area[i][j]));
+		for (int lat = 0; lat < area.length; lat++) {
+			for (int lng = 0; lng < area[lat].length; lng++) {
+				if (hex[lat][lng] > 0) {
+					out.append(MapMaker.convert(area[lat][lng]));
 				} else {
-					if (MapMaker.convert(area[i][j]) == '-') {
+					if (MapMaker.convert(area[lat][lng]) == '-') {
 						out.append('-');
 					} else {
 						out.append(HIDDEN_TILE_SYMBOL);
@@ -80,19 +80,16 @@ public class HexViewService extends GameService {
 		mask[radius][radius] = CHECK;
 
 		for (int i = 0; i < radius; i++){
-			
 			for (int lat = 0; lat < size; lat++){
 				for (int lng = 0; lng < size; lng++) {
-					
 					if (mask[lat][lng] == CHECK) mask = markNeighbours(mask,lat,lng,unit);
-					
 				}
 			}
 			
-			for (int m = 0; m < mask.length; m++) {
-				for (int n = 0; n < mask[m].length; n++) {
-					if (mask[m][n] == TRUE) {
-						mask[m][n] = CHECK;
+			for (int lat = 0; lat < mask.length; lat++) {
+				for (int lng = 0; lng < mask[lat].length; lng++) {
+					if (mask[lat][lng] == TRUE) {
+						mask[lat][lng] = CHECK;
 					}
 				}				
 			}
@@ -101,13 +98,10 @@ public class HexViewService extends GameService {
 		return mask;
 	}
 	
-	
-	
 	private static int[][] markNeighbours(int[][] area, int lat, int lng, Unit unit){
+		int ref_lng = unit.getLng() + lng;
+		if (area.length == 3) ref_lng = unit.getLng();
 		
-		int ref_lng = unit.getY() + lng;
-		if (area.length == 3) ref_lng = unit.getY();
-				
 		area[lat][lng] = CHECKED;
 		if (area[lat+1][lng] == 0) area[lat+1][lng] = TRUE;
 		if (area[lat-1][lng] == 0) area[lat-1][lng] = TRUE;

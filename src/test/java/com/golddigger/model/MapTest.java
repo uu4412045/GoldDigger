@@ -11,12 +11,12 @@ public class MapTest {
 		Map map = new BlankMap(10,10);
 		assertNull(map.get(-1, 0));
 		assertNull(map.get(0, -1));
-		assertNull(map.get(map.getMaxX()+1, 0));
-		assertNull(map.get(0, map.getMaxY()+1));
+		assertNull(map.get(map.getWidth()+1, 0));
+		assertNull(map.get(0, map.getHeight()+1));
 		assertNotNull(map.get(0, 0));
-		assertNotNull(map.get(map.getMaxX(), 0));
-		assertNotNull(map.get(0, map.getMaxY()));
-		assertNotNull(map.get(map.getMaxX(), map.getMaxY()));
+		assertNotNull(map.get(map.getWidth(), 0));
+		assertNotNull(map.get(0, map.getHeight()));
+		assertNotNull(map.get(map.getWidth(), map.getHeight()));
 	}
 	
 	@Test

@@ -49,7 +49,7 @@ public class ViewService extends GameService {
 			return true;
 		}
 
-		Tile[][] area = game.getMap().getArea(unit.getX(), unit.getY(), lineOfSight);
+		Tile[][] area = game.getMap().getArea(unit.getLat(), unit.getLng(), lineOfSight);
 
 		for (Tile[] row : area){
 			for (Tile tile : row){
