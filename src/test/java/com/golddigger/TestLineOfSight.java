@@ -23,9 +23,6 @@ public class TestLineOfSight {
     	client = new TestingClient(name, "http://localhost:8066");
     	template = new CustomizableGameTemplate();
     	template.setMap(map);
-    	// In each test you need to configure the template
-    	// add the template
-    	// add a player with the name "test"
     }
     
     @After
@@ -38,31 +35,15 @@ public class TestLineOfSight {
     public void squareViewLOS1() throws Exception {
     	server.addTemplate(template);
     	server.addPlayer(name, "secret");
-        assertEquals("...\n.b.\n...\n", client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals("www\n...\n.b.\n", client.view());
-        
-        client.move(Direction.EAST);
-        assertEquals("www\n..w\nb.w\n", client.view());
-        
-        client.move(Direction.SOUTH);
-        assertEquals("..w\nb.w\n..w\n", client.view());
-        
-        client.move(Direction.SOUTH);
-        assertEquals("b.w\n..w\nwww\n", client.view());
-        
-        client.move(Direction.WEST);
-        assertEquals(".b.\n...\nwww\n", client.view());
-        
-        client.move(Direction.WEST);
-        assertEquals("w.b\nw..\nwww\n", client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals("w..\nw.b\nw..\n", client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals("www\nw..\nw.b\n", client.view());
+        assertEquals("...\n.b.\n...", client.view().trim());
+        moveAndAssert(Direction.NORTH, "www\n...\n.b.");
+        moveAndAssert(Direction.EAST,  "www\n..w\nb.w");
+        moveAndAssert(Direction.SOUTH, "..w\nb.w\n..w");
+        moveAndAssert(Direction.SOUTH, "b.w\n..w\nwww");
+        moveAndAssert(Direction.WEST,  ".b.\n...\nwww");
+        moveAndAssert(Direction.WEST,  "w.b\nw..\nwww");
+        moveAndAssert(Direction.NORTH, "w..\nw.b\nw..");
+        moveAndAssert(Direction.NORTH, "www\nw..\nw.b");
     }
     
     @Test
@@ -70,31 +51,15 @@ public class TestLineOfSight {
     	template.setLineOfSight(2);
     	server.addTemplate(template);
     	server.addPlayer(name, "secret");
-        assertEquals("wwwww\nw...w\nw.b.w\nw...w\nwwwww\n", client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals("-----\nwwwww\nw...w\nw.b.w\nw...w\n", client.view());
-        
-        client.move(Direction.EAST);
-        assertEquals("-----\nwwww-\n...w-\n.b.w-\n...w-\n", client.view());
-        
-        client.move(Direction.SOUTH);
-        assertEquals("wwww-\n...w-\n.b.w-\n...w-\nwwww-\n", client.view());
-        
-        client.move(Direction.SOUTH);
-        assertEquals("...w-\n.b.w-\n...w-\nwwww-\n-----\n", client.view());
-        
-        client.move(Direction.WEST);
-        assertEquals("w...w\nw.b.w\nw...w\nwwwww\n-----\n", client.view());
-        
-        client.move(Direction.WEST);
-        assertEquals("-w...\n-w.b.\n-w...\n-wwww\n-----\n", client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals("-wwww\n-w...\n-w.b.\n-w...\n-wwww\n", client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals("-----\n-wwww\n-w...\n-w.b.\n-w...\n", client.view());
+        assertEquals("wwwww\nw...w\nw.b.w\nw...w\nwwwww", client.view().trim());
+        moveAndAssert(Direction.NORTH, "-----\nwwwww\nw...w\nw.b.w\nw...w");
+        moveAndAssert(Direction.EAST,  "-----\nwwww-\n...w-\n.b.w-\n...w-");
+        moveAndAssert(Direction.SOUTH, "wwww-\n...w-\n.b.w-\n...w-\nwwww-");
+        moveAndAssert(Direction.SOUTH, "...w-\n.b.w-\n...w-\nwwww-\n-----");
+        moveAndAssert(Direction.WEST,  "w...w\nw.b.w\nw...w\nwwwww\n-----");
+        moveAndAssert(Direction.WEST,  "-w...\n-w.b.\n-w...\n-wwww\n-----");
+        moveAndAssert(Direction.NORTH, "-wwww\n-w...\n-w.b.\n-w...\n-wwww");
+        moveAndAssert(Direction.NORTH, "-----\n-wwww\n-w...\n-w.b.\n-w...");
     }
     
     @Test
@@ -103,25 +68,13 @@ public class TestLineOfSight {
     	server.addTemplate(template);
     	server.addPlayer(name, "secret");
     	
-        assertEquals( "...\n.b.\n?.?\n", client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals( "www\n...\n?b?\n", client.view());
-        
-        client.move(Direction.SOUTH_EAST);
-        assertEquals("?w?\n..w\nb.w\n", client.view());
-        
-        client.move(Direction.SOUTH);
-    	assertEquals("?.?\nb.w\n..w\n", client.view());
-    	
-    	client.move(Direction.SOUTH_WEST);
-    	assertEquals(".b.\n...\n?w?\n", client.view());
-    	
-    	client.move(Direction.NORTH_WEST);
-    	assertEquals("?.?\nw.b\nw..\n", client.view());
-    	
-    	client.move(Direction.NORTH);
-    	assertEquals("?w?\nw..\nw.b\n", client.view());
+        assertEquals( "...\n.b.\n?.?", client.view().trim());
+        moveAndAssert(Direction.NORTH,      "www\n...\n?b?");
+        moveAndAssert(Direction.SOUTH_EAST, "?w?\n..w\nb.w");
+        moveAndAssert(Direction.SOUTH,      "?.?\nb.w\n..w");
+    	moveAndAssert(Direction.SOUTH_WEST, ".b.\n...\n?w?");
+    	moveAndAssert(Direction.NORTH_WEST, "?.?\nw.b\nw..");
+    	moveAndAssert(Direction.NORTH,      "?w?\nw..\nw.b");
     } 
     
     @Test
@@ -131,24 +84,17 @@ public class TestLineOfSight {
     	server.addTemplate(template);
     	server.addPlayer(name, "secret");
 
-        assertEquals( "?www?\nw...w\nw.b.w\nw...w\n??w??\n" ,client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals( "-----\nwwwww\nw...w\nw.b.w\n??.??\n",client.view());
-        
-        client.move(Direction.SOUTH_EAST);
-        assertEquals( "-----\nwwww-\n...w-\n.b.w-\n?..w-\n",client.view());
-        
-        client.move(Direction.SOUTH);
-        assertEquals( "??w?-\n...w-\n.b.w-\n...w-\n?www-\n",client.view());
-        
-        client.move(Direction.SOUTH_WEST);
-        assertEquals("?...?\nw.b.w\nw...w\nwwwww\n-----\n", client.view());
-        
-        client.move(Direction.NORTH_WEST);
-        assertEquals("-?w??\n-w...\n-w.b.\n-w...\n-www?\n", client.view());
-        
-        client.move(Direction.NORTH);
-        assertEquals("-----\n-wwww\n-w...\n-w.b.\n-w..?\n", client.view());
+        assertEquals( "?www?\nw...w\nw.b.w\nw...w\n??w??", client.view().trim());
+        moveAndAssert(Direction.NORTH,      "-----\nwwwww\nw...w\nw.b.w\n??.??");
+        moveAndAssert(Direction.SOUTH_EAST, "-----\nwwww-\n...w-\n.b.w-\n?..w-");
+        moveAndAssert(Direction.SOUTH,      "??w?-\n...w-\n.b.w-\n...w-\n?www-");
+        moveAndAssert(Direction.SOUTH_WEST, "?...?\nw.b.w\nw...w\nwwwww\n-----");
+        moveAndAssert(Direction.NORTH_WEST, "-?w??\n-w...\n-w.b.\n-w...\n-www?");
+        moveAndAssert(Direction.NORTH,      "-----\n-wwww\n-w...\n-w.b.\n-w..?");
     }
+
+	private void moveAndAssert(Direction direction, String expected) {
+		client.move(direction);        
+		assertEquals( expected.trim(), client.view().trim());
+	}
 }
