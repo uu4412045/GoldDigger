@@ -9,24 +9,35 @@ import javax.swing.JFrame;
 
 import com.golddigger.model.Player;
 import com.golddigger.server.GameServer;
-
+/**
+ * The GUI is the frame attached to a server that creates
+ * a screen for each unit in play.
+ * 
+ * @author Brett Wandel
+ */
 public class GUI extends Thread  {
 	private GameServer server;
 	private Map<Player, ViewPanel> panels = new HashMap<Player, ViewPanel>();
 	private JFrame frame;
 	private volatile boolean running = false;
 
+	/**
+	 * Create a new GUI attached to a GameServer
+	 * @param server The server to attach to
+	 * @param title The title of the window
+	 */
 	public GUI(GameServer server, String title){
 		this.server = server;
 		frame = new JFrame(title);
-		//TODO: remove default close operation?
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		frame.setSize(new Dimension(600, 400));
 		frame.setVisible(true);
 		frame.setLayout(new GridLayout(2,0));
 	}
 
+	/**
+	 * Close the GUI. Can restart by calling start();
+	 */
 	public void halt(){
 		this.running = false;
 	}
@@ -40,7 +51,6 @@ public class GUI extends Thread  {
 					panels.get(player).update();
 				} else {
 					if (server.getGame(player) == null) continue;
-					System.out.println("GUI: Adding "+player.getName());
 					ViewPanel view = new ViewPanel(server, player);
 					panels.put(player, view);
 					frame.add(view);
@@ -55,6 +65,11 @@ public class GUI extends Thread  {
 		}
 	}
 
+	/**
+	 * Return the view for a particular player.
+	 * @param player The player.
+	 * @return The ViewPanel showing their unit and score
+	 */
 	public ViewPanel getViewFor(Player player) {
 		return panels.get(player);
 	}
