@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.golddigger.model.Game;
-import com.golddigger.plugins.Plugin;
 import com.golddigger.services.DayNightService;
 import com.golddigger.services.GameService;
 import com.golddigger.services.GoldService;
@@ -17,7 +16,6 @@ import com.golddigger.utils.MapMaker;
 
 public class CustomizableGameTemplate extends GameTemplate {
 	private String[] services = new String[]{};
-	private String[] plugins = new String[]{};
 	private String[] costs = new String[]{};
 	private int lineOfSight = ViewService.DEFAULT_LINE_OF_SIGHT;
 	private int cycleTime = DayNightService.DEFAULT_CYCLE_TIME, scale = DayNightService.DEFAULT_SCALE;
@@ -45,12 +43,6 @@ public class CustomizableGameTemplate extends GameTemplate {
 			}
 		}
 
-		if (plugins != null){
-			for (String plugin : plugins){
-				Plugin p = buildPlugin(plugin);
-				if (p != null) game.add(p);
-			}
-		}
 		return game;
 	}
 
@@ -82,20 +74,12 @@ public class CustomizableGameTemplate extends GameTemplate {
 		this.services = services;
 	}
 
-	public void setPlugins(String[] plugins){
-		this.plugins = plugins;
-	}
-
 	private GameService buildService(String name){
 		if (name.equals(DayNightService.class.getName())) {
 			return new DayNightService(cycleTime, scale);
 		} else {
 			return null;
 		}
-	}
-
-	private Plugin buildPlugin(String name){
-		return null;
 	}
 
 	public void setMap(String map){

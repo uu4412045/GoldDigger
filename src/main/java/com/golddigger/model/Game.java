@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.golddigger.plugins.Plugin;
 import com.golddigger.services.GameService;
 import com.golddigger.utils.Container;
 import com.golddigger.model.tiles.BaseTile;
@@ -26,13 +25,6 @@ public class Game {
 	 * @see Service
 	 */
 	private Container<GameService> services;
-
-	/**
-	 * All the plugins that this game uses.
-	 * NOT USED ATM. Brett Wandel 22/8/2012
-	 * @See Plugin
-	 */
-	private Container<Plugin> plugins;
 
 	/**
 	 * All the players in this game
@@ -61,7 +53,6 @@ public class Game {
 		this.templateID = templateID;
 		services = new Container<GameService>();
 		players = new ArrayList<Player>();
-		plugins = new Container<Plugin>();
 		units = new ArrayList<Unit>();
 	}
 
@@ -90,35 +81,6 @@ public class Game {
 	 */
 	public GameService[] getServices(){
 		return this.services.toArray(new GameService[]{});
-	}
-
-	/**
-	 * Add a {@link Plugin} to the game
-	 * NOT USED ATM. Brett Wandel, 22/8/2012
-	 * @param plugin The plugin to be added
-	 * @see Plugin
-	 */
-	public void add(Plugin plugin){
-		this.plugins.add(plugin);
-	}
-
-	/**
-	 * NOT USED ATM. Brett Wandel, 22/8/2012
-	 * @return All the plugins used by this game
-	 * @see Plugin
-	 */
-	public Plugin[] getPlugins(){
-		return this.plugins.toArray(new Plugin[]{});
-	}
-	
-	/**
-	 * NOT USED ATM. Brett Wandel, 22/8/2012
-	 * @param classOfPlugin the class of the plugins, must extend {@link Plugin}
-	 * @return All the plugins of a particular class
-	 * @see Plugin
-	 */
-	public <T extends Plugin> List<T> getPlugins(Class<T> classOfPlugin){
-		return plugins.filter(classOfPlugin);
 	}
 
 	/**

@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
-import com.golddigger.plugins.Plugin;
 import com.golddigger.utils.MapMaker;
 /**
  * This service will return the view of the player's unit.
@@ -58,8 +57,6 @@ public class ViewService extends GameService {
 			out.append('\n');
 		}
 
-		
-		game.getPlugins(Plugin.class);
 		return true;
 	}
 
