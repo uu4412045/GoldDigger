@@ -36,7 +36,7 @@ public class Point2D {
 		}
 
 		public Point2D sub(Point2D p) {
-			return add(p.lat, p.lng);
+			return add(-p.lat, -p.lng);
 		}
 		
 		public Point2D sub(int lat, int lng){
