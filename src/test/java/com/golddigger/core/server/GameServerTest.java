@@ -86,9 +86,7 @@ public class GameServerTest {
 		assertSame("Players should be on the multiplayer map",server.getGame(p1), server.getGame(p2));
 		
 		server.progress(p1);
-		assertNull("Player1 should have finished", server.getGame(p1));
-		server.progress(p2);
-		assertNull("Player1 shouldn't be able to progress any further", server.getGame(p1));
+		assertEquals("Player1 should be at the start again", 0, server.getGame(p1).getTemplateID());
 	}
 
 	@Test
@@ -99,7 +97,6 @@ public class GameServerTest {
 		server.add(t1);
 		server.add(p1);
 		
-		server.clear();
 		server.clear();
 		assertNull("Games should have been removed",server.getPlayer("test1"));
 		assertNull("Games should have been removed",server.getGame(p1));

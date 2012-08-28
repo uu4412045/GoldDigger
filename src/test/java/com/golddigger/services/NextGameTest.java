@@ -46,6 +46,9 @@ public class NextGameTest {
 		assertEquals("Should have been allowed to progress","OK", client.next().trim());
 		assertEquals("Should be on the next map", "www\nwbw\nwww", client.view().trim());
 		
+		assertEquals("Should have been allowed to progress","OK", client.next().trim());
+		assertEquals("Should start again", ".2.\n.b.\n...", client.view().trim());
+		assertEquals("Player should keep their score", 2, server.getPlayer("test").getScore());
 	}
 
 }

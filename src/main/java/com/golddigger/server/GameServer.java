@@ -119,15 +119,15 @@ public class GameServer {
 		return null;
 	}
 
-	/**
-	 * Moves this player on to the next game.
+	/**<p>
+	 * Moves this player on to the next game.<br />
+	 * If The player has finished they start again, but keep their score.</p>
+	 * <b>note:</b> If there are no templates in the server, there is no effect.
 	 * @param player The player to move on
 	 * @see Player
 	 */
 	public void progress(Player player){
-		// TODO: Add Tests for this
-		// TODO: Make sure someone who has finished all the levels can't just start at the start again
-		
+		if (templates.size() == 0) return;
 		int id = -1;
 		Game old = this.getGame(player);
 
@@ -138,24 +138,24 @@ public class GameServer {
 				this.games.remove(old);
 			}
 		}
-
-		// Check to see if they still have levels to go
-		if (this.templates.size() > id+1){
-			// find any free multiplayer games
-			for (Game game : this.games){
-				if (game.getTemplateID() == id+1){
-					if (game.hasUnownedBase()){
-						if (game.add(player)) return;
-					}
+		
+		// Start the player at the beginning again if they have finished.
+		if (this.templates.size() <= id+1){
+			id = -1;
+		}
+		
+		// find any free multiplayer games
+		for (Game game : this.games){
+			if (game.getTemplateID() == id+1){
+				if (game.hasUnownedBase()){
+					if (game.add(player)) return;
 				}
 			}
-			// create a new game
-			Game next = templates.get(id+1).build();
-			this.add(next);
-			next.add(player);
-		} else {
-			//player has finished
 		}
+		// create a new game
+		Game next = templates.get(id+1).build();
+		this.add(next);
+		next.add(player);
 	}
 
 
