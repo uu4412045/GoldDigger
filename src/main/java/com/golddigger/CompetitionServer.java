@@ -39,7 +39,7 @@ public class CompetitionServer extends GenericServer {
 	 * GUIs. Loads all the templates found by {@link FieldFileLoader}.
 	 */
 	public CompetitionServer(){
-		super(5*MINUTES, false);
+		super(5*MINUTES, Mode.GUI);
 		
 		for (GameTemplate template : FieldFileLoader.load()){
 			this.addTemplate(template);

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Test;
 
+import com.golddigger.GenericServer.Mode;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Game;
@@ -34,7 +35,7 @@ public class GenericServerTest {
 
 	@Test
 	public void testGenericServerLong() throws InterruptedException {
-		server = new GenericServer(1000, true);
+		server = new GenericServer(1000, Mode.HEADLESS);
 		assertNotNull(server.getDelayed());
 		assertNotNull(server.getMain());
 		
@@ -68,7 +69,7 @@ public class GenericServerTest {
 
 	@Test
 	public void testAddPlayer() {
-		server = new GenericServer(1000, true);
+		server = new GenericServer(1000, Mode.HEADLESS);
 
 		GameServer main = server.getMain();
 		GameServer delayed = server.getDelayed();
@@ -95,7 +96,7 @@ public class GenericServerTest {
 
 	@Test
 	public void testAddTemplate() {
-		server = new GenericServer(1000, true );
+		server = new GenericServer(1000, Mode.HEADLESS);
 
 		GameServer main = server.getMain();
 		GameServer delayed = server.getDelayed();

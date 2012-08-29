@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.golddigger.GenericServer;
+import com.golddigger.GenericServer.Mode;
 import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
@@ -22,7 +23,7 @@ public class GuiTest {
 	
 	@Before
 	public void before(){
-		server = new GenericServer(false);
+		server = new GenericServer(Mode.GUI);
 		server.addTemplate(new TestGameTemplate("www\nwbw\nwww"));
 		server.addTemplate(new TestGameTemplate("wwww\nwb9w\nwwww"));
 		server.addPlayer("test", "secret");
