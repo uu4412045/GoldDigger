@@ -81,6 +81,11 @@ public class GameServer {
 	public void add(GameTemplate template){
 		template.setID(templates.size());
 		this.templates.add(template);
+		if (templates.size() == 1){
+			for (Player player : players){
+				progress(player);
+			}
+		}
 	}
 
 	/**
