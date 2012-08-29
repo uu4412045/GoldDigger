@@ -46,16 +46,16 @@ public class DayNightService extends GameService {
 
 	@Override
 	public boolean execute(String url, PrintWriter out) {
-		
+
 		List<ViewService> squareServices = game.getServices(ViewService.class);
 		List<HexViewService> hexServices= game.getServices(HexViewService.class);
 		boolean isHex = (hexServices.size() == 1 && squareServices.size() == 0);
 
 		Direction direction = Direction.parse(parseURL(url, URL_EXTRA1));
-		if (direction == null || !isValidMove(isHex, direction)) {
+		if (direction == null || isInvalidMove(isHex, direction)) {
 			return false; //invalid direction, shouldn't increase the turn count
 		}
-		
+
 		boolean day = isDay();
 		current++;
 		if (day != isDay()){
@@ -76,16 +76,17 @@ public class DayNightService extends GameService {
 	 * @param moveDirection The Direction that the unit is moving in.
 	 * @return true if it is a valid move
 	 */
-	private boolean isValidMove(boolean isHex, Direction moveDirection){
-		switch(moveDirection){
-		case EAST: if (isHex) return false;
-		case WEST: if (isHex) return false;
-		case SOUTH_EAST: if (!isHex) return false;
-		case SOUTH_WEST: if (!isHex) return false;
-		case NORTH_EAST: if (!isHex) return false;
-		case NORTH_WEST: if (!isHex) return false;
-		default: return true;
+	private boolean isInvalidMove(boolean isHex, Direction moveDirection){
+		if (isHex){
+			if (moveDirection == Direction.EAST) return true;
+			if (moveDirection == Direction.WEST) return true;
+		} else {
+			if (moveDirection == Direction.SOUTH_EAST) return true;
+			if (moveDirection == Direction.SOUTH_WEST) return true;
+			if (moveDirection == Direction.NORTH_EAST) return true;
+			if (moveDirection == Direction.NORTH_WEST) return true;
 		}
+		return false;
 	}
 	
 	
