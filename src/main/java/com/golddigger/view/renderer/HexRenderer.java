@@ -24,7 +24,7 @@ import com.golddigger.model.tiles.WallTile;
 import com.golddigger.view.FieldView;
 
 public class HexRenderer implements FieldRenderer {
-	public static final String SQUARE_IMAGE_PATH = "../../../images/hex/";
+	public static final String HEX_IMAGE_PATH = "/images/hex/";
 
 	private static final double HEX_X_DISTANCE = 3.0/1.85;
 	private static final double HEX_Y_DISTANCE = 2.0;
@@ -158,8 +158,7 @@ public class HexRenderer implements FieldRenderer {
 	}
 	
 	private static Image loadImage(String name) {
-		URL url = FieldView.class.getResource(SQUARE_IMAGE_PATH+name); 
-		System.err.println(url.getFile());
+		URL url = HexRenderer.class.getResource(HEX_IMAGE_PATH+name);
 		return Toolkit.getDefaultToolkit().getImage(url);
 	}
 }

@@ -15,7 +15,7 @@ import com.golddigger.model.tiles.*;
 import com.golddigger.view.FieldView;
 
 public class SquareRenderer implements FieldRenderer {
-	public static final String SQUARE_IMAGE_PATH = "../../../images/square/";
+	public static final String SQUARE_IMAGE_PATH = "/images/square/";
 
 	private static final int TILE_SIZE = 32;
 	private static final Image GOLD0 = loadImage("empty.png");
@@ -166,8 +166,7 @@ public class SquareRenderer implements FieldRenderer {
 	}
 
 	private static Image loadImage(String name) {
-		URL url = FieldView.class.getResource(SQUARE_IMAGE_PATH+name); 
-		System.err.println(url.getFile());
+		URL url = SquareRenderer.class.getResource(SQUARE_IMAGE_PATH+name);
 		return Toolkit.getDefaultToolkit().getImage(url);
 	}
 
