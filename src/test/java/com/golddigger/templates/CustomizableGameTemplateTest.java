@@ -12,6 +12,7 @@ import com.golddigger.model.Game;
 import com.golddigger.model.tiles.BaseTile;
 import com.golddigger.model.tiles.DeepWaterTile;
 import com.golddigger.model.tiles.MountainTile;
+import com.golddigger.services.CannonService;
 import com.golddigger.services.DayNightService;
 import com.golddigger.services.GameService;
 import com.golddigger.services.HexMoveService;
@@ -131,6 +132,20 @@ public class CustomizableGameTemplateTest {
 	public void testSetMap() {
 		Game game = this.template.build();
 		assertEquals(this.map, MapMaker.parse(game.getMap()).trim());
+	}
+	
+	@Test
+	public void testEnableCannon(){
+		Game game;
+		CustomizableGameTemplate template = new CustomizableGameTemplate();
+		template.setMap("www\nwbw\nwww");
+		
+		game = template.build();
+		assertEquals(0, game.getServices(CannonService.class).size());
+		
+		template.enableCannons(true);
+		game = template.build();
+		assertEquals(1, game.getServices(CannonService.class).size());
 	}
 
 }

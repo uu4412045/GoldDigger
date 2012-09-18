@@ -10,7 +10,8 @@ public class LegacyTemplateParser {
 			COSTS = "cost-per-type",
 			LINE_OF_SIGHT = "line-of-sight",
 			NUMBER_OF_SIDES   = "number-of-sides",
-			PLUGINS = "plugins";
+			PLUGINS = "plugins",
+			CANNON = "enable-cannons";
 
 	public static GameTemplate parse(String text){
 		CustomizableGameTemplate template = new CustomizableGameTemplate();
@@ -26,6 +27,8 @@ public class LegacyTemplateParser {
 			}
 			int numberOfSides = getNumberOfSides(text);
 			if (numberOfSides != 4) template.setNumberOfSides(numberOfSides);
+			
+			if (getSection(CANNON, text) != null) template.enableCannons(true);
 		} else {
 			template.setMap(text.trim());
 		}

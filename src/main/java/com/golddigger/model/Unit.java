@@ -74,4 +74,12 @@ public class Unit {
 	public void setPosition(Point2D location) {
 		setPosition(location.lat, location.lng);
 	}
+	
+	/**
+	 * Get the player who owns this unit
+	 * @param The owner
+     */
+	public Player getOwner() {
+		return this.owner;
+	}
 }

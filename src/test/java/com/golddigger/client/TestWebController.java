@@ -123,4 +123,16 @@ public class TestWebController {
     	assertEquals("FAILED", controller.moveNorthEast().getText().trim());
     	assertEquals("www\n...\n?b?", controller.view().getText().trim());
     }
+    
+    @Test
+    public void testCannon() throws IOException {
+    	CustomizableGameTemplate template = new CustomizableGameTemplate();
+    	template.setMap("wwwww\nw...w\nw.b.w\nw...w\nwwwww");
+    	template.enableCannons(true);
+    	server.addTemplate(template);
+    	server.addPlayer(name, "secret");
+
+    	assertEquals("FAILED: Dont have enough cash", controller.cannonBuy().getText().trim());
+    	assertEquals("FAILED: out of ammo", controller.cannonShoot(0,1).getText().trim());
+    }
 }

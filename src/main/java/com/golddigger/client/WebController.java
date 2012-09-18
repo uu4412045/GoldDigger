@@ -96,5 +96,13 @@ public class WebController {
     public WebResponse moveSouthWest() {
         return call("http://localhost:" + port + "/golddigger/digger/" + secretName + "/move/south_west", serverSleep);
     }
+    
+	public WebResponse cannonBuy() {
+        return call("http://localhost:" + port + "/golddigger/digger/" + secretName + "/cannon/buy", serverSleep);
+	}
+	
+	public WebResponse cannonShoot(int lat, int lng) {
+        return call("http://localhost:" + port + "/golddigger/digger/" + secretName + "/cannon/shoot/"+lat+"/"+lng, serverSleep);
+	}
 
 }

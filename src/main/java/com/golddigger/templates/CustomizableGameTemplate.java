@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.golddigger.model.Game;
+import com.golddigger.services.CannonService;
 import com.golddigger.services.DayNightService;
 import com.golddigger.services.GameService;
 import com.golddigger.services.GoldService;
@@ -21,6 +22,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 	private int cycleTime = DayNightService.DEFAULT_CYCLE_TIME, scale = DayNightService.DEFAULT_SCALE;
 	private int numberOfSides = 4;
 	private String map;
+	private boolean cannonsEnabled = false;
 
 	@Override
 	public Game build() {
@@ -34,6 +36,10 @@ public class CustomizableGameTemplate extends GameTemplate {
 		} else {
 			game.add(new SquareMoveService(formatCosts(costs)));
 			game.add(new ViewService(lineOfSight));
+		}
+		
+		if(cannonsEnabled) {
+			game.add(new CannonService());
 		}
 
 		if (services != null){
@@ -95,6 +101,14 @@ public class CustomizableGameTemplate extends GameTemplate {
 			map.put(key, value);
 		}
 		return map;
+	}
+
+	/**
+	 * Allow the use of cannons.
+	 * @param enable true if you want units to be equipped with cannons.
+	 */
+	public void enableCannons(boolean enabled) {
+			this.cannonsEnabled  = enabled;
 	}
 
 }

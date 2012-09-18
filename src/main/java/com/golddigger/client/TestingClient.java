@@ -85,6 +85,23 @@ public class TestingClient {
 	public String move(Direction d){
 		return sendAction("/move/"+d.toString());
 	}
+	
+	/**
+	 * Buy ammunition for your cannon
+	 * @return "OK you have n rounds left" if successful, "FAILED: Dont have enough cash" otherwise.
+	 */
+	public String buyAmmo(){
+		return sendAction("/cannon/buy");
+	}
+	
+	/**
+	 * Shoot in a particular direction
+	 * @param d The direction to shoot in.
+	 * @return "HIT playername" if you hit someone, "MISSED" otherwise
+	 */
+	public String shoot(Direction d){
+		return sendAction("/cannon/shoot/"+d.toString());
+	}
 
 	private String sendAction(String action){
 		return doGET(baseURL+"/golddigger/digger/"+player+action);
