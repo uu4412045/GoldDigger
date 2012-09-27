@@ -41,7 +41,7 @@ public class CannonMockitoTest {
 	public void buyWithNoScore(){
 		buy();
 		
-		verify(writer).println("FAILED: Dont have enough gold");
+		verify(writer).println("FAILED: Dont have enough cash");
 	}
 	
 	@Test
