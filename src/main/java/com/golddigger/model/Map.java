@@ -107,7 +107,7 @@ public class Map {
 		return area;
 	}
 	
-	public Tile[][] getArea(Point2D pos, int r){
+	public Tile[][] getArea(Coordinate pos, int r){
 		return getArea(pos.lat, pos.lng, r);
 	}
 	
@@ -131,11 +131,11 @@ public class Map {
 	 * @param tile the tile you want the position of
 	 * @return <b>null</b> if the tile does not exist in this map.
 	 */
-	public Point2D getPosition(Tile tile) {
+	public Coordinate getPosition(Tile tile) {
 		for (int lat = 0; lat <= getHeight(); lat++){
 			for (int lng = 0; lng <= getWidth(); lng++){
 				if (get(lat, lng) == tile){
-					return new Point2D(lat, lng);
+					return new Coordinate(lat, lng);
 				}
 			}
 		}
@@ -147,7 +147,7 @@ public class Map {
 	 * @param location A Point2D containing the coordinate of the tile to get.
 	 * @return the tile at the location, or null if its outside the map bounds.
 	 */
-	public Tile get(Point2D location) {
+	public Tile get(Coordinate location) {
 		return get(location.lat, location.lng);
 	}
 }

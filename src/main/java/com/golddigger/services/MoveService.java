@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.golddigger.model.Direction;
 import com.golddigger.model.Player;
-import com.golddigger.model.Point2D;
+import com.golddigger.model.Coordinate;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 
@@ -70,19 +70,25 @@ public abstract class MoveService extends GameService {
 			out.println("ERROR: no unit found for this player");
 			return true;
 		}
-		Tile tile;
+
+		Coordinate target = direction.getOffset(unit.getPosition());
+		Tile tile = game.getMap().get(target);
+
+		if (tile == null) {
+			out.println("FAILED");
+			return true;
+		}
+		tile = game.getMap().get(target);
+
 		synchronized (game){ //stop other units in the same game moving at the same time.
-			Point2D target = direction.getOffset(unit.getPosition());
-			tile = game.getMap().get(target);
-			if (tile == null) {
+			if (!tile.isTreadable() || game.isUnitAt(target)){
 				out.println("FAILED");
 				return true;
-			} else if (!tile.isTreadable() || game.isUnitAt(target)){
-				out.println("FAILED");
 			} else {
 				unit.setPosition(target);
-				out.println("OK");
 			}
+			
+			out.println("OK");
 		}
 
 		try {

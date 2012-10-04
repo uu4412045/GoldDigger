@@ -226,7 +226,7 @@ public class Game {
 	 * @param location The location to check
 	 * @return true if there is a unit at the location
 	 */
-	public boolean isUnitAt(Point2D location){
+	public boolean isUnitAt(Coordinate location){
 		return isUnitAt(location.lat, location.lng);
 	}
 

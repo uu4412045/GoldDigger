@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-import com.golddigger.model.Point2D;
+import com.golddigger.model.Coordinate;
 import com.golddigger.model.Unit;
 import com.golddigger.services.NextService;
 import com.golddigger.templates.TestGameTemplate;
@@ -26,7 +26,7 @@ public class DelayedServerTest {
 		
 		Game game = server.getGame(player);
 		Unit unit = game.getUnit(player);
-		Point2D before = unit.getPosition();
+		Coordinate before = unit.getPosition();
 		Direction east = Direction.EAST;
 		
 		delay.add("http://localhost:8066/golddigger/digger/test/move/"+east.toString());

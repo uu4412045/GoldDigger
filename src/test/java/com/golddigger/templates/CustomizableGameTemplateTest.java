@@ -147,5 +147,4 @@ public class CustomizableGameTemplateTest {
 		game = template.build();
 		assertEquals(1, game.getServices(CannonService.class).size());
 	}
-
 }

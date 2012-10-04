@@ -41,21 +41,21 @@ public class DirectionTest {
 
 	@Test
 	public void testGetOffset() {
-		Point2D point = new Point2D(0,0);
-		assertEquals(new Point2D(-1,0), Direction.NORTH.getOffset(point));
-		assertEquals(new Point2D(1,0), Direction.SOUTH.getOffset(point));
-		assertEquals(new Point2D(0,-1), Direction.WEST.getOffset(point));
-		assertEquals(new Point2D(0,1), Direction.EAST.getOffset(point));
-		assertEquals(new Point2D(-1,1), Direction.NORTH_EAST.getOffset(point));
-		assertEquals(new Point2D(-1,-1), Direction.NORTH_WEST.getOffset(point));
-		assertEquals(new Point2D(0,1), Direction.SOUTH_EAST.getOffset(point));
-		assertEquals(new Point2D(0,-1), Direction.SOUTH_WEST.getOffset(point));
+		Coordinate point = new Coordinate(0,0);
+		assertEquals(new Coordinate(-1,0), Direction.NORTH.getOffset(point));
+		assertEquals(new Coordinate(1,0), Direction.SOUTH.getOffset(point));
+		assertEquals(new Coordinate(0,-1), Direction.WEST.getOffset(point));
+		assertEquals(new Coordinate(0,1), Direction.EAST.getOffset(point));
+		assertEquals(new Coordinate(-1,1), Direction.NORTH_EAST.getOffset(point));
+		assertEquals(new Coordinate(-1,-1), Direction.NORTH_WEST.getOffset(point));
+		assertEquals(new Coordinate(0,1), Direction.SOUTH_EAST.getOffset(point));
+		assertEquals(new Coordinate(0,-1), Direction.SOUTH_WEST.getOffset(point));
 		
-		point = new Point2D(0,1);
-		assertEquals(new Point2D(0,2), Direction.NORTH_EAST.getOffset(point));
-		assertEquals(new Point2D(0,0), Direction.NORTH_WEST.getOffset(point));
-		assertEquals(new Point2D(1,2), Direction.SOUTH_EAST.getOffset(point));
-		assertEquals(new Point2D(1,0), Direction.SOUTH_WEST.getOffset(point));
+		point = new Coordinate(0,1);
+		assertEquals(new Coordinate(0,2), Direction.NORTH_EAST.getOffset(point));
+		assertEquals(new Coordinate(0,0), Direction.NORTH_WEST.getOffset(point));
+		assertEquals(new Coordinate(1,2), Direction.SOUTH_EAST.getOffset(point));
+		assertEquals(new Coordinate(1,0), Direction.SOUTH_WEST.getOffset(point));
 	}
 
 }

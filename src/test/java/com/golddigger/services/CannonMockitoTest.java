@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-import com.golddigger.model.Point2D;
+import com.golddigger.model.Coordinate;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.GoldTile;
@@ -18,7 +18,7 @@ import com.golddigger.templates.CustomizableGameTemplate;
 
 public class CannonMockitoTest {
 	private static final String URL = "http://localhost/golddigger/digger/test1/";
-	private static final Point2D EAST = new Point2D(0,1);
+	private static final Coordinate EAST = new Coordinate(0,1);
 	PrintWriter writer = mock(PrintWriter.class);
 	CannonService service;
 	Player player1, player2;
@@ -117,7 +117,7 @@ public class CannonMockitoTest {
 		
 		verify(writer).println("OK you have 1 rounds left");
 		verify(writer).println("HIT");
-		assertEquals(new Point2D(1,3), unit.getPosition());
+		assertEquals(new Coordinate(1,3), unit.getPosition());
 	}
 	
 	@Test
@@ -133,7 +133,7 @@ public class CannonMockitoTest {
 		
 		verify(writer).println("OK you have 1 rounds left");
 		verify(writer).println("HIT");
-		assertEquals(new Point2D(1,3), unit.getPosition());
+		assertEquals(new Coordinate(1,3), unit.getPosition());
 		assertEquals(0, unit.getGold());
 		assertTrue(tile instanceof GoldTile);
 		assertEquals(3, ((GoldTile) tile).getGold());
@@ -153,7 +153,7 @@ public class CannonMockitoTest {
 		
 		verify(writer).println("OK you have 1 rounds left");
 		verify(writer).println("HIT");
-		assertEquals(new Point2D(1,3), unit.getPosition());
+		assertEquals(new Coordinate(1,3), unit.getPosition());
 		assertEquals(0, unit.getGold());
 		assertEquals(9, tile.getGold());
 	}
@@ -172,7 +172,7 @@ public class CannonMockitoTest {
 		
 		verify(writer).println("OK you have 1 rounds left");
 		verify(writer).println("HIT");
-		assertEquals(new Point2D(1,3), unit.getPosition());
+		assertEquals(new Coordinate(1,3), unit.getPosition());
 		assertEquals(0, unit.getGold());
 		assertEquals(9, tile.getGold());
 	}
@@ -193,7 +193,7 @@ public class CannonMockitoTest {
 		player1.setScore(CannonService.COST);
 		
 		buy();
-		shoot(new Point2D(0,3));
+		shoot(new Coordinate(0,3));
 		
 		verify(writer).println("OK you have 1 rounds left");
 		verify(writer).println("FAILED: out of range");
@@ -205,7 +205,7 @@ public class CannonMockitoTest {
 		verify(writer, never()).println(anyString());
 	}
 	
-	public void shoot(Point2D target){
+	public void shoot(Coordinate target){
 		doCommand("cannon/shoot/"+target.lat+"/"+target.lng);
 	}
 	

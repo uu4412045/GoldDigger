@@ -97,9 +97,9 @@ public class LegacyTemplateParser {
 	}
 	
 	public static String buildSection(String title, String text){
-		return DELIMITER+title+"\n"+text;
+		return DELIMITER+title+"\n"+text+"\n";
 	}
 	public static String buildAttribute(String title, String value){
-		return DELIMITER+title+SEPERATOR+value;
+		return DELIMITER+title+SEPERATOR+value+"\n";
 	}
 }

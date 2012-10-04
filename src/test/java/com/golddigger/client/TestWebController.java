@@ -12,7 +12,6 @@ import com.golddigger.GenericServer;
 import com.golddigger.templates.CustomizableGameTemplate;
 import com.golddigger.templates.TestGameTemplate;
 
-
 public class TestWebController {
     private GenericServer server;
     private WebController controller;
@@ -21,7 +20,7 @@ public class TestWebController {
     @Before
     public void startServer() throws Exception {
         server = new GenericServer();
-        controller = new WebController(name, 8066, 0);
+        controller = new WebController(name, "localhost:8066", 100);
     }
     
     @After

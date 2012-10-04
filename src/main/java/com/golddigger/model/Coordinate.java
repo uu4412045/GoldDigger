@@ -5,17 +5,18 @@ package com.golddigger.model;
  * @author Brett Wandel
  *
  */
-public class Point2D {
-		public int lat, lng;
-		public Point2D(int lat, int lng){
+public class Coordinate {
+		public final int lat, lng;
+		
+		public Coordinate(int lat, int lng){
 			this.lat = lat;
 			this.lng = lng;
 		}
 		
 		@Override
 		public boolean equals(Object object){
-			if (object instanceof Point2D) {
-				Point2D tmp = (Point2D) object;
+			if (object instanceof Coordinate) {
+				Coordinate tmp = (Coordinate) object;
 				return this.lat == tmp.lat && this.lng == tmp.lng;
 			} else {
 				return false;
@@ -27,30 +28,30 @@ public class Point2D {
 			return "("+lat+","+lng+")";
 		}
 
-		public Point2D add(Point2D p) {
+		public Coordinate add(Coordinate p) {
 			return add(p.lat, p.lng);
 		}
 		
-		public Point2D add(int lat, int lng){
-			return new Point2D(this.lat + lat, this.lng + lng);
+		public Coordinate add(int lat, int lng){
+			return new Coordinate(this.lat + lat, this.lng + lng);
 		}
 
-		public Point2D sub(Point2D p) {
+		public Coordinate sub(Coordinate p) {
 			return add(-p.lat, -p.lng);
 		}
 		
-		public Point2D sub(int lat, int lng){
+		public Coordinate sub(int lat, int lng){
 			return add(-lat,-lng);
 		}
 		
-		public Point2D inverse(){
-			return new Point2D(-lat, -lng);
+		public Coordinate inverse(){
+			return new Coordinate(-lat, -lng);
 		}
 
-		public int getX() {
+		public int getLat() {
 			return lat;
 		}
-		public int getY() {
+		public int getLng() {
 			return lng;
 		}
 	}

@@ -39,7 +39,7 @@ public enum Direction{
 	 * @return
 	 */
 	// TODO: Write a better description
-	public Point2D getOffset(Point2D position){
+	public Coordinate getOffset(Coordinate position){
 		int i = position.lng % 2;
 		
 		switch(this){

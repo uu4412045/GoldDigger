@@ -46,34 +46,50 @@ public class HexViewService extends GameService {
 			return true;
 		}
 
-		Tile[][] area = game.getMap().getArea(unit.getLat(), unit.getLng(), lineOfSight);
-		
+		Tile[][] area = getArea(unit);
 		
 		int[][] hex = mask((area.length-1)/2, unit);
 		
-		for (int lat = 0; lat < area.length; lat++) {
-			for (int lng = 0; lng < area[lat].length; lng++) {
-				if (hex[lat][lng] > 0) {
-					out.append(MapMaker.convert(area[lat][lng]));
-				} else {
-					if (MapMaker.convert(area[lat][lng]) == '-') {
-						out.append('-');
-					} else {
-						out.append(HIDDEN_TILE_SYMBOL);
-					}
-				}
-			}
-			out.append('\n');
+		String extra1 = parseURL(url, URL_EXTRA1);
+		String result = "FAILED";
+		if (extra1 == null){
+			result = toChars(area, hex);
 		}
 		
+		out.println(result);
 		return true;
 	}
 	
 	/**
-	 * need to rewrite for variable LOS
-	 * @param area
+	 * Converts an area of tiles into characters with the help of a mask to determine 
+	 * which tiles are in view.
+	 * @param area The area to convert
+	 * @param hex The mask describing which tiles are included
 	 * @return
 	 */
+	private String toChars(Tile[][] area, int[][] hex){
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < area.length; i++) {
+			for (int j = 0; j < area[i].length; j++) {
+				if (hex[i][j] > 0) {
+					sb.append(MapMaker.convert(area[i][j]));
+				} else {
+					if (MapMaker.convert(area[i][j]) == '-') {
+						sb.append('-');
+					} else {
+						sb.append(HIDDEN_TILE_SYMBOL);
+					}
+				}
+			}
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
+	
+	public Tile[][] getArea(Unit unit){
+		return game.getMap().getArea(unit.getLat(), unit.getLng(), lineOfSight);
+	}
+	
 	public static int[][] mask(int radius, Unit unit){
 		int size = (radius*2)+1;
 		int[][] mask = new int[size][size];
@@ -99,7 +115,8 @@ public class HexViewService extends GameService {
 	}
 	
 	private static int[][] markNeighbours(int[][] area, int lat, int lng, Unit unit){
-		int ref_lng = unit.getLng() + lng;
+		int radius = (area.length-1)/2;
+		int ref_lng = unit.getLng() + lng - radius;
 		if (area.length == 3) ref_lng = unit.getLng();
 		
 		area[lat][lng] = CHECKED;

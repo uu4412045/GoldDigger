@@ -8,7 +8,7 @@ import java.net.URL;
 
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-import com.golddigger.model.Point2D;
+import com.golddigger.model.Coordinate;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.*;
@@ -30,6 +30,7 @@ public class SquareRenderer implements FieldRenderer {
 	private static final Image GOLD9 = loadImage("gold9.png");
 	private static final Image WALL_CENTER = loadImage("center.png");
 	private static final Image DIGGER = loadImage("digger.png");
+	private static final Image OPPONENT = loadImage("opponent.png");
 	private static final Image BANK = loadImage("bank.png");
 	private static final Image CITY = loadImage("city.png");
 	private static final Image DEEP_WATER = loadImage("deep_water.png");
@@ -99,7 +100,7 @@ public class SquareRenderer implements FieldRenderer {
 		if (unit.isOwnedBy(player)){
 			draw(graphics, DIGGER, unit.getLat(), unit.getLng());
 		} else { //Added for new image later
-			draw(graphics, DIGGER, unit.getLat(), unit.getLng());
+			draw(graphics, OPPONENT, unit.getLat(), unit.getLng());
 		}
 		graphics.translate(4,4);
 	}
@@ -147,7 +148,7 @@ public class SquareRenderer implements FieldRenderer {
 		return image;
 	}
 
-	private Image getWallTileImage(Point2D position) {
+	private Image getWallTileImage(Coordinate position) {
 		Tile[][] area = game.getMap().getArea(position, 1);
 		if (wallIs(area, MASK_SOLID)) return WALL_SOLID;
 		if (wallIs(area, MASK_NORTH)) return WALL_NORTH;

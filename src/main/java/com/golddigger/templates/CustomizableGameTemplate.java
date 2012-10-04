@@ -48,7 +48,6 @@ public class CustomizableGameTemplate extends GameTemplate {
 				if (s != null) game.add(s);
 			}
 		}
-
 		return game;
 	}
 
@@ -110,5 +109,4 @@ public class CustomizableGameTemplate extends GameTemplate {
 	public void enableCannons(boolean enabled) {
 			this.cannonsEnabled  = enabled;
 	}
-
 }

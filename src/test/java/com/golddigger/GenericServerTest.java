@@ -10,7 +10,7 @@ import com.golddigger.client.TestingClient;
 import com.golddigger.model.Direction;
 import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-import com.golddigger.model.Point2D;
+import com.golddigger.model.Coordinate;
 import com.golddigger.model.Unit;
 import com.golddigger.server.GameServer;
 import com.golddigger.templates.GameTemplate;
@@ -53,12 +53,12 @@ public class GenericServerTest {
 		Unit mainUnit = main.getGame(mainPlayer).getUnit(mainPlayer);
 		Unit delayedUnit = delayed.getGame(delayedPlayer).getUnit(delayedPlayer);
 		
-		Point2D mainPos = mainUnit.getPosition();
-		Point2D delayedPos = delayedUnit.getPosition();
+		Coordinate mainPos = mainUnit.getPosition();
+		Coordinate delayedPos = delayedUnit.getPosition();
 		
 		client.move(Direction.EAST);
 		
-		Point2D newPos = mainUnit.getPosition();
+		Coordinate newPos = mainUnit.getPosition();
 		assertEquals(Direction.EAST.getOffset(mainPos), newPos);
 		assertEquals(delayedPos, delayedUnit.getPosition());
 		Thread.sleep(2000);

@@ -43,6 +43,7 @@ public class HexRenderer implements FieldRenderer {
 	private static final Image GOLD9 = loadImage("gold9.png");
 //	private static final Image WALL_CENTER = loadImage("center.png");
 	private static final Image DIGGER = loadImage("digger.png");
+	private static final Image OPPONENT = loadImage("opponent.png");
 	private static final Image BANK = loadImage("bank.png");
 	private static final Image CITY = loadImage("city.png");
 	private static final Image DEEP_WATER = loadImage("deep_water.png");
@@ -86,7 +87,11 @@ public class HexRenderer implements FieldRenderer {
 		graphics.translate(-x, -y);
 		draw(graphics, game.getMap().getTiles());
 		for (Unit unit : game.getUnits()){
-			draw(graphics, DIGGER, unit.getLat(), unit.getLng());
+			if (unit.isOwnedBy(player)){
+				draw(graphics, DIGGER, unit.getLat(), unit.getLng());
+			} else {
+				draw(graphics, OPPONENT, unit.getLat(), unit.getLng());
+			}
 		}
 		graphics.translate(x, y);
 	}

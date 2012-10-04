@@ -19,7 +19,7 @@ public class Unit {
 		this.lng = lng;
 	}
 	
-	public Unit(Player owner, Point2D pos){
+	public Unit(Player owner, Coordinate pos){
 		this(owner, pos.lat, pos.lng);
 	}
 	
@@ -36,10 +36,10 @@ public class Unit {
 	/**
 	 * 
 	 * @return Get the current position of the unit
-	 * @see Point2D
+	 * @see Coordinate
 	 */
-	public Point2D getPosition(){
-		return new Point2D(lat,lng);
+	public Coordinate getPosition(){
+		return new Coordinate(lat,lng);
 	}
 	
 	public int getLat(){ return this.lat;}
@@ -71,7 +71,7 @@ public class Unit {
 	 * set the position of the unit
 	 * @param location The target location.
 	 */
-	public void setPosition(Point2D location) {
+	public void setPosition(Coordinate location) {
 		setPosition(location.lat, location.lng);
 	}
 	

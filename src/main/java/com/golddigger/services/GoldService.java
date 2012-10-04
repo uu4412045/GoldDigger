@@ -41,7 +41,7 @@ public class GoldService extends GameService {
 		case CARRYING:
 			result = unit.getGold()+""; break;
 		case SCORE:
-			result = player.getScore()+""; break;
+			result = score(player, tile); break;
 		case GRAB:
 			result = grab(unit, tile); break;
 		case DROP:
@@ -49,6 +49,19 @@ public class GoldService extends GameService {
 		}
 		out.println(result);
 		return false;
+	}
+
+	private String score(Player player, Tile tile) {
+		if (tile instanceof BaseTile){
+			BaseTile base = (BaseTile) tile;
+			Player owner = base.getOwner();
+			//spy on another base
+			if (owner != null && owner != player){
+				return owner.getScore()+" "+owner.getName();
+			}
+		}
+		
+		return player.getScore()+"";
 	}
 
 	/**

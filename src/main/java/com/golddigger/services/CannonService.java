@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.golddigger.model.Player;
-import com.golddigger.model.Point2D;
+import com.golddigger.model.Coordinate;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.BaseTile;
@@ -39,7 +39,7 @@ public class CannonService extends GameService {
 		String name = parseURL(url , URL_PLAYER);
 		Player player = game.getPlayer(name);
 		Unit unit = game.getUnit(player);
-		Point2D pos = unit.getPosition();
+		Coordinate pos = unit.getPosition();
 
 		if (extra.equalsIgnoreCase("buy")){
 			if (player.getScore() < COST){
@@ -72,7 +72,7 @@ public class CannonService extends GameService {
 				return true;
 			}
 			
-			Point2D target = pos.add(lat, lng);
+			Coordinate target = pos.add(lat, lng);
 			double range = Math.sqrt(lat^2 + lng^2);
 			if (range > RANGE){
 				out.println("FAILED: out of range");
@@ -102,9 +102,9 @@ public class CannonService extends GameService {
 	 * @param target the position to shoot at
 	 * @return true if you hit a unit, false otherwise
 	 */
-	private boolean shoot(Point2D target){
+	private boolean shoot(Coordinate target){
 		for (Unit unit : game.getUnits()){
-			Point2D pos = unit.getPosition();
+			Coordinate pos = unit.getPosition();
 			if (pos.equals(target)){
 				respawn(unit);
 				int qty = unit.getGold();

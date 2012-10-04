@@ -48,16 +48,38 @@ public class ViewService extends GameService {
 			return true;
 		}
 
-		Tile[][] area = game.getMap().getArea(unit.getLat(), unit.getLng(), lineOfSight);
+		Tile[][] area = this.getArea(unit);
 
+		String extra1 = parseURL(url, URL_EXTRA1);
+		String result;
+		if (extra1 == null){
+			result = toChars(area);
+		} else { //TODO: should everything else be treated as to char?
+			result = toChars(area);
+		}
+		out.println(result);
+		return true;
+	}
+	
+	/**
+	 * Converts an area of tiles into characters which represent the view.
+	 * @param area The area to convert
+	 * @return The View
+	 */
+	private String toChars(Tile[][] area){
+		String result = "";
 		for (Tile[] row : area){
 			for (Tile tile : row){
-				out.append(MapMaker.convert(tile));
+				result += MapMaker.convert(tile);
 			}
-			out.append('\n');
+			result += '\n';
 		}
-
-		return true;
+		
+		return result;
+	}
+	
+	public Tile[][] getArea(Unit unit){
+		return game.getMap().getArea(unit.getLat(), unit.getLng(), lineOfSight);
 	}
 
 }

@@ -7,7 +7,7 @@ public class BaseTile extends Tile {
 	private Player owner = null;
 	
 	public BaseTile() {
-		super(Tile.DEFAULT_MOVEMENT_COST);
+		super(DEFAULT_MOVEMENT_COST);
 	}
 
 	public Player getOwner() {

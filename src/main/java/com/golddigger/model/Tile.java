@@ -2,6 +2,7 @@ package com.golddigger.model;
 
 public abstract class Tile {
 	public static final int DEFAULT_MOVEMENT_COST = 100;
+	
 	private int movementCost;
 	
 	/**

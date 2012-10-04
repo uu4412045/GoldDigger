@@ -6,13 +6,18 @@ public class GoldTile extends Tile {
 	private int gold=0;
 
 	public GoldTile(int qty){
-		super(Tile.DEFAULT_MOVEMENT_COST);
+		super(DEFAULT_MOVEMENT_COST);
 		this.setGold(qty);
 	}
+	
 	public GoldTile(){
 		this(0);
 	};
-	public int getGold(){ return this.gold;}
+	
+	public int getGold(){
+		return this.gold;
+	}
+	
 	public void setGold(int qty){
 		if (qty < 0) {
 			qty = 0;

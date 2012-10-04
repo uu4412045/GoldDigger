@@ -53,7 +53,6 @@ public class MapMaker {
 		default: return new GoldTile();
 		}
 	}
-	
 
 	/**
 	 * Used to convert each tile to their respective character.
@@ -88,5 +87,16 @@ public class MapMaker {
 			}
 		}
 		return '?';
+	}
+
+	public static String convert(Tile[][] area) {
+		String result = "";
+		for (Tile[] row : area){
+			for (Tile t : row){
+				result += convert(t);
+			}
+			result += "\n";
+		}
+		return result;
 	}
 }

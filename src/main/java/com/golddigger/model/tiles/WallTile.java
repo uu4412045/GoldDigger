@@ -4,9 +4,8 @@ import com.golddigger.model.Tile;
 
 public class WallTile extends Tile {
 	
-	
 	public WallTile() {
-		super(0);
+		super(DEFAULT_MOVEMENT_COST);
 	}
 
 	@Override

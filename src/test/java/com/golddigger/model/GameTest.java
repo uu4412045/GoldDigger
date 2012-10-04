@@ -24,7 +24,7 @@ public class GameTest {
 		assertTrue(game.hasPlayer(player));
 		Unit unit = game.getUnit(player);
 		assertNotNull("Unit should not be null", unit);
-		assertEquals(new Point2D(1,1),unit.getPosition());
+		assertEquals(new Coordinate(1,1),unit.getPosition());
 	}
 	
 	@Test
