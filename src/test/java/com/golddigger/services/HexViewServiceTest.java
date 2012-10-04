@@ -1,63 +1,121 @@
 package com.golddigger.services;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-import org.junit.After;
+import java.io.PrintWriter;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import com.golddigger.ServletServer;
-import com.golddigger.client.TestingClient;
-import com.golddigger.model.Direction;
+import com.golddigger.model.EmptyMap;
+import com.golddigger.model.Game;
 import com.golddigger.model.Player;
-import com.golddigger.templates.CustomizableGameTemplate;
+import com.golddigger.utils.TestWriter;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HexViewServiceTest {
-	ServletServer server;
-	TestingClient client;
-	private static final String MAP = "wwwww\nw...w\nw.b.w\nw...w\nwwwww";
-	private static final String BASE_URL = "http://localhost:8066";
-
-	@Before()
-	public void setup(){
-		CustomizableGameTemplate template = new CustomizableGameTemplate();
-		template.setMap(MAP);
-		template.setNumberOfSides(6);
-		template.setLineOfSight(1);
-		
-		server = new ServletServer();
-		server.add(template);
-		server.add(new Player("test", "secret"));
-		client = new TestingClient("test", BASE_URL);
-	}
-
-	@After()
-	public void halt(){
-		server.stop();
+	@Spy Game game= new Game(0);
+	TestWriter writer;
+	HexViewService service;
+	Player player = new Player("test", "secret");
+	private final String URL = "http://server/golddigger/digger/"+player.getName()+"/view";
+	
+	@Before
+	public void before(){
+		writer = new TestWriter();
+		service = new HexViewService();
+		game.add(service);
 	}
 	
 	@Test
-	public void test() {
-		
-		// starts at the base at position (2, 2)		
-		assertEquals("...\n.b.\n?.?", client.view().trim());
-		client.move(Direction.NORTH);
-		assertEquals("www\n...\n?b?", client.view().trim());
-		client.move(Direction.SOUTH_WEST);
-		assertEquals("?w?\nw..\nw.b", client.view().trim());
-		client.move(Direction.SOUTH);
-		assertEquals("?.?\nw.b\nw..", client.view().trim());
-		client.move(Direction.SOUTH);
-		assertEquals("?.?\nw..\nwww", client.view().trim());
-		client.move(Direction.NORTH_EAST);
-		assertEquals(".b.\n...\n?w?", client.view().trim());
-		client.move(Direction.SOUTH_EAST);
-		assertEquals("?.?\n..w\nwww", client.view().trim());
-		client.move(Direction.NORTH);
-		assertEquals( "?.?\nb.w\n..w", client.view().trim());
-		client.move(Direction.NORTH);
-		assertEquals("?w?\n..w\nb.w", client.view().trim());
-		
+	public void lineOfSight1() {
+		final int los = 1;
+		game.setMap(new EmptyMap(3,3,1,1));
+		game.add(player);
+		final String expected = "?.?\n"+
+								".b.\n"+
+								"...\n";
+		assertview(los, expected);
+	}
+	
+	@Test
+	public void offsetLineOfSight1() {
+		final int los = 1;
+		game.setMap(new EmptyMap(3,4,1,2));
+		game.add(player);
+		final String expected = "...\n"+
+								".b.\n"+
+								"?.?\n";
+		assertview(los, expected);
+	}
+	
+	@Test
+	public void lineOfSight2() {
+		final int los = 2;
+		game.setMap(new EmptyMap(5,5,2,2));
+		game.add(player);
+		final String expected = "?...?\n"+
+								".....\n"+
+								"..b..\n"+
+								".....\n"+
+								"??.??\n";
+		assertview(los, expected);
+	}
+	
+	@Test
+	public void offsetLineOfSight2() {
+		final int los = 2;
+		game.setMap(new EmptyMap(5,6,2,3));
+		game.add(player);
+		final String expected = "??.??\n"+
+								".....\n"+
+								"..b..\n"+
+								".....\n"+
+								"?...?\n";
+		assertview(los, expected);
+	}
+	
+	@Test
+	public void lineOfSight3(){
+		final int los = 3;
+		game.setMap(new EmptyMap(7,7,3,3));
+		game.add(player);
+		final String expected = "???.???\n"+
+								"?.....?\n"+
+								".......\n"+
+								"...b...\n"+
+								".......\n"+
+								".......\n"+
+								"??...??\n";
+		assertview(los, expected);
+	}
+	
+	@Test
+	public void offsetLineOfSight3(){
+		final int los = 3;
+		game.setMap(new EmptyMap(7,8,3,4));
+		game.add(player);
+		final String expected = "??...??\n"+
+								".......\n"+
+								".......\n"+
+								"...b...\n"+
+								".......\n"+
+								"?.....?\n"+
+								"???.???\n";
+		assertview(los, expected);
 	}
 
+	private void assertview(int los, String expected){
+		service.setLineOfSight(los);
+		assertTrue(service.runnable(URL));
+		assertTrue(service.execute(URL, writer.getPrintWriter()));
+		assertEquals(expected.trim(), writer.getHistory().trim());
+	}
 }

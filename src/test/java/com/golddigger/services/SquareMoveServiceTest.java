@@ -74,6 +74,6 @@ public class SquareMoveServiceTest {
 	private void moveAndAssert(Direction d, String expected){moveAndAssert(d, expected, true);}
 	private void moveAndAssert(Direction d, String expected, boolean success) {
 		assertEquals((success ? "OK" : "FAILED"), client.move(d).trim());
-		assertEquals(expected, client.view());
+		assertEquals(expected.trim(), client.view().trim());
 	}
 }

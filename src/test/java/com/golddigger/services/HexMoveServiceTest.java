@@ -93,7 +93,7 @@ public class HexMoveServiceTest {
 
 	private void moveAndAssert(Direction move, String expected) {
 		client.move(move);        
-		assertEquals( expected, client.view());
+		assertEquals(expected.trim(), client.view().trim());
 	}
 
 }
