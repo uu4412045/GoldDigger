@@ -1,11 +1,13 @@
 package com.golddigger.templates;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.golddigger.model.Game;
 import com.golddigger.services.CannonService;
+import com.golddigger.model.Coordinate;
 import com.golddigger.services.DayNightService;
 import com.golddigger.services.GameService;
 import com.golddigger.services.GoldService;
@@ -13,6 +15,7 @@ import com.golddigger.services.HexMoveService;
 import com.golddigger.services.HexViewService;
 import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.ViewService;
+import com.golddigger.utils.DTeleportUtility;
 import com.golddigger.utils.MapMaker;
 
 public class CustomizableGameTemplate extends GameTemplate {
@@ -23,6 +26,8 @@ public class CustomizableGameTemplate extends GameTemplate {
 	private int numberOfSides = 4;
 	private String map;
 	private boolean cannonsEnabled = false;
+	private String[] dTeleportTiles; /* Disadvantageous */
+	private DTeleportUtility dTeleportUtility;
 
 	@Override
 	public Game build() {
@@ -47,6 +52,16 @@ public class CustomizableGameTemplate extends GameTemplate {
 				GameService s = buildService(service);
 				if (s != null) game.add(s);
 			}
+		}
+		
+		if (dTeleportTiles != null) {
+			dTeleportUtility = new DTeleportUtility();
+
+			ArrayList<Coordinate[]> dTeleportPairs = dTeleportUtility.formatDTeleports(dTeleportTiles);
+
+			dTeleportPairs = dTeleportUtility.validDTeleports(dTeleportPairs,game.getMap(), numberOfSides);
+
+			dTeleportUtility.assignDTeleports(dTeleportPairs, game.getMap());
 		}
 		return game;
 	}
@@ -108,5 +123,15 @@ public class CustomizableGameTemplate extends GameTemplate {
 	 */
 	public void enableCannons(boolean enabled) {
 			this.cannonsEnabled  = enabled;
+	}
+
+	/** Set the disadventageous teleport coordinates.
+	 *  each pair should be specified by "lat,lng - lat,lng"
+	 *  where the first coordinate is the source, and the second is the
+	 *  destination
+	 *  @param array of teleport coordinate pairs.
+	 */
+	public void setDTeleportTiles(String[] dTeleportTiles) {
+		this.dTeleportTiles = dTeleportTiles;
 	}
 }

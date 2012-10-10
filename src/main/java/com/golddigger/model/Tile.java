@@ -4,6 +4,7 @@ public abstract class Tile {
 	public static final int DEFAULT_MOVEMENT_COST = 100;
 	
 	private int movementCost;
+	private Coordinate teleportDestination = null;
 	
 	/**
 	 * New Tile with the default movement cost set
@@ -35,5 +36,21 @@ public abstract class Tile {
 	 */
 	public int getDefaultMovementCost(){
 		return this.movementCost;
+	}
+
+	/** The disadvantagous teleport location
+	 * @return the destination coordinate, or null if this tile does not
+	 * teleport.
+	 */
+	public Coordinate getTeleportDestination() {
+		return teleportDestination;
+	}
+	
+	/** Set the destination location of the disadvantageous teleport.
+	 * @return the destination coordinate, or null if this tile should not
+	 * teleport.
+	 */
+	public void setTeleportDestination(Coordinate teleportDestination) {
+		this.teleportDestination = teleportDestination;
 	}
 }

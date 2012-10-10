@@ -11,7 +11,8 @@ public class LegacyTemplateParser {
 			LINE_OF_SIGHT = "line-of-sight",
 			NUMBER_OF_SIDES   = "number-of-sides",
 			PLUGINS = "plugins",
-			CANNON = "enable-cannons";
+			CANNON = "enable-cannons",
+			DIS_TELEPORTS = "dis-teleport-mappings";
 
 	public static GameTemplate parse(String text){
 		CustomizableGameTemplate template = new CustomizableGameTemplate();
@@ -29,6 +30,8 @@ public class LegacyTemplateParser {
 			if (numberOfSides != 4) template.setNumberOfSides(numberOfSides);
 			
 			if (getSection(CANNON, text) != null) template.enableCannons(true);
+			
+			template.setDTeleportTiles(parseDTeleports(text));
 		} else {
 			template.setMap(text.trim());
 		}
@@ -61,6 +64,22 @@ public class LegacyTemplateParser {
 			e.printStackTrace();
 			return -1;
 		}
+	}
+	
+	/**
+	 * Returns an array of Strings of the form "srcX,srcY-dstX,dstY". In the field
+	 * file, teleportation mappings are expected as: !dis-teleport-mappings =
+	 * 2,3-4,5\n10,11-12,13\n... such that source tile (2,3) teleports to
+	 * destination (4,5) etc
+	 */
+	public static String[] parseDTeleports(String text) {
+		String section = getSection(DIS_TELEPORTS, text);
+		if (section == null) {
+			return null;
+		}
+		String[] dTeleports = section.split("\n");
+		return dTeleports;
+		
 	}
 
 	/** 
