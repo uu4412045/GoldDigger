@@ -12,7 +12,6 @@ import com.golddigger.utils.LegacyTemplateParser;
 public class LegacyTemplateParserTest {
 	public static final String COST_STRING = DELIMITER+COSTS+"\n"+"b=150\n9=900\nm=230";
 	public static final String LINE_OF_SIGHT_STRING = DELIMITER+LINE_OF_SIGHT+SEPERATOR+"100";
-
 	public static final String TELEPORT_STRING_EXPECTED = DELIMITER
 			+ DIS_TELEPORTS + "\n" + " 2,3->4,5\n6,7->8,9";
 

@@ -12,8 +12,10 @@ import com.golddigger.services.DayNightService;
 import com.golddigger.services.GameService;
 import com.golddigger.services.GoldService;
 import com.golddigger.services.HexMoveService;
+import com.golddigger.services.OccludedHexViewService;
 import com.golddigger.services.HexViewService;
 import com.golddigger.services.SquareMoveService;
+import com.golddigger.services.OccludedViewService;
 import com.golddigger.services.ViewService;
 import com.golddigger.utils.DTeleportUtility;
 import com.golddigger.utils.MapMaker;
@@ -26,6 +28,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 	private int numberOfSides = 4;
 	private String map;
 	private boolean cannonsEnabled = false;
+	private boolean occlusion = false;
 	private String[] dTeleportTiles; /* Disadvantageous */
 	private DTeleportUtility dTeleportUtility;
 
@@ -37,10 +40,18 @@ public class CustomizableGameTemplate extends GameTemplate {
 		
 		if (numberOfSides == 6){
 			game.add(new HexMoveService(formatCosts(costs)));
-			game.add(new HexViewService(lineOfSight));
+			if(occlusion) {
+				game.add(new OccludedHexViewService(lineOfSight));
+			} else {
+				game.add(new HexViewService(lineOfSight));
+			}
 		} else {
 			game.add(new SquareMoveService(formatCosts(costs)));
-			game.add(new ViewService(lineOfSight));
+			if(occlusion) {
+				game.add(new OccludedViewService(lineOfSight));
+			} else {
+				game.add(new ViewService(lineOfSight));
+			}
 		}
 		
 		if(cannonsEnabled) {
@@ -133,5 +144,13 @@ public class CustomizableGameTemplate extends GameTemplate {
 	 */
 	public void setDTeleportTiles(String[] dTeleportTiles) {
 		this.dTeleportTiles = dTeleportTiles;
+	}
+	
+	/**
+	 * Enable Height based Occlusion using {@link Tile} height.
+	 * @param occlude true to enable occlusion, false otherwise.
+	 */
+	public void enableOcclusion(boolean occlude){
+		this.occlusion = occlude;
 	}
 }

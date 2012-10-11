@@ -6,7 +6,7 @@ public class GoldTile extends Tile {
 	private int gold=0;
 
 	public GoldTile(int qty){
-		super(DEFAULT_MOVEMENT_COST);
+		super(DEFAULT_MOVEMENT_COST, DEFAULT_HEIGHT);
 		this.setGold(qty);
 	}
 	

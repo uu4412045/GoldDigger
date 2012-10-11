@@ -16,9 +16,11 @@ import com.golddigger.services.CannonService;
 import com.golddigger.services.DayNightService;
 import com.golddigger.services.GameService;
 import com.golddigger.services.HexMoveService;
+import com.golddigger.services.OccludedHexViewService;
 import com.golddigger.services.HexViewService;
 import com.golddigger.services.MoveService;
 import com.golddigger.services.SquareMoveService;
+import com.golddigger.services.OccludedViewService;
 import com.golddigger.services.ViewService;
 import com.golddigger.templates.CustomizableGameTemplate;
 import com.golddigger.utils.MapMaker;
@@ -147,4 +149,52 @@ public class CustomizableGameTemplateTest {
 		game = template.build();
 		assertEquals(1, game.getServices(CannonService.class).size());
 	}
+		
+	@Test
+	public void setOcclusion(){
+		template.enableOcclusion(true);
+		// Test Square Services
+		Game game = this.template.build();
+		ViewService view = null;
+		HexViewService hex = null;
+		MoveService move = null;
+		for (GameService service : game.getServices()){
+			if (service instanceof ViewService){
+				view = (ViewService) service;
+			} else if (service instanceof HexViewService){
+				hex = (HexViewService) service;
+			} else if (service instanceof MoveService){
+				move = (MoveService) service;
+			}
+		}
+		
+		assertNull(hex);
+		assertNotNull(view);
+		assertTrue(view instanceof OccludedViewService);
+		assertTrue(move instanceof SquareMoveService);
+		
+		// Test Hex Services
+		this.template.setNumberOfSides(6);
+		game = this.template.build();
+
+		view = null;
+		hex = null;
+		move = null;
+		
+		for (GameService service : game.getServices()){
+			if (service instanceof ViewService){
+				view = (ViewService) service;
+			} else if (service instanceof HexViewService){
+				hex = (HexViewService) service;
+			} else if (service instanceof MoveService){
+				move = (MoveService) service;
+			}
+		}
+		
+		assertNotNull(hex);
+		assertNull(view);
+		assertTrue(hex instanceof OccludedHexViewService);
+		assertTrue(move instanceof HexMoveService);
+	}
+
 }

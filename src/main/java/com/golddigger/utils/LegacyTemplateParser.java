@@ -12,7 +12,8 @@ public class LegacyTemplateParser {
 			NUMBER_OF_SIDES   = "number-of-sides",
 			PLUGINS = "plugins",
 			CANNON = "enable-cannons",
-			DIS_TELEPORTS = "dis-teleport-mappings";
+			DIS_TELEPORTS = "dis-teleport-mappings",
+			OCCLUSION = "enable-occlusion";
 
 	public static GameTemplate parse(String text){
 		CustomizableGameTemplate template = new CustomizableGameTemplate();
@@ -30,6 +31,7 @@ public class LegacyTemplateParser {
 			if (numberOfSides != 4) template.setNumberOfSides(numberOfSides);
 			
 			if (getSection(CANNON, text) != null) template.enableCannons(true);
+			if (getSection(OCCLUSION, text) != null) template.enableOcclusion(true);
 			
 			template.setDTeleportTiles(parseDTeleports(text));
 		} else {
@@ -37,7 +39,7 @@ public class LegacyTemplateParser {
 		}
 		return template;
 	}
-
+	
 	private static int getNumberOfSides(String text) {
 		String value = getAttribute(NUMBER_OF_SIDES, text);
 		if (value == null) return 4;

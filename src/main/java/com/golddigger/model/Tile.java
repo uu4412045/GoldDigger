@@ -2,16 +2,19 @@ package com.golddigger.model;
 
 public abstract class Tile {
 	public static final int DEFAULT_MOVEMENT_COST = 100;
+	public static final int DEFAULT_HEIGHT = 0;
 	
 	private int movementCost;
 	private Coordinate teleportDestination = null;
+	private int height = 0;
 	
 	/**
 	 * New Tile with the default movement cost set
 	 * @param movementCost The delay for a successful move in milliseconds
 	 */
-	public Tile(int movementCost){
+	public Tile(int movementCost, int height){
 		this.movementCost = movementCost;
+		this.height = height;
 	}
 	
 	/**
@@ -52,5 +55,9 @@ public abstract class Tile {
 	 */
 	public void setTeleportDestination(Coordinate teleportDestination) {
 		this.teleportDestination = teleportDestination;
+	}
+	
+	public int getHeight(){
+		return this.height;
 	}
 }
