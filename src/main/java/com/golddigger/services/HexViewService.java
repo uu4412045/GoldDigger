@@ -1,93 +1,40 @@
 package com.golddigger.services;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
+import com.golddigger.model.tiles.OccludedTile;
+import com.golddigger.utils.JsonEncoder;
 import com.golddigger.utils.MapMaker;
 
-public class HexViewService extends GameService {
-	public static final String ACTION_TEXT = "view";
-	public static final int DEFAULT_LINE_OF_SIGHT = 1;
+public class HexViewService extends ViewService {
 	private static int TRUE=1, CHECK=2, CHECKED=3;
-	private static final char HIDDEN_TILE_SYMBOL = '?';
-	private int lineOfSight;
 
 	public HexViewService() {
-		this(DEFAULT_LINE_OF_SIGHT);
+		super();
 	}
 	
 	public HexViewService(int lineOfSight){
-		super(BASE_PRIORITY);
-		this.lineOfSight = lineOfSight;
-	}
-
-	public void setLineOfSight(int lineOfSight){
-		this.lineOfSight = lineOfSight;
-	}
-	
-	public int getLineOfSight(){
-		return this.lineOfSight;
+		super(lineOfSight);
 	}
 	
 	@Override
-	public boolean runnable(String url) {
-		return parseURL(url, URL_ACTION).equalsIgnoreCase(ACTION_TEXT);
-	}
-
-	@Override
-	public boolean execute(String url, PrintWriter out) {
-		Player player = game.getPlayer(parseURL(url, URL_PLAYER));
-		
-		Unit unit = game.getUnit(player);
-		if (unit == null){
-			out.println("ERROR: no unit found for this player");
-			return true;
-		}
-
-		Tile[][] area = getArea(unit);
-		
+	public Tile[][] getArea(Unit unit){
+		Tile[][] area = game.getMap().getArea(unit.getPosition(), getLineOfSight());
 		int[][] hex = mask((area.length-1)/2, unit);
 		
-		String extra1 = parseURL(url, URL_EXTRA1);
-		String result = "FAILED";
-		if (extra1 == null){
-			result = toChars(area, hex);
-		}
-		
-		out.println(result);
-		return true;
-	}
-	
-	/**
-	 * Converts an area of tiles into characters with the help of a mask to determine 
-	 * which tiles are in view.
-	 * @param area The area to convert
-	 * @param hex The mask describing which tiles are included
-	 * @return
-	 */
-	private String toChars(Tile[][] area, int[][] hex){
-		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < area.length; i++) {
 			for (int j = 0; j < area[i].length; j++) {
-				if (hex[i][j] > 0) {
-					sb.append(MapMaker.convert(area[i][j]));
-				} else {
-					if (MapMaker.convert(area[i][j]) == '-') {
-						sb.append('-');
-					} else {
-						sb.append(HIDDEN_TILE_SYMBOL);
-					}
+				if (area[i][j] == null) continue;
+				if (hex[i][j] < 1) {
+					area[i][j] = new OccludedTile();
 				}
 			}
-			sb.append('\n');
 		}
-		return sb.toString();
-	}
-	
-	public Tile[][] getArea(Unit unit){
-		return game.getMap().getArea(unit.getLat(), unit.getLng(), lineOfSight);
+		return area;
 	}
 	
 	public static int[][] mask(int radius, Unit unit){

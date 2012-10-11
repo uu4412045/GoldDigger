@@ -50,6 +50,7 @@ public class MapMaker {
 		case 'r': return new RoadTile();
 		case 't': return new TeleportTile();
 		case 'w': return new WallTile();
+		case '?': return new OccludedTile();
 		default: return new GoldTile();
 		}
 	}
@@ -72,6 +73,7 @@ public class MapMaker {
 		if (t instanceof MountainTile) return 'm';
 		if (t instanceof RoadTile) return 'r';
 		if (t instanceof TeleportTile) return 't';
+		if (t instanceof OccludedTile) return '?';
 		if (t instanceof GoldTile){
 			switch (((GoldTile) t).getGold()){
 			case 1: return '1';

@@ -14,6 +14,7 @@ import com.golddigger.services.GoldService;
 import com.golddigger.services.HexMoveService;
 import com.golddigger.services.OccludedHexViewService;
 import com.golddigger.services.HexViewService;
+import com.golddigger.services.MultiplayerService;
 import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.OccludedViewService;
 import com.golddigger.services.ViewService;
@@ -31,6 +32,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 	private boolean occlusion = false;
 	private String[] dTeleportTiles; /* Disadvantageous */
 	private DTeleportUtility dTeleportUtility;
+	private long multiplayer_start, multiplayer_duration, multiplayer_end;
 
 	@Override
 	public Game build() {
@@ -108,6 +110,8 @@ public class CustomizableGameTemplate extends GameTemplate {
 	private GameService buildService(String name){
 		if (name.equals(DayNightService.class.getName())) {
 			return new DayNightService(cycleTime, scale);
+		} else if (name.equals(MultiplayerService.class.getName())) {
+			return new MultiplayerService(multiplayer_start, multiplayer_duration, multiplayer_end);
 		} else {
 			return null;
 		}
@@ -152,5 +156,25 @@ public class CustomizableGameTemplate extends GameTemplate {
 	 */
 	public void enableOcclusion(boolean occlude){
 		this.occlusion = occlude;
+	}
+	
+	/**
+	 * Set the timer durations for the multiplayer
+	 * @param start the duration of the starting timer, -1 for default.
+	 * @param duration the duration of the running timer, -1 for default. 
+	 * @param end the duration of the ending timer, -1 for default.
+	 */
+	public void setMultiplayer(int start, int duration, int end) {
+		this.multiplayer_start = start;
+		this.multiplayer_duration = duration;
+		this.multiplayer_end = end;
+		for (String service : services){
+			if (service.equals(MultiplayerService.class.getName())){
+				return;
+			}
+		}
+		
+		services = Arrays.copyOf(services, services.length+1);
+		services[services.length-1] = MultiplayerService.class.getName();
 	}
 }

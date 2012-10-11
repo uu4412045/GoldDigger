@@ -16,7 +16,6 @@ public class LegacyTemplateParserTest {
 			+ DIS_TELEPORTS + "\n" + " 2,3->4,5\n6,7->8,9";
 
 	public static final String TELEPORT_STRING_EMPTY = DELIMITER + DIS_TELEPORTS;
-
 	@Test
 	public void testParseCosts() {
 		String[] costs = parseCosts(COST_STRING);

@@ -13,7 +13,8 @@ public class LegacyTemplateParser {
 			PLUGINS = "plugins",
 			CANNON = "enable-cannons",
 			DIS_TELEPORTS = "dis-teleport-mappings",
-			OCCLUSION = "enable-occlusion";
+			OCCLUSION = "enable-occlusion",
+			MULTIPLAYER = "multiplayer";
 
 	public static GameTemplate parse(String text){
 		CustomizableGameTemplate template = new CustomizableGameTemplate();
@@ -29,6 +30,8 @@ public class LegacyTemplateParser {
 			}
 			int numberOfSides = getNumberOfSides(text);
 			if (numberOfSides != 4) template.setNumberOfSides(numberOfSides);
+			
+			processMultiplayerTimes(template, text);
 			
 			if (getSection(CANNON, text) != null) template.enableCannons(true);
 			if (getSection(OCCLUSION, text) != null) template.enableOcclusion(true);
@@ -82,6 +85,44 @@ public class LegacyTemplateParser {
 		String[] dTeleports = section.split("\n");
 		return dTeleports;
 		
+	}
+	
+	/**
+	 * Extract the multiplayer times and set up the template.
+	 * @param template The template to be modified
+	 * @param text The text from the field file to be parsed
+	 * @return The modified template
+	 */
+	private static void processMultiplayerTimes(CustomizableGameTemplate template, String text) {
+		String lines = getSection(MULTIPLAYER, text);
+		int start = -1, duration = -1, end = -1; 
+		
+		if (lines != null) {
+			for (String line : lines.split("\n")){
+				String[] parts = line.split(SEPERATOR);
+				if (parts.length != 2) continue;
+				if (parts[0] == null || parts[1] == null) continue;
+				int value = -1;
+				
+				try {
+					value = Integer.parseInt(parts[1]);
+				} catch (NumberFormatException e){
+					System.out.println("Failed to parse value "+line);
+				}
+				
+				if (parts[0].equalsIgnoreCase("start")){
+					start = value;
+				} else if (parts[0].equalsIgnoreCase("duration")){
+					duration = value;
+				} else if (parts[0].equalsIgnoreCase("end")){
+					end = value;
+				} else {
+					System.out.println("Failed to parse title "+line);
+				}
+			}
+			
+			template.setMultiplayer(start, duration,end);
+		}
 	}
 
 	/** 

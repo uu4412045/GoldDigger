@@ -1,99 +1,124 @@
 package com.golddigger.services;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-import org.junit.After;
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import com.golddigger.GenericServer;
-import com.golddigger.client.TestingClient;
+import com.golddigger.model.Coordinate;
 import com.golddigger.model.Direction;
-import com.golddigger.templates.CustomizableGameTemplate;
+import com.golddigger.model.Game;
+import com.golddigger.model.Map;
+import com.golddigger.model.Player;
+import com.golddigger.model.Unit;
+import com.golddigger.model.tiles.GoldTile;
+import com.golddigger.utils.MapMaker;
+import com.golddigger.utils.TestWriter;
+
+@RunWith(MockitoJUnitRunner.class)
 public class HexMoveServiceTest {
-	GenericServer server;
-	TestingClient client;
 	private static final String MAP = 
-			"wwwwww\n"+
-			"wb...w\n"+
-			"w....w\n"+
-			"w....w\n"+
-			"w....w\n"+
-			"wwwwww";
+					"wwwwww\n"+
+					"wb...w\n"+
+					"w....w\n"+
+					"w....w\n"+
+					"w....w\n"+
+					"wwwwww";
+
+	final String name = "test";
+	HexMoveService service;
+	@Mock Game game;
+	@Mock Player player;
+	@Spy Unit unit = new Unit(player, new Coordinate(2,3));
+
+	private TestWriter writer;
 
 	@Before
 	public void before() {
-		server = new GenericServer();
-		CustomizableGameTemplate template = new CustomizableGameTemplate();
-		template.setMap(MAP);
-		template.setNumberOfSides(6);
-		server.addTemplate(template);
-		server.addPlayer("test1","secret");
-		client = new TestingClient("test1", "http://localhost:8066");
-		client.move(Direction.SOUTH);
-		client.move(Direction.NORTH_EAST);
-		client.move(Direction.SOUTH_EAST);
-//        assertEquals( "?.?\n...\n...\n", client.view());
-	}
-	
-	@After
-	public void after(){
-		server.stop();
+		HashMap<String, Integer> costs = new HashMap<String, Integer>();
+		costs.put(new GoldTile().toString(), 0);
+		service = new HexMoveService(costs);
+		writer = new TestWriter();
+		service.setGame(game);
+		Map map = MapMaker.parse(MAP);
+		when(game.getMap()).thenReturn(map);
+		when(game.getPlayer(name)).thenReturn(player);
+		when(game.getUnit(player)).thenReturn(unit);
 	}
 
 	@Test
 	public void canMoveInAllDirections() throws Exception {
-		moveAndAssert(Direction.NORTH, "?w?\n...\n...\n");
-		moveAndAssert(Direction.SOUTH_EAST, "..w\n..w\n?.?\n");
-		moveAndAssert(Direction.SOUTH, "..w\n..w\n?.?\n");
-		moveAndAssert(Direction.SOUTH, "..w\n..w\n?w?\n");
-		moveAndAssert(Direction.SOUTH_WEST, "?.?\n...\nwww\n");
-		moveAndAssert(Direction.NORTH_WEST, "...\n...\n?w?\n");
-		moveAndAssert(Direction.NORTH_EAST, "?.?\n...\n...\n");
+		moveAndAssert(Direction.NORTH, true);
+		moveAndAssert(Direction.SOUTH_EAST, true);
+		moveAndAssert(Direction.SOUTH, true);
+		moveAndAssert(Direction.SOUTH, true);
+		moveAndAssert(Direction.SOUTH_WEST, true);
+		moveAndAssert(Direction.NORTH_WEST, true);
+		moveAndAssert(Direction.NORTH_EAST, true);
 	}
 
 	@Test
 	public void wontMoveOutsideNorthBounds() throws Exception {
-		moveAndAssert(Direction.NORTH, "?w?\n...\n...\n");
-		moveAndAssert(Direction.NORTH, "?w?\n...\n...\n");
+		moveAndAssert(Direction.NORTH, true);
+		moveAndAssert(Direction.NORTH, false);
 	}
 
 	@Test
-	public void wontMoveOutsideSouthBounds() throws Exception {    	        
-		moveAndAssert(Direction.SOUTH, "?.?\n...\n...\n");
-		moveAndAssert(Direction.SOUTH, "?.?\n...\nwww\n");
-		moveAndAssert(Direction.SOUTH, "?.?\n...\nwww\n");        
+	public void wontMoveOutsideSouthBounds() throws Exception {
+		moveAndAssert(Direction.SOUTH, true);
+		moveAndAssert(Direction.SOUTH, true);
+		moveAndAssert(Direction.SOUTH, false);        
 	}
 
 	@Test
 	public void wontMoveOutsideNorthEastBounds() throws Exception {
-		moveAndAssert(Direction.NORTH_EAST, "..w\n..w\n?.?\n");
-		moveAndAssert(Direction.NORTH_EAST, "..w\n..w\n?.?\n");
+		moveAndAssert(Direction.NORTH_EAST, true);
+		moveAndAssert(Direction.NORTH_EAST, false);
 	}
 
 	@Test
 	public void wontMoveOutsideSouthWestBounds() throws Exception {
-		moveAndAssert(Direction.SOUTH_WEST, "...\n...\n?.?\n");
-		moveAndAssert(Direction.SOUTH_WEST, "?.?\nw..\nw..\n");
-		moveAndAssert(Direction.SOUTH_WEST, "?.?\nw..\nw..\n");
+		moveAndAssert(Direction.SOUTH_WEST, true);
+		moveAndAssert(Direction.SOUTH_WEST, true);
+		moveAndAssert(Direction.SOUTH_WEST, false);
 
 	}
 
 	@Test
 	public void wontMoveOutsideSouthEastBounds() throws Exception {
-		moveAndAssert(Direction.SOUTH_EAST, "..w\n..w\n?.?\n");       
-		moveAndAssert(Direction.SOUTH_EAST, "..w\n..w\n?.?\n");
+		moveAndAssert(Direction.SOUTH_EAST, true);       
+		moveAndAssert(Direction.SOUTH_EAST, false);
 	}
 	@Test
 	public void wontMoveOutsideNorthWestBounds() throws Exception {
-		moveAndAssert(Direction.NORTH_WEST, "b..\n...\n?.?\n");        
-		moveAndAssert(Direction.NORTH_WEST, "?w?\nwb.\nw..\n");        
-		moveAndAssert(Direction.NORTH_WEST, "?w?\nwb.\nw..\n");
+		moveAndAssert(Direction.NORTH_WEST, true);        
+		moveAndAssert(Direction.NORTH_WEST, true);        
+		moveAndAssert(Direction.NORTH_WEST, false);
 	}
 
-	private void moveAndAssert(Direction move, String expected) {
-		client.move(move);        
-		assertEquals(expected.trim(), client.view().trim());
+	private void moveAndAssert(Direction direction, boolean successful) {
+		String url = "http://localhost/golddigger/digger/"+name+"/move/"+direction;
+		Coordinate target = direction.getOffset(unit.getPosition()); 
+		assertTrue(service.runnable(url));
+		assertTrue(service.execute(url, writer.getPrintWriter()));
+		
+		if (successful){
+			assertEquals("OK", writer.getHistory().trim());
+			verify(unit).setPosition(target);
+		} else {
+			assertEquals("FAILED", writer.getHistory().trim());
+			verify(unit, never()).setPosition(any(Coordinate.class));
+		}
+		
+		reset(unit); // reseting the call counter in the mock. Try to avoid this.
+		writer.clear();
 	}
 
 }

@@ -88,46 +88,45 @@ public class CustomizableGameTemplateTest {
 	}
 
 	@Test
-	public void testSetNumberOfSides() {
-		// Test Square Services
+	public void setHexField(){
+		this.template.setNumberOfSides(6);
 		Game game = this.template.build();
 		ViewService view = null;
-		HexViewService hex = null;
 		MoveService move = null;
-		for (GameService service : game.getServices()){
+		
+		for(GameService service: game.getServices()){
 			if (service instanceof ViewService){
 				view = (ViewService) service;
-			} else if (service instanceof HexViewService){
-				hex = (HexViewService) service;
 			} else if (service instanceof MoveService){
 				move = (MoveService) service;
 			}
 		}
 		
-		assertNull(hex);
 		assertNotNull(view);
-		assertTrue(move instanceof SquareMoveService);
+		assertNotNull(move);
+		assertTrue(view instanceof HexViewService);
+		assertTrue(move instanceof HexMoveService);
+	}
+	
+	@Test
+	public void testSquareField() {
+		this.template.setNumberOfSides(4);
+		Game game = this.template.build();
+		ViewService view = null;
+		MoveService move = null;
 		
-		// Test Hex Services
-		this.template.setNumberOfSides(6);
-		game = this.template.build();
-
-		view = null;
-		hex = null;
-		move = null;
-		for (GameService service : game.getServices()){
+		for(GameService service: game.getServices()){
 			if (service instanceof ViewService){
 				view = (ViewService) service;
-			} else if (service instanceof HexViewService){
-				hex = (HexViewService) service;
 			} else if (service instanceof MoveService){
 				move = (MoveService) service;
 			}
 		}
 		
-		assertNotNull(hex);
-		assertNull(view);
-		assertTrue(move instanceof HexMoveService);
+		assertNotNull(view);
+		assertNotNull(move);
+		assertFalse(view instanceof HexViewService);
+		assertFalse(move instanceof HexMoveService);
 	}
 
 	@Test
@@ -149,52 +148,35 @@ public class CustomizableGameTemplateTest {
 		game = template.build();
 		assertEquals(1, game.getServices(CannonService.class).size());
 	}
-		
+	
 	@Test
-	public void setOcclusion(){
+	public void setSquareOcclusion(){
 		template.enableOcclusion(true);
-		// Test Square Services
+		template.setNumberOfSides(4);
 		Game game = this.template.build();
 		ViewService view = null;
-		HexViewService hex = null;
-		MoveService move = null;
+		
 		for (GameService service : game.getServices()){
 			if (service instanceof ViewService){
 				view = (ViewService) service;
-			} else if (service instanceof HexViewService){
-				hex = (HexViewService) service;
-			} else if (service instanceof MoveService){
-				move = (MoveService) service;
 			}
 		}
-		
-		assertNull(hex);
-		assertNotNull(view);
 		assertTrue(view instanceof OccludedViewService);
-		assertTrue(move instanceof SquareMoveService);
-		
-		// Test Hex Services
-		this.template.setNumberOfSides(6);
-		game = this.template.build();
-
-		view = null;
-		hex = null;
-		move = null;
+	}
+	
+	@Test
+	public void setHexOcclusion(){
+		template.enableOcclusion(true);
+		template.setNumberOfSides(6);
+		Game game = this.template.build();
+		ViewService view = null;
 		
 		for (GameService service : game.getServices()){
 			if (service instanceof ViewService){
+				System.out.println();
 				view = (ViewService) service;
-			} else if (service instanceof HexViewService){
-				hex = (HexViewService) service;
-			} else if (service instanceof MoveService){
-				move = (MoveService) service;
 			}
 		}
-		
-		assertNotNull(hex);
-		assertNull(view);
-		assertTrue(hex instanceof OccludedHexViewService);
-		assertTrue(move instanceof HexMoveService);
+		assertTrue(view instanceof OccludedHexViewService);
 	}
-
 }

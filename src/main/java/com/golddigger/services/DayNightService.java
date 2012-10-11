@@ -11,9 +11,6 @@ import com.golddigger.model.Direction;
  * It will scale the line of sight every "x" number of valid move commands issued.
  * @author Brett Wandel
  */
-/*TODO: need to clean this service up. it should probably be initalised with as either hex or square.
- * Brett Wandel - 22/8/2012
- */
 public class DayNightService extends GameService {
 	private static final String ACTION_TEXT = "move";
 	public static final int DEFAULT_CYCLE_TIME = 10;
@@ -47,9 +44,9 @@ public class DayNightService extends GameService {
 	@Override
 	public boolean execute(String url, PrintWriter out) {
 
-		List<ViewService> squareServices = game.getServices(ViewService.class);
-		List<HexViewService> hexServices= game.getServices(HexViewService.class);
-		boolean isHex = (hexServices.size() == 1 && squareServices.size() == 0);
+		List<ViewService> services = game.getServices(ViewService.class);
+		ViewService view = services.get(0);
+		boolean isHex = view instanceof HexViewService;
 
 		Direction direction = Direction.parse(parseURL(url, URL_EXTRA1));
 		if (direction == null || isInvalidMove(isHex, direction)) {
@@ -59,13 +56,8 @@ public class DayNightService extends GameService {
 		boolean day = isDay();
 		current++;
 		if (day != isDay()){
-			if (isHex){
-				HexViewService hexService = hexServices.get(0);
-				hexService.setLineOfSight(calc(hexService.getLineOfSight()));
-			} else {
-				ViewService squareService = squareServices.get(0);
-				squareService.setLineOfSight(calc(squareService.getLineOfSight()));
-			}
+			int newLOS = calc(view.getLineOfSight());
+			view.setLineOfSight(newLOS);
 		}
 		return false;
 	}

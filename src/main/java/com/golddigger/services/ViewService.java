@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
+import com.golddigger.utils.JsonEncoder;
 import com.golddigger.utils.MapMaker;
 /**
  * This service will return the view of the player's unit.
@@ -51,14 +52,21 @@ public class ViewService extends GameService {
 		Tile[][] area = this.getArea(unit);
 
 		String extra1 = parseURL(url, URL_EXTRA1);
-		String result;
-		if (extra1 == null){
-			result = toChars(area);
-		} else { //TODO: should everything else be treated as to char?
-			result = toChars(area);
-		}
+		String result = formatView(area, player, extra1);
+		if (result == null) result = toChars(area);
+		
 		out.println(result);
 		return true;
+	}
+	
+	/**
+	 * Converts an area and the included units into JSON for multiplayer view
+	 * @param area The area to convert
+	 * @param player The player who called the command.
+	 * @return The view
+	 */
+	private String toJson(Tile[][] area, Player player){
+		return JsonEncoder.encode(game, area, player);
 	}
 	
 	/**
@@ -80,6 +88,24 @@ public class ViewService extends GameService {
 	
 	public Tile[][] getArea(Unit unit){
 		return game.getMap().getArea(unit.getLat(), unit.getLng(), lineOfSight);
+	}
+	
+	/**
+	 * <p>Convert an area into a view of a particular "format".</p>
+	 * <p>This function is provided for overriding by the {@link HexViewService}
+	 * (mainly for human readable hex format).</p>
+	 * 
+	 * @param area The area to be converted
+	 * @param format the requested "format"
+	 * @return The output for the user
+	 */
+	public String formatView(Tile[][] area, Player player, String format){
+		if (format != null){
+			if (format.equalsIgnoreCase("json")){
+				return toJson(area, player);
+			}
+		}
+		return toChars(area);
 	}
 
 }
