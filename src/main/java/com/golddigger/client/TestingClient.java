@@ -103,6 +103,15 @@ public class TestingClient {
 		return sendAction("/cannon/shoot/"+d.toString());
 	}
 
+	/**
+	 * Handles teleport commands
+	 * @param command
+	 * @return outputs for the inputted teleport commands.
+	 */
+	public String teleport(String command){
+		return sendAction("/teleport/" + command);
+	}
+
 	private String sendAction(String action){
 		return doGET(baseURL+"/golddigger/digger/"+player+action);
 	}

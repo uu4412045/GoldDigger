@@ -13,6 +13,7 @@ public class LegacyTemplateParser {
 			PLUGINS = "plugins",
 			CANNON = "enable-cannons",
 			DIS_TELEPORTS = "dis-teleport-mappings",
+			ADV_TELEPORTS = "adv-teleport-mappings",
 			OCCLUSION = "enable-occlusion",
 			MULTIPLAYER = "multiplayer";
 
@@ -37,12 +38,30 @@ public class LegacyTemplateParser {
 			if (getSection(OCCLUSION, text) != null) template.enableOcclusion(true);
 			
 			template.setDTeleportTiles(parseDTeleports(text));
+			template.setATeleportTiles(parseATeleports(text));
 		} else {
 			template.setMap(text.trim());
 		}
 		return template;
 	}
-	
+
+	private static String[] parseATeleports(String text) {
+		String result = getSection(ADV_TELEPORTS, text);
+		if (result == null) return new String[]{};
+		String mappings = "";
+		for (String line : result.split("\n")){
+			String[] strs = line.split("->");
+			if (strs.length != 2) {
+				System.out.println("Parsed Bad Adv Teleport Mapping: "+line);
+				continue;
+			} else {
+				mappings += line+"\n";
+			}
+		}
+		
+		return mappings.split("\n");
+	}
+
 	private static int getNumberOfSides(String text) {
 		String value = getAttribute(NUMBER_OF_SIDES, text);
 		if (value == null) return 4;

@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.golddigger.model.Game;
+import com.golddigger.model.Tile;
+import com.golddigger.model.Coordinate;
+import com.golddigger.model.tiles.BaseTile;
+import com.golddigger.model.tiles.TeleportTile;
+import com.golddigger.services.AdvTeleportService;
 import com.golddigger.services.CannonService;
 import com.golddigger.model.Coordinate;
 import com.golddigger.services.DayNightService;
@@ -18,6 +23,7 @@ import com.golddigger.services.MultiplayerService;
 import com.golddigger.services.SquareMoveService;
 import com.golddigger.services.OccludedViewService;
 import com.golddigger.services.ViewService;
+import com.golddigger.utils.ATeleportUtility;
 import com.golddigger.utils.DTeleportUtility;
 import com.golddigger.utils.MapMaker;
 
@@ -33,6 +39,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 	private String[] dTeleportTiles; /* Disadvantageous */
 	private DTeleportUtility dTeleportUtility;
 	private long multiplayer_start, multiplayer_duration, multiplayer_end;
+	private String[] advTeleportTiles = {};
 
 	@Override
 	public Game build() {
@@ -76,6 +83,12 @@ public class CustomizableGameTemplate extends GameTemplate {
 
 			dTeleportUtility.assignDTeleports(dTeleportPairs, game.getMap());
 		}
+
+		if (advTeleportTiles.length > 0){
+			game.add(new AdvTeleportService());
+			processAdvTeleportMappings(game.getMap());
+		}
+		
 		return game;
 	}
 
@@ -176,5 +189,58 @@ public class CustomizableGameTemplate extends GameTemplate {
 		
 		services = Arrays.copyOf(services, services.length+1);
 		services[services.length-1] = MultiplayerService.class.getName();
+	}
+
+	public void setATeleportTiles(String[] mappings) {
+		if (mappings.length == 0) return;
+		else {
+			advTeleportTiles = mappings;
+		}
+	}
+	
+	public void processAdvTeleportMappings(com.golddigger.model.Map map){
+		ATeleportUtility validator = new ATeleportUtility(map, numberOfSides == 6);
+		for (String mapping : advTeleportTiles){
+			String[] strs = mapping.split("->");
+			Coordinate start = parsePoint2D(strs[0]);
+			Coordinate end = parsePoint2D(strs[1]);
+			if (start == null || end == null) {
+				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start or end is malformed");
+				continue;
+			}
+			
+			if (!validator.isReachable(start) && !validator.isReachable(end)){
+				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start and end both can not reach a base");
+				continue;
+			}
+
+			Tile startTile = map.get(start);
+			Tile endTile = map.get(end);
+			if (startTile == null || endTile == null) {
+				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start or end is out of bounds");
+				continue;
+			}
+			
+			if (startTile instanceof TeleportTile || endTile instanceof TeleportTile){
+				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start or end is on another teleport tile");
+				continue;
+			}
+			if (startTile instanceof BaseTile || endTile instanceof BaseTile){
+				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start or end is on a base tile");
+				continue;
+			}
+			
+			TeleportTile teleStart = new TeleportTile(end, startTile);
+			TeleportTile teleEnd = new TeleportTile(start, endTile);
+			map.set(start.lat, start.lng, teleStart);
+			map.set(end.lat, end.lng, teleEnd);
+		}
+	}
+	
+	private static Coordinate parsePoint2D(String string) {
+		String[] coords = string.split(",");
+		int lat = Integer.parseInt(coords[0].trim());
+		int lng = Integer.parseInt(coords[1].trim());
+		return new Coordinate(lat,lng);
 	}
 }

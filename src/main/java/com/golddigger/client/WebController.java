@@ -92,6 +92,18 @@ public class WebController {
 	public WebResponse cannonShoot(int lat, int lng) {
         return call("cannon","shoot",lat+"",+lng+"");
 	}
+
+	public WebResponse teleportGrab(){
+		return call("teleport","grab");
+	}
+
+	public WebResponse teleportDrop(){
+		return call("teleport","drop");
+	}
+
+	public WebResponse teleportActivate(){
+		return call("teleport","activate");
+	}
 	
 	private WebResponse call(String action, String... extras){
 		String url = "http://" + host + "/golddigger/digger/" + secretName + "/" + action;

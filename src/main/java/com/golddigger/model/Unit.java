@@ -1,5 +1,7 @@
 package com.golddigger.model;
 
+import com.golddigger.model.tiles.TeleportTile;
+
 /**
  * Basic unit in the game. Has the ability to hold gold and is owned by a player.
  * @author Brett Wandel
@@ -7,11 +9,13 @@ package com.golddigger.model;
  */
 public class Unit {
 	private int lat, lng, gold=0;
+	private TeleportTile teleportTile;
 	
 	/**
 	 * The player who owns this unit
 	 */
 	private Player owner;
+
 	
 	public Unit(Player owner, int lat, int lng){
 		this.owner = owner;
@@ -81,5 +85,27 @@ public class Unit {
      */
 	public Player getOwner() {
 		return this.owner;
+	}
+	
+	/**
+	 * @return whether or not the unit is carrying a teleport tile
+	 */
+	public boolean isCarryingTeleportTile(){
+		return teleportTile != null ? true : false;
+	}
+	
+	/**
+	 * @return the teleport Tile that the digger is carrying
+	 */
+	public TeleportTile getTeleportTile(){
+		return teleportTile;
+	}
+	
+	/**
+	 * Set the unit's teleport tile
+	 * @param tile
+	 */
+	public void setTeleportTile(TeleportTile tile){
+		this.teleportTile = tile;
 	}
 }

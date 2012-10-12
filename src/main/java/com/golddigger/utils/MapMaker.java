@@ -48,7 +48,7 @@ public class MapMaker {
 		case 's': return new ShallowWaterTile();
 		case 'm': return new MountainTile();
 		case 'r': return new RoadTile();
-		case 't': return new TeleportTile();
+		case 't': return new TeleportTile(null, null);
 		case 'w': return new WallTile();
 		case '?': return new OccludedTile();
 		default: return new GoldTile();

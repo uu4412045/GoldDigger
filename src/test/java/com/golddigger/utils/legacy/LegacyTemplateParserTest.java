@@ -6,8 +6,12 @@ import static com.golddigger.utils.LegacyTemplateParser.*;
 import org.junit.Test;
 
 import com.golddigger.model.Game;
+import com.golddigger.model.Tile;
+import com.golddigger.model.tiles.TeleportTile;
+import com.golddigger.services.AdvTeleportService;
 import com.golddigger.services.CannonService;
 import com.golddigger.utils.LegacyTemplateParser;
+import com.golddigger.utils.MapMaker;
 
 public class LegacyTemplateParserTest {
 	public static final String COST_STRING = DELIMITER+COSTS+"\n"+"b=150\n9=900\nm=230";
@@ -16,6 +20,7 @@ public class LegacyTemplateParserTest {
 			+ DIS_TELEPORTS + "\n" + " 2,3->4,5\n6,7->8,9";
 
 	public static final String TELEPORT_STRING_EMPTY = DELIMITER + DIS_TELEPORTS;
+
 	@Test
 	public void testParseCosts() {
 		String[] costs = parseCosts(COST_STRING);
@@ -57,5 +62,27 @@ public class LegacyTemplateParserTest {
 		String[] teleports = { "" };
 
 		assertArrayEquals(teleports, parsed);
+	}
+	
+	@Test
+	public void testParseAdvantageTeleports(){
+		String map = "wwwwww\nw.b..w\nwwwwww";
+		String field = LegacyTemplateParser.buildSection(ADV_TELEPORTS, "1,1 -> 1,3");
+		field += LegacyTemplateParser.buildSection(TILES, map);
+		Game game = LegacyTemplateParser.parse(field).build();
+		
+		assertEquals(1, game.getServices(AdvTeleportService.class).size());
+
+		System.out.println(MapMaker.parse(game.getMap()));
+		
+		Tile tile1 = game.getMap().get(1,1);
+		Tile tile2 = game.getMap().get(1,3);
+		assertTrue(tile1 instanceof TeleportTile);
+		assertTrue(tile2 instanceof TeleportTile);
+		TeleportTile teleport1 = (TeleportTile) tile1;
+		TeleportTile teleport2 = (TeleportTile) tile2;
+
+		assertEquals(game.getMap().getPosition(tile2), teleport1.getDestinationPos());
+		assertEquals(game.getMap().getPosition(tile1), teleport2.getDestinationPos());
 	}
 }
