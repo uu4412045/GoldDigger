@@ -78,6 +78,15 @@ public class TestingClient {
 	}
 	
 	/**
+	 * Get the digger's view for a hexamon
+	 * map in a human readable format
+	 * @return String representation of the view with spaces to make it human readable
+	 */
+	public String humanView(){
+		return sendAction("/view/human");
+	}
+	
+	/**
 	 * Move the digger
 	 * @param d the direction you want to move
 	 * @return "OK" if successful, "FAILED" otherwise

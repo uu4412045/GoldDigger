@@ -9,6 +9,7 @@ import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.OccludedTile;
 import com.golddigger.utils.JsonEncoder;
 import com.golddigger.utils.MapMaker;
+import com.golddigger.services.HumanHexView;
 
 public class HexViewService extends ViewService {
 	private static int TRUE=1, CHECK=2, CHECKED=3;
@@ -23,7 +24,7 @@ public class HexViewService extends ViewService {
 	
 	@Override
 	public Tile[][] getArea(Unit unit){
-		Tile[][] area = game.getMap().getArea(unit.getPosition(), getLineOfSight());
+		Tile[][] area = super.getArea(unit);
 		int[][] hex = mask((area.length-1)/2, unit);
 		
 		for (int i = 0; i < area.length; i++) {
@@ -80,6 +81,25 @@ public class HexViewService extends ViewService {
 			if (area[lat+1][lng-1] == 0) area[lat+1][lng-1] = TRUE;			
 		}
 		return area;
+	}
+	
+	@Override
+	public String formatView(Tile[][] area, Player player, String format){
+		if (format == null || !format.equals(format)){
+			return super.formatView(area, player, format);
+		}
+		
+		Unit unit = game.getUnit(player);
+		
+		String[] lines = this.toChars(area).trim().split("\n");
+		
+		char[][] tiles = new char[lines.length][];
+		for (int i = 0; i < tiles.length; i++){
+			tiles[i] = lines[i].trim().toCharArray();
+		}
+		
+		return HumanHexView.convertToHumanReadable(tiles, unit.getLng());
+		
 	}
 
 }

@@ -65,7 +65,7 @@ public class ViewService extends GameService {
 	 * @param player The player who called the command.
 	 * @return The view
 	 */
-	private String toJson(Tile[][] area, Player player){
+	protected String toJson(Tile[][] area, Player player){
 		return JsonEncoder.encode(game, area, player);
 	}
 	
@@ -74,7 +74,7 @@ public class ViewService extends GameService {
 	 * @param area The area to convert
 	 * @return The View
 	 */
-	private String toChars(Tile[][] area){
+	protected String toChars(Tile[][] area){
 		String result = "";
 		for (Tile[] row : area){
 			for (Tile tile : row){
@@ -83,7 +83,7 @@ public class ViewService extends GameService {
 			result += '\n';
 		}
 		
-		return result;
+		return result.trim();
 	}
 	
 	public Tile[][] getArea(Unit unit){
