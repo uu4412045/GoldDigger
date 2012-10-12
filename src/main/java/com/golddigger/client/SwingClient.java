@@ -1,6 +1,7 @@
 package com.golddigger.client;
 
 import java.awt.FlowLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -35,11 +36,21 @@ public class SwingClient extends JFrame {
 	 * The port of the target GoldDigger Server.
 	 */
 	public static JTextField port;
-	
+
 	/**
 	 * The output from the HTTP Response after a call to the GoldDigger Server.
 	 */
 	public static JTextArea result;
+
+	/**
+	 * The latitude offset to fire the cannon at.
+	 */
+	public static JTextArea shoot_lat;
+
+	/**
+	 * The longitude offset to fire the cannon at.
+	 */
+	public static JTextArea shoot_lng;
 	
 	/**
 	 * Used to talk to the GoldDigger Server.
@@ -134,6 +145,43 @@ public class SwingClient extends JFrame {
 		move6.add(new Button("North West", "/move/north_west", true));
 		move6.add(new Button("South West", "/move/south_west", true));
 		commands.add(move6, "Hex Tile Movement");
+		
+		JPanel teleport = new JPanel();
+		teleport.add(new Button("Grab", "/teleport/grab"));
+		teleport.add(new Button("Drop", "/teleport/drop"));
+		teleport.add(new Button("Activate", "/teleport/activate"));
+		commands.add(teleport, "Teleporting");
+		
+		
+		JPanel combat = new JPanel();
+		shoot_lat = new JTextArea(1,3);
+		shoot_lng = new JTextArea(1,3);
+		combat.add(new Button("Buy", "/cannon/buy"));
+		combat.add(new Label("lat:"));
+		combat.add(shoot_lat);
+		combat.add(new Label("lng:"));
+		combat.add(shoot_lng);
+		JButton shoot = new JButton("Shoot");
+		combat.add(shoot);
+		commands.add(combat, "Combat");
+		shoot.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent l) {
+				int lat, lng;
+				try {
+					lat = Integer.parseInt(shoot_lat.getText());
+					lng= Integer.parseInt(shoot_lng.getText());
+				} catch (NumberFormatException e){
+					result.setText("the lat/lng that you set where incorrect");
+					return;
+				}
+				String url = "http://"+ipAddress.getText()+":"+port.getText();
+				url += "/golddigger/digger/"+secret.getText() + "cannon/shoot/"+lat+"/"+lng;
+				result.setText(call(url));
+			}
+		});
+		
 	}
 	
 	/**
