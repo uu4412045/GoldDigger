@@ -20,7 +20,7 @@ import com.golddigger.utils.TestWriter;
 @RunWith(MockitoJUnitRunner.class)
 public class MultiplayerMockitoTest {
 	private static final String URL = "http://localhost/golddigger/digger/test/view";
-	private static final int START = 100, DURATION = 150, END = 100;
+	private static final int START = 200, DURATION = 300, END = 200;
 	private MultiplayerService service;
 	private TestWriter writer;
 	@Mock private Game game;
