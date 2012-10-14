@@ -7,6 +7,7 @@ import com.golddigger.model.Player;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Unit;
 import com.golddigger.model.tiles.BaseTile;
+import com.golddigger.model.tiles.GoldTile;
 import com.golddigger.model.tiles.TeleportTile;
 
 /**
@@ -108,6 +109,10 @@ public class AdvTeleportService extends GameService {
 			return "FAILED: Can't drop a teleport tile on a teleport tile";
 		} else if (tile instanceof BaseTile){
 			return "FAILED: Can't drop a teleport tile on a base tile";
+		} else if (tile instanceof GoldTile){
+			if (((GoldTile) tile).getGold() > 0) {
+				return "FAILED: Can't drop a teleport tile on a tile that currently holds gold";
+			}
 		}
 		
 		TeleportTile teleportTile = unit.getTeleportTile();
