@@ -50,7 +50,7 @@ public class DisadvanageousTeleportationTest {
 		boolean consumed = service.execute(url, writer);
 
 		assertTrue(runnable && consumed);
-		verify(writer).println("OK: Teleported");
+		verify(writer).println("OK: Teleported to (0,4)");
 		assertEquals(dest, game.getUnit(player).getPosition());
 	}
 	
@@ -83,7 +83,7 @@ public class DisadvanageousTeleportationTest {
 		boolean consumed = service.execute(url, writer);
 
 		assertTrue(runnable && consumed);
-		verify(writer).println("OK: Teleported");
+		verify(writer).println("OK: Teleported to (0,4)");
 		assertEquals(dest, game.getUnit(player).getPosition());
 	}
 
@@ -105,7 +105,5 @@ public class DisadvanageousTeleportationTest {
 		assertTrue(runnable && consumed);
 		verify(writer).println("FAILED");
 		assertEquals(src, game.getUnit(player).getPosition());
-	}
-
-	
+	}	
 }

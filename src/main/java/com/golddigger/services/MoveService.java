@@ -88,17 +88,18 @@ public abstract class MoveService extends GameService {
 				unit.setPosition(target);
 			}
 			
+			
 			//Check for disadvantageous teleportation
-			target = tile.getTeleportDestination();
-			if (target == null){
+			Coordinate tele = tile.getTeleportDestination();
+			if (tele == null){
 				out.println("OK");
 			} else {
-				tile = game.getMap().get(target);
-				if (!tile.isTreadable() || game.isUnitAt(target)){
+				tile = game.getMap().get(tele);
+				if (!tile.isTreadable() || game.isUnitAt(tele)){
 					out.println("FAILED");
 				} else {
-					unit.setPosition(target);
-					out.println("OK: Teleported");
+					unit.setPosition(tele);
+					out.println("OK: Teleported to "+tele.sub(target));
 				}
 			}
 		}
