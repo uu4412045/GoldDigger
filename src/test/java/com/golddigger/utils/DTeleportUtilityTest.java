@@ -165,13 +165,13 @@ public class DTeleportUtilityTest {
 
 		final String MAP_STRING =
 							"wwwwwwwwww\n" +
-							"wb.....w.w\n" +
+							"wb....9w.w\n" +
 							"w......www\n" +
 							"w........w\n" +
-							"w........w\n" +
+							"w..w1w...w\n" +
 							"wwwwwwwwww";
 		//Duplicate, duplicates invalid as last, corner trap x,y->z, base as source, trap to 1,8, teleport to wall, base surrounded...
-		final String[] STRING = {"1,1->2,1", "2,1->2,2", "1,2->2,2", "3,1->1,8", "3,8->4,8", "4,7->4,8", "4,1->4,2", "4,1->1,1", "4,1->99,99", "0,0->1,1", "3,5->2,8"};
+		final String[] STRING = {"1,1->2,1", "2,1->2,2", "1,2->2,2", "3,1->1,8", "3,8->4,8", "4,7->4,8", "4,1->4,2", "4,1->1,1", "4,1->99,99", "0,0->1,1", "3,5->2,8", "1,6->1,1", "1,5->1,1", "2,6->1,1", "3,4->1,1"};
 		Coordinate src, dst;
 		Coordinate[] pair; 
 		
@@ -182,7 +182,7 @@ public class DTeleportUtilityTest {
 		/* Base tile as source, never can get to base, always teleported elsewhere */
 		src = new Coordinate(1,1);
 		
-		assertNull(dTeleportUtility.hasDestination(src, pairs));
+		assertNull(dTeleportUtility.getDestination(src, pairs));
 		
 		/* This is valid */
 		src = new Coordinate(2,1);
@@ -190,17 +190,17 @@ public class DTeleportUtilityTest {
 		
 		pair = new Coordinate[]{src, dst};
 		
-		assertEquals(dst, dTeleportUtility.hasDestination(pair[0], pairs));
+		assertEquals(dst, dTeleportUtility.getDestination(src, pairs));
 		
 		/* This is invalid since it surrounds the base */
 		src = new Coordinate(1,2);
 
-		assertNull(dTeleportUtility.hasDestination(src, pairs));
+		assertNull(dTeleportUtility.getDestination(src, pairs));
 		
 		/* This is invalid, it teleports to an isolated area */
 		src = new Coordinate(3,1);
 		
-		assertNull(dTeleportUtility.hasDestination(src, pairs));
+		assertNull(dTeleportUtility.getDestination(src, pairs));
 		
 		/* This is valid */
 		src = new Coordinate(3,8);
@@ -208,12 +208,12 @@ public class DTeleportUtilityTest {
 		
 		pair = new Coordinate[]{src, dst};
 		
-		assertEquals(dst, dTeleportUtility.hasDestination(pair[0], pairs));
+		assertEquals(dst, dTeleportUtility.getDestination(src, pairs));
 		
 		/* This is invalid, since the previous teleport plus this one creates a trap */
 		src = new Coordinate(4,7);
 
-		assertNull(dTeleportUtility.hasDestination(src, pairs));
+		assertNull(dTeleportUtility.getDestination(src, pairs));
 		
 		/* This is valid, but there are duplicates from (4,1), the last valid one should count */
 		src = new Coordinate(4,1);
@@ -221,24 +221,39 @@ public class DTeleportUtilityTest {
 		
 		pair = new Coordinate[]{src, dst};
 		
-		assertEquals(dst, dTeleportUtility.hasDestination(pair[0], pairs));
+		assertEquals(dst, dTeleportUtility.getDestination(src, pairs));
 		
 		/* This is a wall */
 		src = new Coordinate(0,0);
 
-		assertNull(dTeleportUtility.hasDestination(src, pairs));
+		assertNull(dTeleportUtility.getDestination(src, pairs));
 		
 		/* This teleports to a wall */
 		src = new Coordinate(3,5);
 
-		assertNull(dTeleportUtility.hasDestination(src, pairs));
+		assertNull(dTeleportUtility.getDestination(src, pairs));
+		
+		/* Source is a gold tile, can never get gold */
+		src = new Coordinate(1,6);
+		
+		assertNull(dTeleportUtility.getDestination(src, pairs));
+		
+		/* Traps gold at 1,6 assuming that the teleport at 1,5 is in place*/
+		src = new Coordinate(2,6);
+		
+		assertNull(dTeleportUtility.getDestination(src, pairs));
+		
+		/* Traps gold */
+		src = new Coordinate(3,4);
+		
+		assertNull(dTeleportUtility.getDestination(src, pairs));
 	}
 	
 	
 	@Test
 	public void testFormatDTeleports() {
 
-		final String[] STRING = {"2,3->4,5", "6,7->8,9", "abcd", " ", "10.5,11->12,13"};
+		final String[] STRING = {"2,3->4,5", "6, 7 -> 8 ,9", "abcd", " ", "10.5,11->12,13"};
 		ArrayList<Coordinate[]> teleportPairs = dTeleportUtility.formatDTeleports(STRING);
 		
 		assertTrue(teleportPairs.size() == 2);
