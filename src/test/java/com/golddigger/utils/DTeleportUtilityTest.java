@@ -145,7 +145,7 @@ public class DTeleportUtilityTest {
 							"w....www..w\n" + 
 							"w.........w\n" + 
 							"wwwwwwwwwww";
-		final String[] STRING = {"2,2->7,2", "3,5->4,2", "3,8->7,6", "1,5->1,9"};
+		final String[] STRING = {"2,2 -> 7,2", "3,5->4,2", "3,8 -> 7,6", "1,5->1,9"};
 		
 		Map map = MapMaker.parse(MAP_STRING);
 		ArrayList<Coordinate[]> pairs = dTeleportUtility.formatDTeleports(STRING);

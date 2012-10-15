@@ -319,10 +319,10 @@ public class DTeleportUtility {
 				continue;
 			}
 			try {
-				xSrc = coords[0].split(",")[0];
-				ySrc = coords[0].split(",")[1];
-				xDst = coords[1].split(",")[0];
-				yDst = coords[1].split(",")[1];
+				xSrc = coords[0].trim().split(",")[0].trim();
+				ySrc = coords[0].trim().split(",")[1].trim();
+				xDst = coords[1].trim().split(",")[0].trim();
+				yDst = coords[1].trim().split(",")[1].trim();
 			} catch (Exception e) {
 				continue;
 			}
