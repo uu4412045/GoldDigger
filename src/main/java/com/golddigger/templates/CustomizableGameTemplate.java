@@ -9,6 +9,7 @@ import com.golddigger.model.Game;
 import com.golddigger.model.Tile;
 import com.golddigger.model.Coordinate;
 import com.golddigger.model.tiles.BaseTile;
+import com.golddigger.model.tiles.GoldTile;
 import com.golddigger.model.tiles.TeleportTile;
 import com.golddigger.services.AdvTeleportService;
 import com.golddigger.services.CannonService;
@@ -104,18 +105,18 @@ public class CustomizableGameTemplate extends GameTemplate {
 				return;
 			}
 		}
-		
+
 		services = Arrays.copyOf(services, services.length+1);
 		services[services.length-1] = DayNightService.class.getName();
 	}
 	public void setLineOfSight(int lineOfSight){
 		this.lineOfSight = lineOfSight;
 	}
-	
+
 	public void setNumberOfSides(int numberOfSides){
 		this.numberOfSides = numberOfSides;
 	}
-	
+
 	public void setServices(String[] services){
 		this.services = services;
 	}
@@ -150,7 +151,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 	 * @param enable true if you want units to be equipped with cannons.
 	 */
 	public void enableCannons(boolean enabled) {
-			this.cannonsEnabled  = enabled;
+		this.cannonsEnabled  = enabled;
 	}
 
 	/** Set the disadventageous teleport coordinates.
@@ -162,7 +163,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 	public void setDTeleportTiles(String[] dTeleportTiles) {
 		this.dTeleportTiles = dTeleportTiles;
 	}
-	
+
 	/**
 	 * Enable Height based Occlusion using {@link Tile} height.
 	 * @param occlude true to enable occlusion, false otherwise.
@@ -170,7 +171,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 	public void enableOcclusion(boolean occlude){
 		this.occlusion = occlude;
 	}
-	
+
 	/**
 	 * Set the timer durations for the multiplayer
 	 * @param start the duration of the starting timer, -1 for default.
@@ -186,7 +187,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 				return;
 			}
 		}
-		
+
 		services = Arrays.copyOf(services, services.length+1);
 		services[services.length-1] = MultiplayerService.class.getName();
 	}
@@ -197,7 +198,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 			advTeleportTiles = mappings;
 		}
 	}
-	
+
 	public void processAdvTeleportMappings(com.golddigger.model.Map map){
 		ATeleportUtility validator = new ATeleportUtility(map, numberOfSides == 6);
 		for (String mapping : advTeleportTiles){
@@ -208,7 +209,7 @@ public class CustomizableGameTemplate extends GameTemplate {
 				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start or end is malformed");
 				continue;
 			}
-			
+
 			if (!validator.isReachable(start) && !validator.isReachable(end)){
 				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start and end both can not reach a base");
 				continue;
@@ -219,24 +220,31 @@ public class CustomizableGameTemplate extends GameTemplate {
 			if (startTile == null || endTile == null) {
 				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start or end is out of bounds");
 				continue;
-			}
-			
-			if (startTile instanceof TeleportTile || endTile instanceof TeleportTile){
+			} else if (startTile instanceof TeleportTile || endTile instanceof TeleportTile){
 				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start or end is on another teleport tile");
 				continue;
-			}
-			if (startTile instanceof BaseTile || endTile instanceof BaseTile){
+			} else if (startTile instanceof BaseTile || endTile instanceof BaseTile){
 				System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start or end is on a base tile");
 				continue;
+			} else if (startTile instanceof GoldTile){
+				if (((GoldTile) startTile).getGold() > 0) {
+					System.out.println("Bad Adv Teleport Mapping: "+mapping+" - start is on a tile with 1 or more gold");
+					continue;
+				}
+			} else if (endTile instanceof GoldTile){
+				if (((GoldTile) endTile).getGold() > 0) {
+					System.out.println("Bad Adv Teleport Mapping: "+mapping+" - end is on a tile with 1 or more gold");
+					continue;
+				}
 			}
-			
+
 			TeleportTile teleStart = new TeleportTile(end, startTile);
 			TeleportTile teleEnd = new TeleportTile(start, endTile);
 			map.set(start.lat, start.lng, teleStart);
 			map.set(end.lat, end.lng, teleEnd);
 		}
 	}
-	
+
 	private static Coordinate parsePoint2D(String string) {
 		String[] coords = string.split(",");
 		int lat = Integer.parseInt(coords[0].trim());
