@@ -46,7 +46,8 @@ public class MultiplayerMockitoTest {
 		
 		String response = writer.getHistory();
 		
-		assertTrue(runnable && consumed);
+		assertTrue("wasn't runnable",runnable);
+		assertTrue("wasn't consumed",consumed);
 		assertTrue("state was not starting - response:"+response, response.startsWith("state: starting,"));
 		assertTrue("did not fail the request", response.contains("FAILED"));
 	}
@@ -62,8 +63,8 @@ public class MultiplayerMockitoTest {
 		
 		String response = writer.getHistory();
 		
-		assertTrue(runnable);
-		assertFalse(consumed);
+		assertTrue("wasn't runnable",runnable);
+		assertFalse("wasn't consumed", consumed);
 		assertTrue("state was not running - response:"+response, response.startsWith("state: running,"));
 	}
 	
@@ -77,9 +78,9 @@ public class MultiplayerMockitoTest {
 		boolean consumed = service.execute(URL, writer.getPrintWriter());
 		
 		String response = writer.getHistory();
-		
-		assertTrue(runnable);
-		assertFalse(consumed);
+
+		assertTrue("wasn't runnable",runnable);
+		assertFalse("wasn't consumed", consumed);
 		assertTrue("state was not ending - response:"+response, response.startsWith("state: ending,"));
 	}
 	
@@ -94,9 +95,9 @@ public class MultiplayerMockitoTest {
 		boolean consumed = service.execute(URL, writer.getPrintWriter());
 		
 		String response = writer.getHistory();
-		
-		assertTrue(runnable);
-		assertFalse(consumed);
+
+		assertTrue("wasn't runnable",runnable);
+		assertFalse("wasn't consumed", consumed);
 		assertTrue("state was not ending - response:"+response, response.startsWith("state: ending,"));
 		
 	}
@@ -113,7 +114,8 @@ public class MultiplayerMockitoTest {
 		
 		String response = writer.getHistory();
 		
-		assertTrue(runnable && consumed);
+		assertTrue("wasn't runnable",runnable);
+		assertTrue("wasn't consumed", consumed);
 		assertTrue("state was not finished - response:"+response, response.startsWith("state: finished,"));
 		assertTrue("did not fail the command", response.contains("FAILED"));
 	}
