@@ -124,7 +124,7 @@ public class MultiplayerMockitoTest {
 		boolean consumed = service.execute(URL, writer.getPrintWriter());
 		
 		String response = writer.getHistory();
-		
+		 
 		assertTrue("wasn't runnable",runnable);
 		assertTrue("wasn't consumed", consumed);
 		assertTrue("state was not finished - response:"+response, response.startsWith("state: finished,"));
