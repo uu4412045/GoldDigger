@@ -57,7 +57,9 @@ public class MultiplayerMockitoTest {
 		when(map.getTiles()).thenReturn(new Tile[][]{{}});
 		when(game.getBases()).thenReturn(new BaseTile[]{});
 		
-		Thread.sleep(START);
+		long start = System.currentTimeMillis();
+		Thread.sleep(START+1);
+		System.out.println("slept for: " + (System.currentTimeMillis() - start)+"ms");
 		boolean runnable = service.runnable(URL);
 		boolean consumed = service.execute(URL, writer.getPrintWriter());
 		
@@ -72,8 +74,11 @@ public class MultiplayerMockitoTest {
 	public void testEnding_TimeUp() throws InterruptedException{
 		when(map.getTiles()).thenReturn(new Tile[][]{{}});
 		when(game.getBases()).thenReturn(new BaseTile[]{});
+
+		long start = System.currentTimeMillis();
+		Thread.sleep(START+DURATION+1);
+		System.out.println("slept for: " + (System.currentTimeMillis() - start)+"ms");
 		
-		Thread.sleep(START+DURATION);
 		boolean runnable = service.runnable(URL);
 		boolean consumed = service.execute(URL, writer.getPrintWriter());
 		
@@ -89,8 +94,11 @@ public class MultiplayerMockitoTest {
 		when(map.getTiles()).thenReturn(new Tile[][]{{}});
 		when(game.getBases()).thenReturn(new BaseTile[]{});
 		when(game.getMap().hasGoldLeft()).thenReturn(false);
+
+		long start = System.currentTimeMillis();
+		Thread.sleep(START+DURATION+1);
+		System.out.println("slept for: " + (System.currentTimeMillis() - start)+"ms");
 		
-		Thread.sleep(START+DURATION);
 		boolean runnable = service.runnable(URL);
 		boolean consumed = service.execute(URL, writer.getPrintWriter());
 		
@@ -107,8 +115,11 @@ public class MultiplayerMockitoTest {
 		when(map.getTiles()).thenReturn(new Tile[][]{{}});
 		when(game.getUnits()).thenReturn(new Unit[]{});
 		when(game.getBases()).thenReturn(new BaseTile[]{});
+
+		long start = System.currentTimeMillis();
+		Thread.sleep(START+DURATION+END+1);
+		System.out.println("slept for: " + (System.currentTimeMillis() - start)+"ms");
 		
-		Thread.sleep(START+DURATION+END);
 		boolean runnable = service.runnable(URL);
 		boolean consumed = service.execute(URL, writer.getPrintWriter());
 		
