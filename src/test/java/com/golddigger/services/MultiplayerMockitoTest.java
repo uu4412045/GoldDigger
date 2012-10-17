@@ -20,7 +20,7 @@ import com.golddigger.utils.TestWriter;
 @RunWith(MockitoJUnitRunner.class)
 public class MultiplayerMockitoTest {
 	private static final String URL = "http://localhost/golddigger/digger/test/view";
-	private static final int START = 200, DURATION = 300, END = 200;
+	private static final int START = 100, DURATION = 150, END = 100;
 	private MultiplayerService service;
 	private TestWriter writer;
 	@Mock private Game game;
@@ -47,8 +47,8 @@ public class MultiplayerMockitoTest {
 		String response = writer.getHistory();
 		
 		assertTrue(runnable && consumed);
-		assertTrue(response.startsWith("state: starting,"));
-		assertTrue(response.contains("FAILED"));
+		assertTrue("state was not starting - response:"+response, response.startsWith("state: starting,"));
+		assertTrue("did not fail the request", response.contains("FAILED"));
 	}
 	
 	@Test
@@ -64,7 +64,7 @@ public class MultiplayerMockitoTest {
 		
 		assertTrue(runnable);
 		assertFalse(consumed);
-		assertTrue(response.startsWith("state: running,"));
+		assertTrue("state was not running - response:"+response, response.startsWith("state: running,"));
 	}
 	
 	@Test
@@ -80,7 +80,7 @@ public class MultiplayerMockitoTest {
 		
 		assertTrue(runnable);
 		assertFalse(consumed);
-		assertTrue(response.startsWith("state: ending,"));
+		assertTrue("state was not ending - response:"+response, response.startsWith("state: ending,"));
 	}
 	
 	@Test
@@ -97,7 +97,7 @@ public class MultiplayerMockitoTest {
 		
 		assertTrue(runnable);
 		assertFalse(consumed);
-		assertTrue(response.startsWith("state: ending,"));
+		assertTrue("state was not ending - response:"+response, response.startsWith("state: ending,"));
 		
 	}
 	
@@ -114,7 +114,7 @@ public class MultiplayerMockitoTest {
 		String response = writer.getHistory();
 		
 		assertTrue(runnable && consumed);
-		assertTrue(response.startsWith("state: finished,"));
-		assertTrue(response.contains("FAILED"));
+		assertTrue("state was not finished - response:"+response, response.startsWith("state: finished,"));
+		assertTrue("did not fail the command", response.contains("FAILED"));
 	}
 }

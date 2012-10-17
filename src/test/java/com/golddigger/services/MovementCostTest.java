@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.golddigger.ServletServer;
@@ -41,6 +42,7 @@ public class MovementCostTest {
 		server.stop();
 	}
 	
+	@Ignore
 	@Test
 	public void testMovementCosts(){
 
