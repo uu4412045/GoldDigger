@@ -98,8 +98,8 @@ public class CustomizableGameTemplate extends GameTemplate {
 	}
 
 	public void setDayNight(int cycleTime, int scale){
-		this.cycleTime = cycleTime;
-		this.scale = scale;
+		if (cycleTime > 0) this.cycleTime = cycleTime;
+		if (scale > 0 ) this.scale = scale;
 		for (String service : services){
 			if (service.equals(DayNightService.class.getName())){
 				return;

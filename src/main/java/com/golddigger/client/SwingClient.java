@@ -1,6 +1,7 @@
 package com.golddigger.client;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -108,6 +109,7 @@ public class SwingClient extends JFrame {
 		settingsPanel.add(port);
 		
 		result = new JTextArea(10,50);
+		result.setFont(new Font("Monospaced", Font.PLAIN, 20));
 		logs.add(new JScrollPane(result));
 		
 		add(settingsPanel);
@@ -177,7 +179,7 @@ public class SwingClient extends JFrame {
 					return;
 				}
 				String url = "http://"+ipAddress.getText()+":"+port.getText();
-				url += "/golddigger/digger/"+secret.getText() + "cannon/shoot/"+lat+"/"+lng;
+				url += "/golddigger/digger/"+secret.getText() + "/cannon/shoot/"+lat+"/"+lng;
 				result.setText(call(url));
 			}
 		});

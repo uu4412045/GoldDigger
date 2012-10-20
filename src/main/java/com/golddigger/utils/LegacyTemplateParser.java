@@ -10,7 +10,8 @@ public class LegacyTemplateParser {
 			COSTS = "cost-per-type",
 			LINE_OF_SIGHT = "line-of-sight",
 			NUMBER_OF_SIDES   = "number-of-sides",
-			PLUGINS = "plugins",
+			CYCLE_TIME = "daynight-cycle-time",
+			CYCLE_SCALE = "daynight-scale",
 			CANNON = "enable-cannons",
 			DIS_TELEPORTS = "dis-teleport-mappings",
 			ADV_TELEPORTS = "adv-teleport-mappings",
@@ -32,6 +33,7 @@ public class LegacyTemplateParser {
 			int numberOfSides = getNumberOfSides(text);
 			if (numberOfSides != 4) template.setNumberOfSides(numberOfSides);
 			
+			processDayNight(template, text);
 			processMultiplayerTimes(template, text);
 			
 			if (getSection(CANNON, text) != null) template.enableCannons(true);
@@ -43,6 +45,24 @@ public class LegacyTemplateParser {
 			template.setMap(text.trim());
 		}
 		return template;
+	}
+
+	private static void processDayNight(CustomizableGameTemplate template, String text){
+		String cycle_time = getAttribute(CYCLE_TIME, text);
+		String cycle_scale = getAttribute(CYCLE_SCALE, text);
+		int time = -1, scale = -1;
+		if (cycle_time != null){
+			time = Integer.parseInt(cycle_time.trim());
+		}
+		
+		if (cycle_scale != null){
+			scale = Integer.parseInt(cycle_scale.trim());
+		}
+
+		if (time != -1 || time != -1) {
+			template.setDayNight(time, scale);
+		}
+
 	}
 
 	private static String[] parseATeleports(String text) {
@@ -122,18 +142,19 @@ public class LegacyTemplateParser {
 				if (parts.length != 2) continue;
 				if (parts[0] == null || parts[1] == null) continue;
 				int value = -1;
+				String title = parts[0].trim();
 				
 				try {
-					value = Integer.parseInt(parts[1]);
+					value = Integer.parseInt(parts[1].trim());
 				} catch (NumberFormatException e){
 					System.out.println("Failed to parse value "+line);
 				}
 				
-				if (parts[0].equalsIgnoreCase("start")){
+				if (title.equalsIgnoreCase("start")){
 					start = value;
-				} else if (parts[0].equalsIgnoreCase("duration")){
+				} else if (title.equalsIgnoreCase("duration")){
 					duration = value;
-				} else if (parts[0].equalsIgnoreCase("end")){
+				} else if (title.equalsIgnoreCase("end")){
 					end = value;
 				} else {
 					System.out.println("Failed to parse title "+line);

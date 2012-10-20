@@ -27,6 +27,7 @@ public class ViewService extends GameService {
 		this.lineOfSight = lineOfSight;
 	}
 	
+	//TODO: change this to scale(percentage);
 	public void setLineOfSight(int lineOfSight){
 		this.lineOfSight = lineOfSight;
 	}

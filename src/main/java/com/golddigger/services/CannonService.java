@@ -131,7 +131,7 @@ public class CannonService extends GameService {
 	private void respawn(Unit unit){
 		Player target_owner = unit.getOwner();
 		for (BaseTile base : game.getBases()){
-			if (base.getOwner().equals(target_owner)){
+			if (target_owner.equals(base.getOwner())){ // base owner could be null
 				unit.setPosition(game.getMap().getPosition(base));
 			}
 		}

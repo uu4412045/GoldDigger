@@ -88,12 +88,13 @@ public class DayNightService extends GameService {
 	 * @return The new LOS to be set.
 	 */
 	private int calc(int currentLOS){
+		double los = currentLOS;
 		if (isDay()){
-			currentLOS = (100/scale)*currentLOS;
+			los = (los*100)/scale;
 		} else {
-			currentLOS = (currentLOS*scale)/100;
+			los = (los*scale)/100;
 		}
-		return (int) Math.round(currentLOS);
+		return (int) Math.round(los);
 	}
 	
 	/**
