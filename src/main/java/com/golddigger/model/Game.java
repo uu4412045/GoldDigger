@@ -110,7 +110,7 @@ public class Game {
 		synchronized(this){
 			BaseTile base = getUnownedBase();
 			if (base == null) {
-				System.err.println("Game: tried to add "+player.getName()+ " but there were no free bases");
+				System.err.println("Game: tried to add "+player.getSecret()+ " but there were no free bases");
 				return false;
 			}
 			else add(player, base);
@@ -231,14 +231,14 @@ public class Game {
 	}
 
 	/**
-	 * Return the player in this game with the given name
-	 * @param name The name of the player
-	 * @return <b>null</b> if there is no player with the given name.
+	 * Return the player in this game with the given secret
+	 * @param secret The name of the player
+	 * @return <b>null</b> if there is no player with the given secret.
 	 * @see Player
 	 */
-	public Player getPlayer(String name){
+	public Player getPlayer(String secret){
 		for (Player player : players){
-			if (player.getName().equalsIgnoreCase(name)){
+			if (player.getSecret().equalsIgnoreCase(secret)){
 				return player;
 			}
 		}

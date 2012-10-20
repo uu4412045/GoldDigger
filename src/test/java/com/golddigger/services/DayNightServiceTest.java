@@ -19,12 +19,12 @@ public class DayNightServiceTest {
 	GenericServer server;
 	TestingClient client;
 	CustomizableGameTemplate template;
-	private final String name = "test1";
+	private final String PLAYER_SECRET = "secret1";
 
 	@Before()
 	public void setup(){
 		server = new GenericServer();
-		client = new TestingClient(name, "http://localhost:8066");
+		client = new TestingClient(PLAYER_SECRET, "http://localhost:8066");
 		template = new CustomizableGameTemplate();
 		template.setMap("wwwww\nw...w\nw.b.w\nw...w\nwwwww");
 		template.setDayNight(3, 50);
@@ -39,8 +39,8 @@ public class DayNightServiceTest {
 	@Test
 	public void testSquareField() {
 		server.addTemplate(template);
-		server.addPlayer(name, "secret");
-		Player player = server.getMain().getPlayer(name);
+		server.addPlayer("name", PLAYER_SECRET);
+		Player player = server.getMain().getPlayer(PLAYER_SECRET);
 		Game game = server.getMain().getGame(player);
 		List<ViewService> services = game.getServices(ViewService.class);
 		List<DayNightService> dayNightServices = game.getServices(DayNightService.class);
@@ -77,8 +77,8 @@ public class DayNightServiceTest {
 	public void testHexField() {
 		template.setNumberOfSides(6);
 		server.addTemplate(template);
-		server.addPlayer(name, "secret");
-		Player player = server.getMain().getPlayer(name);
+		server.addPlayer("name", PLAYER_SECRET);
+		Player player = server.getMain().getPlayer(PLAYER_SECRET);
 		Game game = server.getMain().getGame(player);
 		List<HexViewService> services = game.getServices(HexViewService.class);
 		List<DayNightService> dayNightServices = game.getServices(DayNightService.class);

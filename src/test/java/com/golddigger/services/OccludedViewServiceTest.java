@@ -32,7 +32,7 @@ public class OccludedViewServiceTest {
 	@Before()
 	public void setup(){
 		writer = new TestWriter();
-		when(player.getName()).thenReturn("test");
+		when(player.getSecret()).thenReturn("test");
 		occluded_view = new OccludedViewService(1);
 		game.add(occluded_view);
 	}

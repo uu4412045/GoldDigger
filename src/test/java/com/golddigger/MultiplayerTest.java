@@ -27,11 +27,11 @@ public class MultiplayerTest {
 		server.add(new TestGameTemplate(MAP_1));
 		server.add(new TestGameTemplate(MAP_2));
 		server.add(new TestGameTemplate(MAP_1));
-		server.add(new Player("test1", "secret"));
-		server.add(new Player("test2", "secret"));
+		server.add(new Player("test1", "secret1"));
+		server.add(new Player("test2", "secret2"));
 		server.add(new NextService());
-		player1 = new TestingClient("test1", BASE_URL);
-		player2 = new TestingClient("test2", BASE_URL);
+		player1 = new TestingClient("secret1", BASE_URL);
+		player2 = new TestingClient("secret2", BASE_URL);
 	}
 	
 	@After
@@ -41,8 +41,8 @@ public class MultiplayerTest {
 	
 	@Test
 	public void testMultiplayer() {
-		Player p1 = server.getPlayer("test1");
-		Player p2 = server.getPlayer("test2");
+		Player p1 = server.getPlayer("secret1");
+		Player p2 = server.getPlayer("secret2");
 		
 		assertNotSame(server.getGame(p1), server.getGame(p2));
 		
@@ -68,8 +68,8 @@ public class MultiplayerTest {
 	
 	@Test
 	public void testMultiplayer2() {
-		Player p1 = server.getPlayer("test1");
-		Player p2 = server.getPlayer("test2");
+		Player p1 = server.getPlayer("secret1");
+		Player p2 = server.getPlayer("secret2");
 		
 		assertEquals("OK", player1.next().trim());
 		assertEquals("OK", player2.next().trim());
@@ -84,7 +84,7 @@ public class MultiplayerTest {
 		
 		player1.move(Direction.EAST);
 		player1.move(Direction.EAST);
-		assertEquals("1 test2", player1.score().trim());
+		assertEquals("1 "+p2.getName(), player1.score().trim());
 	}
 
 }

@@ -32,8 +32,8 @@ public class TestConcurrency {
     public void testMove() throws Exception {   
     	server.add(new TestGameTemplate("wwwww\nwmbmw\nwwwww"));
     	server.add(new Player("test", "secret"));
-        Worker worker1 = new Worker("http://localhost:8066/golddigger/digger/test/move/east");
-        Worker worker2 = new Worker("http://localhost:8066/golddigger/digger/test/move/west");
+        Worker worker1 = new Worker("http://localhost:8066/golddigger/digger/secret/move/east");
+        Worker worker2 = new Worker("http://localhost:8066/golddigger/digger/secret/move/west");
         Thread t1 = new Thread(worker1);
         Thread t2 = new Thread(worker2);
 

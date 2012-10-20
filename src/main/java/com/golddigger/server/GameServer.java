@@ -117,7 +117,7 @@ public class GameServer {
 	 */
 	public Player getPlayer(String name){
 		for (Player player : this.players){
-			if (player.getName().equalsIgnoreCase(name)){
+			if (player.getSecret().equalsIgnoreCase(name)){
 				return player;
 			}
 		}

@@ -17,7 +17,7 @@ import com.golddigger.model.tiles.GoldTile;
 import com.golddigger.templates.CustomizableGameTemplate;
 
 public class CannonMockitoTest {
-	private static final String URL = "http://localhost/golddigger/digger/test1/";
+	private static final String URL = "http://localhost/golddigger/digger/secret1/";
 	private static final Coordinate EAST = new Coordinate(0,1);
 	PrintWriter writer = mock(PrintWriter.class);
 	CannonService service;
@@ -27,8 +27,8 @@ public class CannonMockitoTest {
 	@Before
 	public void before(){
 		service = new CannonService();
-		player1 = new Player("test1", "secret");
-		player2 = new Player("test2", "secret");
+		player1 = new Player("test1", "secret1");
+		player2 = new Player("test2", "secret2");
 		CustomizableGameTemplate template = new CustomizableGameTemplate();
 		template.setMap("wwwww\nwb.bw\nwwwww");
 		game = spy(template.build());

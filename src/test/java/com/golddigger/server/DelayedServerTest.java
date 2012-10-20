@@ -29,7 +29,7 @@ public class DelayedServerTest {
 		Coordinate before = unit.getPosition();
 		Direction east = Direction.EAST;
 		
-		delay.add("http://localhost:8066/golddigger/digger/test/move/"+east.toString());
+		delay.add("http://localhost:8066/golddigger/digger/secret/move/"+east.toString());
 		assertEquals(before, unit.getPosition());
 		
 		Thread.sleep(4000);
@@ -38,7 +38,7 @@ public class DelayedServerTest {
 	
 	@Test
 	public void testBuildEntry() {
-		String url = "http://localhost:8066/golddigger/digger/test/move/south";
+		String url = "http://localhost:8066/golddigger/digger/secret/move/south";
 		String[] entry = DelayedServer.buildEntry(url).split(",");
 		assertEquals(System.currentTimeMillis(), Long.parseLong(entry[0]), 30);
 		assertEquals(url+"\n", entry[1]);

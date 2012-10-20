@@ -21,15 +21,15 @@ public class MultiplayerServiceTest {
 	@Before
 	public void before(){
 		server = new GenericServer();
-		p1 = new TestingClient("player1", "http://localhost:8066");
-		p2 = new TestingClient("player2", "http://localhost:8066");
+		p1 = new TestingClient("secret1", "http://localhost:8066");
+		p2 = new TestingClient("secret2", "http://localhost:8066");
 		
 		CustomizableGameTemplate template = new CustomizableGameTemplate();
 		template.setMultiplayer(1000, 2000, 1000);
 		template.setMap("wwwwww\nwb.4.bw\nw..b..w\nwwwww");
 		server.addTemplate(template);
-		server.addPlayer("player1", "secret");
-		server.addPlayer("player2", "secret");
+		server.addPlayer("player1", "secret1");
+		server.addPlayer("player2", "secret2");
 	}
 	
 	@After
@@ -41,7 +41,7 @@ public class MultiplayerServiceTest {
 	@Test
 	public void testTimers() throws InterruptedException {
 		GameServer engine = server.getMain();
-		Game game = engine.getGame(engine.getPlayer("player1"));
+		Game game = engine.getGame(engine.getPlayer("secret1"));
 		
 		//Should not be able to execute commands yet
 		assertEquals("FAILED: Joining Only", p1.move(Direction.EAST).trim());

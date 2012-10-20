@@ -29,16 +29,16 @@ public class TestAdminWebController {
     
     @Test
     public void addDigger() throws Exception {
-    	admin.add("test1", "secret");
+    	admin.add("test1", "secret1");
 
     	WebResponse resp = admin.listdiggers();
-    	assertEquals("test1 secret", resp.getText().trim());
+    	assertEquals("test1 secret1", resp.getText().trim());
     	
     	admin.add("test2", "secret2");
     	admin.add("test1", "secret2");
     	
     	resp = admin.listdiggers();
-    	assertEquals("test1 secret\ntest2 secret2", resp.getText().trim());
+    	assertEquals("test1 secret1\ntest2 secret2", resp.getText().trim());
     }
 }
     

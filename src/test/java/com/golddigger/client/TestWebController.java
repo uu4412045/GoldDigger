@@ -15,12 +15,12 @@ import com.golddigger.templates.TestGameTemplate;
 public class TestWebController {
     private GenericServer server;
     private WebController controller;
-    private final String name = "test";
+    private final String PLAYER_SECRET = "secret";
     
     @Before
     public void startServer() throws Exception {
         server = new GenericServer();
-        controller = new WebController(name, "localhost:8066", 100);
+        controller = new WebController(PLAYER_SECRET, "localhost:8066", 100);
     }
     
     @After
@@ -31,21 +31,21 @@ public class TestWebController {
     @Test
     public void view() throws IOException {
     	server.addTemplate(new TestGameTemplate("www\nwbw\nwww"));
-    	server.addPlayer(name, "secret");
+    	server.addPlayer("name", PLAYER_SECRET);
         assertEquals("www\nwbw\nwww", controller.view().getText().trim());
     }
 
     @Test
     public void score() throws IOException {
     	server.addTemplate(new TestGameTemplate("wwww\nwb2w\nwwww"));
-    	server.addPlayer(name, "secret");
+    	server.addPlayer("name", PLAYER_SECRET);
         assertEquals("0", controller.score().getText().trim());
     }
 
     @Test
     public void grab() throws IOException {
     	server.addTemplate(new TestGameTemplate("wwww\nwb2w\nwwww\n"));
-    	server.addPlayer(name, "secret");
+    	server.addPlayer("name", PLAYER_SECRET);
     	
     	assertEquals("0", controller.grab().getText().trim());
     	assertEquals("0", controller.drop().getText().trim());
@@ -59,7 +59,7 @@ public class TestWebController {
     public void moveToTheNextField() throws IOException {
     	server.addTemplate(new TestGameTemplate("www\nwbw\nwww"));
     	server.addTemplate(new TestGameTemplate("www\nwbw\nw2w\nwww"));
-    	server.addPlayer(name, "secret");
+    	server.addPlayer("name", PLAYER_SECRET);
     	
     	assertEquals("www\nwbw\nwww", controller.view().getText().trim());
     	assertEquals("OK", controller.nextField().getText().trim());
@@ -69,7 +69,7 @@ public class TestWebController {
     @Test
     public void moveSquare() throws IOException {
     	server.addTemplate(new TestGameTemplate("wwww\nwb.w\nw..w\nwwww"));
-    	server.addPlayer(name, "secret");
+    	server.addPlayer("name", PLAYER_SECRET);
     	
     	assertEquals("OK", controller.moveEast().getText().trim());
     	assertEquals("FAILED", controller.moveEast().getText().trim());
@@ -94,7 +94,7 @@ public class TestWebController {
     	template.setMap("wwwww\nw...w\nw.b.w\nww.ww\nwwwww");
     	template.setNumberOfSides(6);
     	server.addTemplate(template);
-    	server.addPlayer(name, "secret");
+    	server.addPlayer("name", PLAYER_SECRET);
 
     	assertEquals("OK", controller.moveNorth().getText().trim());
     	assertEquals("FAILED", controller.moveNorth().getText().trim());
@@ -129,7 +129,7 @@ public class TestWebController {
     	template.setMap("wwwww\nw...w\nw.b.w\nw...w\nwwwww");
     	template.enableCannons(true);
     	server.addTemplate(template);
-    	server.addPlayer(name, "secret");
+    	server.addPlayer("name", PLAYER_SECRET);
 
     	assertEquals("FAILED: Dont have enough cash", controller.cannonBuy().getText().trim());
     	assertEquals("FAILED: out of ammo", controller.cannonShoot(0,1).getText().trim());

@@ -47,7 +47,7 @@ public class AdminService extends ServerService {
 			
 			if (name == null || password == null){
 				out.println("FAILED");
-			} else if (server.getPlayer(name) != null){
+			} else if (server.getPlayer(password) != null){
 				out.println("FAILED");
 			} else {
 				server.add(new Player(name, password));

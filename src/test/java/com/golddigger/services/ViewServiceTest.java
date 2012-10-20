@@ -25,7 +25,7 @@ public class ViewServiceTest {
 		BaseServiceGenerator gen = new BaseServiceGenerator();
 		gen.setLOS(2);
 		server = new ServletServer();
-		client = new TestingClient("test", BASE_URL);
+		client = new TestingClient("secret", BASE_URL);
 		server.add(new TestGameTemplate(MAP_1));
 		server.add(new TestGameTemplate(MAP_2, gen));
 		server.add(new Player("test", "secret"));
@@ -41,7 +41,7 @@ public class ViewServiceTest {
 		assertEquals("123\n5b6\n89w",client.view().trim());
 		assertEquals("OK",client.move(Direction.WEST).trim());
 		assertEquals(".12\n45b\n789",client.view().trim());
-		server.progress(server.getPlayer("test"));
+		server.progress(server.getPlayer("secret"));
 		
 		//Testing Line Of Sight
 		assertEquals("wwwww\nw...w\nw.b.w\nw...w\nwwwww",client.view().trim());
