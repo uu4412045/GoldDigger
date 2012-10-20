@@ -28,7 +28,7 @@ public class HumanHexViewLOS2Test {
 		server = new ServletServer();
 		server.add(template);
 		server.add(new Player("test", "secret"));
-		client = new TestingClient("test", BASE_URL);
+		client = new TestingClient("secret", BASE_URL);
 	}
 
 	@After()

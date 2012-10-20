@@ -23,7 +23,7 @@ public class GoldServiceTest {
 		server = new ServletServer();
 		server.add(new TestGameTemplate(MAP));
 		server.add(new Player("test", "secret"));
-		client = new TestingClient("test", BASE_URL);
+		client = new TestingClient("secret", BASE_URL);
 	}
 
 	@After()

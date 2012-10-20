@@ -17,7 +17,7 @@ public class AdminServiceTest {
 	@Before
 	public void before(){
 		server = new GenericServer();
-		client = new TestingClient("test1", "http://localhost:8066/");
+		client = new TestingClient("secret1", "http://localhost:8066/");
 		server.addTemplate(new TestGameTemplate("www\nwbw\nwww"));
 	}
 
@@ -32,11 +32,11 @@ public class AdminServiceTest {
 //		Testing for correct defaut output
 		String res = client.doGET("http://localhost:8066/golddigger/admin/ccret/listdiggers");
 		assertEquals("", res.trim());
-		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test1/secret");
+		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test1/secret1");
 		assertEquals("OK", res.trim());
 		
 //		Making sure invalid commands faile
-		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test1/secret");
+		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test1/secret1");
 		assertEquals("FAILED", res.trim());
 		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test1/");
 		assertEquals("FAILED", res.trim());
@@ -45,12 +45,12 @@ public class AdminServiceTest {
 		
 //		making sure the new player is added to listdiggers
 		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/listdiggers");
-		assertEquals("test1 secret", res.trim());
+		assertEquals("test1 secret1", res.trim());
 		
 //		testing adding a second player doesn't affect the output
-		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test2/secret");
+		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test2/secret2");
 		res = client.doGET("http://localhost:8066/golddigger/admin/ccret/listdiggers");
-		assertEquals("test1 secret\ntest2 secret", res.trim());
+		assertEquals("test1 secret1\ntest2 secret2", res.trim());
 		
 	}
 

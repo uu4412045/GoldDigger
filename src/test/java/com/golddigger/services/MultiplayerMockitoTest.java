@@ -33,7 +33,7 @@ public class MultiplayerMockitoTest {
 		service.setGame(game);
 		writer = new TestWriter();
 		
-		when(player.getName()).thenReturn("test");
+		when(player.getSecret()).thenReturn("test");
 		when(game.getPlayer("test")).thenReturn(player);
 		when(game.getMap()).thenReturn(map);
 		when(map.hasGoldLeft()).thenReturn(true);

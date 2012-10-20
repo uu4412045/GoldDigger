@@ -13,12 +13,8 @@ public class Player {
 		this.secret = secret;
 	}
 	
-	public String getName() {
-		return this.name;
-	}
-	
-	public boolean auth(String guess){
-		return this.secret.equalsIgnoreCase(guess);
+	public String getSecret() {
+		return this.secret;
 	}
 
 	public int getScore() {
@@ -29,8 +25,8 @@ public class Player {
 		this.score = score;
 	}
 
-	public String getSecret() {
-		return secret;
+	public String getName() {
+		return this.name;
 	}
 
 }

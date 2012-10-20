@@ -42,13 +42,13 @@ public class GenericServerTest {
 		GameServer main = server.getMain();
 		GameServer delayed = server.getDelayed();
 		
-		String name = "test";
+		String secret = "secret";
 		server.addTemplate(new TestGameTemplate("wwww\nwb.w\nwwww"));
-		server.addPlayer(name, "secret");
-		TestingClient client = new TestingClient(name, "http://localhost:8066");
+		server.addPlayer("name", secret);
+		TestingClient client = new TestingClient(secret, "http://localhost:8066");
 
-		Player mainPlayer = main.getPlayer(name);
-		Player delayedPlayer = delayed.getPlayer(name);
+		Player mainPlayer = main.getPlayer(secret);
+		Player delayedPlayer = delayed.getPlayer(secret);
 
 		Unit mainUnit = main.getGame(mainPlayer).getUnit(mainPlayer);
 		Unit delayedUnit = delayed.getGame(delayedPlayer).getUnit(delayedPlayer);
@@ -74,10 +74,10 @@ public class GenericServerTest {
 		GameServer main = server.getMain();
 		GameServer delayed = server.getDelayed();
 
-		String name = "test";
-		server.addPlayer(name, "secret");
-		assertNotNull(main.getPlayer(name));
-		assertNotNull(delayed.getPlayer(name));
+		String secret = "secret";
+		server.addPlayer("name", secret);
+		assertNotNull(main.getPlayer(secret));
+		assertNotNull(delayed.getPlayer(secret));
 
 		server.stop();
 	}
@@ -85,12 +85,12 @@ public class GenericServerTest {
 	@Test
 	public void testAdminServices(){
 		server = new GenericServer();
-		server.addPlayer("test1","Secrt");
+		server.addPlayer("test1","secret1");
 		TestingClient client = new TestingClient(null, null);
 		String before = client.doGET("http://localhost:8066/golddigger/admin/ccret/listdiggers").trim();
-		assertEquals("OK",client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test8/secret").trim());
+		assertEquals("OK",client.doGET("http://localhost:8066/golddigger/admin/ccret/add/test2/secret2").trim());
 		String after = client.doGET("http://localhost:8066/golddigger/admin/ccret/listdiggers").trim();
-		assertEquals(before+"\ntest8 secret", after);
+		assertEquals(before+"\ntest2 secret2", after);
 		server.stop();
 	}
 
@@ -102,13 +102,13 @@ public class GenericServerTest {
 		GameServer delayed = server.getDelayed();
 
 		String map = "www\nwbw\nwww\n";
-		String name = "test";
+		String secret = "secret1";
 		GameTemplate template = new TestGameTemplate(map);
 		server.addTemplate(template);
-		server.addPlayer(name, "secret");
+		server.addPlayer("name", secret);
 
-		Game mainGame = main.getGame(main.getPlayer(name));
-		Game delayedGame = delayed.getGame(delayed.getPlayer(name));
+		Game mainGame = main.getGame(main.getPlayer(secret));
+		Game delayedGame = delayed.getGame(delayed.getPlayer(secret));
 
 		assertNotNull(mainGame);
 		assertNotNull(delayedGame);

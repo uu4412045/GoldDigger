@@ -41,7 +41,7 @@ public class DisadvanageousTeleportationTest {
 
 	@Test
 	public void teleport(){
-		String url = "http://server/golddigger/digger/test/move/east";
+		String url = "http://server/golddigger/digger/secret/move/east";
 		Coordinate src = new Coordinate(1,2);
 		Coordinate dest = new Coordinate(1,6);
 		game.getMap().get(src).setTeleportDestination(dest);
@@ -56,7 +56,7 @@ public class DisadvanageousTeleportationTest {
 	
 	@Test
 	public void noTeleportBackwards(){
-		String url = "http://server/golddigger/digger/test/move/east";
+		String url = "http://server/golddigger/digger/secret/move/east";
 		Coordinate src = new Coordinate(1,2);
 		Coordinate dest = new Coordinate(1,6);
 		game.getMap().get(src).setTeleportDestination(dest);
@@ -72,7 +72,7 @@ public class DisadvanageousTeleportationTest {
 
 	@Test
 	public void onlyTeleportOnce(){
-		String url = "http://server/golddigger/digger/test/move/east";
+		String url = "http://server/golddigger/digger/secret/move/east";
 		Coordinate src = new Coordinate(1,2);
 		Coordinate dest = new Coordinate(1,6);
 		Coordinate dest2 = new Coordinate(1,3);
@@ -89,7 +89,7 @@ public class DisadvanageousTeleportationTest {
 
 	@Test
 	public void teleportOntoUnit(){
-		String url = "http://server/golddigger/digger/test/move/east";
+		String url = "http://server/golddigger/digger/secret/move/east";
 		Coordinate src = new Coordinate(1,2);
 		Coordinate dest = new Coordinate(1,6);
 		Coordinate dest2 = new Coordinate(1,3);
@@ -101,7 +101,7 @@ public class DisadvanageousTeleportationTest {
 		boolean runnable = service.runnable(url);
 		boolean consumed = service.execute(url, writer);
 
-		assertEquals(dest, game.getUnit(game.getPlayer("test2")).getPosition());
+		assertEquals(dest, game.getUnit(game.getPlayer("secret2")).getPosition());
 		assertTrue(runnable && consumed);
 		verify(writer).println("FAILED");
 		assertEquals(src, game.getUnit(player).getPosition());

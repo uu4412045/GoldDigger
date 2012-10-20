@@ -25,8 +25,8 @@ public class NextGameTest {
 		server.add(new NextService());
 		server.add(new TestGameTemplate(MAP_1));
 		server.add(new TestGameTemplate(MAP_2));
-		server.add(new Player("test", "secret"));
-		client = new TestingClient("test", BASE_URL);
+		server.add(new Player("test", "secret1"));
+		client = new TestingClient("secret1", BASE_URL);
 	}
 
 	@After()
@@ -48,7 +48,7 @@ public class NextGameTest {
 		
 		assertEquals("Should have been allowed to progress","OK", client.next().trim());
 		assertEquals("Should start again", ".2.\n.b.\n...", client.view().trim());
-		assertEquals("Player should keep their score", 2, server.getPlayer("test").getScore());
+		assertEquals("Player should keep their score", 2, server.getPlayer("secret1").getScore());
 	}
 
 }

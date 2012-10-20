@@ -14,7 +14,7 @@ import com.golddigger.utils.MapMaker;
 import com.golddigger.utils.TestWriter;
 
 public class OccludedHexViewTest {
-	private static final String VIEW_URL = "http://localhost/golddigger/digger/test/view";
+	private static final String VIEW_URL = "http://localhost/golddigger/digger/secret/view";
 	private static final String MAP =
 					"wwwwwwwww\n" +
 					"wb......w\n"+

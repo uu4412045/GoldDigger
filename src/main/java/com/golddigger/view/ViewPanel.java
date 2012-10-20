@@ -32,7 +32,7 @@ public class ViewPanel extends JSplitPane {
 		this.player = player;
 		this.server = server;
 		this.game = server.getGame(player);
-		this.score = new JLabel(player.getName()+": 0 [0]");
+		this.score = new JLabel(player.getSecret()+": 0 [0]");
 		this.field = new FieldView(this.game, this.player);
 		
 		this.setDividerSize(0);

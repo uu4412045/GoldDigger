@@ -27,10 +27,10 @@ public class GuiTest {
 		server.addTemplate(new TestGameTemplate("www\nwbw\nwww"));
 		server.addTemplate(new TestGameTemplate("wwww\nwb9w\nwwww"));
 		server.addPlayer("test", "secret");
-		player = server.getMain().getPlayer("test");
+		player = server.getMain().getPlayer("secret");
 		assertNotNull(player);
 		
-		client = new TestingClient("test", "http://localhost:8066");
+		client = new TestingClient("secret", "http://localhost:8066");
 	}
 	
 	@After

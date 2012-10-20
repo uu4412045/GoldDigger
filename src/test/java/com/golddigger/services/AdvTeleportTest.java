@@ -38,8 +38,8 @@ public class AdvTeleportTest {
 		template.setATeleportTiles(TELEPORTS);
 		server = new ServletServer();
 		server.add(template);
-		server.add(new Player("test", "secret"));
-		client = new TestingClient("test", BASE_URL);
+		server.add(new Player("test", "secret1"));
+		client = new TestingClient("secret1", BASE_URL);
 	}
 
 	@After()
@@ -49,7 +49,8 @@ public class AdvTeleportTest {
 	
 	@Test
 	public void testInitialValues() {
-		Map map = server.getGame(server.getPlayer("test")).getMap();
+		Player player = server.getPlayer("secret1");
+		Map map = server.getGame(player).getMap();
 		assertTrue("Failed TeleportTile mappings", map.get(1, 2) instanceof TeleportTile);
 		assertTrue("Failed TeleportTile mappings", map.get(1, 6) instanceof TeleportTile);
 		assertTrue("Failed TeleportTile mappings", map.get(2, 5) instanceof TeleportTile);
@@ -81,9 +82,10 @@ public class AdvTeleportTest {
 	
 	@Test
 	public void testTeleportActiviation(){
-		Game game = server.getGame(server.getPlayer("test"));
-		Unit unit = game.getUnit(server.getPlayer("test"));
-		Map map = server.getGame(server.getPlayer("test")).getMap();
+		Player player = server.getPlayer("secret1");
+		Game game = server.getGame(player);
+		Unit unit = game.getUnit(player);
+		Map map = game.getMap();
 		TeleportTile teleportTile = (TeleportTile)map.get(1, 2);
 		TeleportTile teleportTile2 = (TeleportTile)map.get(1, 6);
 		//Checks that the FAILED command works
@@ -98,10 +100,10 @@ public class AdvTeleportTest {
 		assertEquals("Return teleportation failed","www\nbt.\n...",client.view().trim());
 		
 		//Tests if the failed output is triggered if a unit is on the destination tile.
-		Player newplayer = new Player("newplayer","secret");
+		Player newplayer = new Player("newplayer","secret2");
 		server.add(newplayer);
 		System.out.println(game.add(newplayer));
-		Unit unit2 = game.getUnit(server.getPlayer("newplayer"));
+		Unit unit2 = game.getUnit(server.getPlayer("secret2"));
 		
 		unit2.setPosition(teleportTile.getDestinationPos());
 		assertEquals("Return teleportation failed","FAILED: Destination currrently blocked",client.teleport("activate").trim());
@@ -109,7 +111,7 @@ public class AdvTeleportTest {
 	
 	@Test
 	public void testPickingUpTeleportTiles(){
-		Player player = server.getPlayer("test");
+		Player player = server.getPlayer("secret1");
 		Game game = server.getGame(player);
 		Unit unit = game.getUnit(player);
 		Map map = game.getMap();
@@ -140,11 +142,11 @@ public class AdvTeleportTest {
 		assertEquals(unit.getTeleportTile(), teleportTile);
 		
 		//Testing for if another player has the destination teleporter
-		Player newplayer = new Player("newplayer","secret");
+		Player newplayer = new Player("newplayer","secret2");
 		server.add(newplayer);
 		System.out.println(game.add(newplayer));
-		Unit unit2 = game.getUnit(server.getPlayer("newplayer"));
-		client2 = new TestingClient("newplayer", BASE_URL);
+		Unit unit2 = game.getUnit(server.getPlayer("secret2"));
+		client2 = new TestingClient("secret2", BASE_URL);
 		
 		unit2.setPosition(teleportTile.getDestinationPos());
 		assertEquals(client2.teleport("grab").trim(),"FAILED: Destination teleport tile being held");
@@ -153,7 +155,7 @@ public class AdvTeleportTest {
 	
 	@Test
 	public void testDroppingTeleportTiles(){
-		Player player = server.getPlayer("test");
+		Player player = server.getPlayer("secret1");
 		Game game = server.getGame(player);
 		Unit unit = game.getUnit(player);
 		Map map = game.getMap();

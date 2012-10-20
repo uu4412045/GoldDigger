@@ -25,7 +25,7 @@ public class HexViewServiceTest {
 	TestWriter writer;
 	HexViewService service;
 	Player player = new Player("test", "secret");
-	private final String URL = "http://server/golddigger/digger/"+player.getName()+"/view";
+	private final String URL = "http://server/golddigger/digger/"+player.getSecret()+"/view";
 	
 	@Before
 	public void before(){
